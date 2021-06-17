@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Dealers() {
+export default function DealerDetails() {
     return (
         <div>
-            Dealer List
+            
         </div>
     )
 }

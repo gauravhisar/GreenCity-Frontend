@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Customers() {
+export default function CustomerDetails() {
     return (
         <div>
-            CustomerList
+            
         </div>
     )
 }

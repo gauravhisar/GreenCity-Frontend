@@ -2,29 +2,27 @@ import {
   BrowserRouter as Router,
   Switch,
   Route
-} from "react-router-dom";
-import Header from './MyComponents/Header'
-import Projects from './MyComponents/Projects'
-import Customers from './MyComponents/Customers'
-import Dealers from './MyComponents/Dealers'
+} from "react-router-dom"
+import Header from './components/Header'
+import ProjectDetails from './components/ProjectDetails'
+import Items from './components/Items'
+
+const base_url = "http://localhost:8000/realestate/"
 function App() {
-  let base_url = "http://192.168.1.5:8000/realestate/"
   return (
     <div>
       <Router>
-        <Header title="Rudra Estate" base_url = {base_url}/>
+        <Header title="Rudra Estate" base_url={base_url} />
 
         <Switch>
 
-            <Route exact path="/">
-              <Projects title = "Projects" base_url = {base_url}/>
-            </Route>
-            <Route exact path="/customers/">
-              <Customers />
-            </Route>
-            <Route exact path="/dealers">
-              <Dealers />
-            </Route>
+          <Route exact path="/"          render={() => <Items title='Projects'  base_url={base_url} key='Projects'  />}></Route>
+          <Route exact path="/projects"  render={() => <Items title='Projects'  base_url={base_url} key='Projects'  />}></Route>
+          <Route exact path="/dealers"   render={() => <Items title='Dealers'   base_url={base_url} key='Dealers'   />}></Route>
+          <Route exact path="/customers" render={() => <Items title='Customers' base_url={base_url} key='Customers' />}></Route>
+
+          {/* <Route path="/projects/:id" components = {ProjectDetails}></Route> */}
+          <Route path="/projects/:id" render = {(props)=><ProjectDetails history = {props.history} location = {props.location} match = {props.match}/>}></Route>
 
         </Switch>
 
