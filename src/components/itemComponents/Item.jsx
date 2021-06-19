@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import {Link} from "react-router-dom"
-import axios from 'axios';
-import EditProject from './EditProject';
-import EditPerson from './EditPerson';
+import EditProject from '../cruds/EditProject';
+import EditPerson from '../cruds/EditPerson';
 
 
 export default function Item({title,obj,index,updateItem,deleteItem}) {

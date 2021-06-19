@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
-import Item from './Item';
+import Item from '../itemComponents/Item'
+import Plots from '../Plots';
 
 
 export default function ProjectDetails({ history, location, match }) {
@@ -10,9 +12,10 @@ export default function ProjectDetails({ history, location, match }) {
 	const [plot_creation_view, setPlotCreationView] = useState(false)
 
 
-	const [project_details, setProjectDetails] = useState({})
+	const [project_details, setProjectDetails] = useState({ plots: [] })
 	const [error, setError] = useState(null)
 	const [isLoaded, setIsLoaded] = useState(false)
+	// console.log(project_details.plots)
 
 	useEffect(() => {
 		axios.get(endpoint)
@@ -50,63 +53,45 @@ export default function ProjectDetails({ history, location, match }) {
 
 	const displayProjectDetails = () => {
 		if (error) {
-			return <tbody><tr><td> Error: {error.message} </td></tr></tbody>
+			return <tr><td> Error: {error.message} </td></tr>
 		} else if (!isLoaded) {
-			return <tbody><tr><td> Loading... </td></tr></tbody>
+			return <tr><td> Loading... </td></tr>
 		} else {
 			return (
-				<Item title = 'Projects' obj = {project_details} index={project_details.id} updateItem={updateItem} deleteItem={deleteItem} />
+				<Item title='Projects' obj={project_details} index={project_details.id} updateItem={updateItem} deleteItem={deleteItem} />
 			)
 		}
 	}
 
 	return (
 		<div className='my-4 px-3'>
-			<div style={{ paddingBottom: '10px', paddingLeft: '10px' }}>
-				<h1 className="d-inline" > {project_details.name} </h1>
-			</div>
 			<div>
-				<table className="table">
-					<thead>
-						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Address</th>
-							<th scope="col">No. of Plots</th>
-							<th scope="col">Total Area</th>
-							<th scope="col">Plots Sold</th>
-							<th scope="col">Area Sold</th>
-							<th scope="col"></th>
-							<th scope="col"></th>
+				<div style={{ paddingBottom: '10px'}}>
+					<h1 className="d-inline" > {project_details.name} </h1>
+				</div>
+				<div>
+					<table className="table">
+						<thead>
+							<tr>
+								<th scope="col">Name</th>
+								<th scope="col">Address</th>
+								<th scope="col">No. of Plots</th>
+								<th scope="col">Total Area</th>
+								<th scope="col">Plots Sold</th>
+								<th scope="col">Area Sold</th>
+								<th scope="col"></th>
+								<th scope="col"></th>
 
-						</tr>
-					</thead>
-					<tbody>
-						{displayProjectDetails()}
-					</tbody>
-				</table>
-
-
+							</tr>
+						</thead>
+						<tbody>
+							{displayProjectDetails()}
+						</tbody>
+					</table>
+				</div>
 			</div>
-			<div style={{ paddingBottom: '10px', paddingLeft: '10px' }}>
-				<h3 className="d-inline" >Plots</h3>
-			</div>
-			<table>
-				<thead>
-					<tr>
-						<th></th>
-						<th></th>
-						<th></th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>haha</td>
-						<td>haha</td>
-						<td>haha</td>
-					</tr>
-				</tbody>
-			</table>
+			{/* {project_details.plots[0].plot_no} */}
+			<Plots title="Plots" base_url={base_url} plots={[...project_details.plots]} />
 
 		</div>
 	)

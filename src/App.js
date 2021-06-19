@@ -4,7 +4,7 @@ import {
   Route
 } from "react-router-dom"
 import Header from './components/Header'
-import ProjectDetails from './components/ProjectDetails'
+import ProjectDetails from './components/detailComponents/ProjectDetails'
 import Items from './components/Items'
 
 const base_url = "http://localhost:8000/realestate/"

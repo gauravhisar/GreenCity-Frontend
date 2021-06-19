@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React,{ useEffect, useState } from 'react'
-import Item from './Item';
-import AddProject from './AddProject';
-import AddPerson from './AddPerson';
+import Item from './itemComponents/Item';
+import AddProject from './cruds/AddProject';
+import AddPerson from './cruds/AddPerson';
 
 export default function Items({ title, base_url, ...props }) {
 
