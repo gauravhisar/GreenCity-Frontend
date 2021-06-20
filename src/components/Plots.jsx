@@ -3,45 +3,27 @@ import React, { useEffect, useState } from 'react'
 import PlotItem from './itemComponents/PlotItem';
 import AddPlot from './cruds/AddPlot';
 
-export default function Plots({ title, base_url, plots}) {
+export default function Plots({ title, base_url, plots }) {
 
 
     const endpoint = base_url + 'plots/'
     const table_schema = ['Plot No', 'Area', 'Rate', 'Amount', 'Dealer', 'Customer', 'Balance']
-    // console.log(plots)
-    
-    const constructedData = (plot) => {
-        let obj = { ...plot }
-        delete obj.project
-        obj.deal = false
-        if (plot.deal !== null) {
-            obj.deal = true
-            obj.dealer_id = plot.deal.dealer_id
-            obj.dealer_name = plot.deal.dealer_name
-            obj.customer_id = plot.deal.customer_id
-            obj.customer_name = plot.deal.customer_name
-            obj.balance = plot.deal.balance
-            obj.penalty = plot.deal.penalty
-        }
-        return obj
-    }
 
     const [create_view, setCreateView] = useState(false)
     const [list, setList] = useState([])
 
-    const [error, setError] = useState(null)
-    const [isLoaded, setIsLoaded] = useState(false)
+    // const [error, setError] = useState(null)
+    // const [isLoaded, setIsLoaded] = useState(false)
     useEffect(() => {
-            setList([...plots.map(plot=>constructedData(plot))])
-        }, [plots])
-        
+        setList([...plots])
+    }, [plots])
+
     // POST
     const saveItem = (new_obj) => {
-        axios.post(endpoint, new_obj)
+        return axios.post(endpoint, new_obj)
             .then((response) => {
-                console.log(response)
-                setCreateView(false)
-                setList([...list, constructedData(response.data)])
+                console.log(response.data)
+                setList([...list, response.data])
                 return true
             })
             .catch((error) => {
@@ -54,10 +36,9 @@ export default function Plots({ title, base_url, plots}) {
 
     // PUT
     const updateItem = (id, index, new_obj, setEditingView) => {
-        axios.put(endpoint + `${id}/`, new_obj)
+        return axios.put(endpoint + `${id}/`, new_obj)
             .then((response) => {
                 console.log(response.data)
-                setEditingView(false)
                 const new_list = [...list]
                 new_list[index] = response.data
                 setList(new_list)
@@ -73,19 +54,6 @@ export default function Plots({ title, base_url, plots}) {
     //DELETE
     const deleteItem = (id, index) => { // id,new_obj
         alert("Deletion Not Compatible right now")
-        // axios.put(endpoint[title]+`${id}/`,new_obj)
-        // .then((response)=>{
-        // console.log(response)
-        // setEditingView(false)
-        // setList((prevList)=>{
-        //     prevList[id] = response.data
-        //     return prevList
-        //     })
-        // })
-        // .catch((errors)=>{
-        //   alert("Network Error! Start Server and Try Again")
-        //   console.log(errors)
-        // })
     }
 
     const displayTableSchema = () => {
@@ -103,25 +71,18 @@ export default function Plots({ title, base_url, plots}) {
     }
 
     const listItems = () => {
-        // if (error) {
-        //     return <tbody><tr><td> Error: {error.message} </td></tr></tbody>
-        // } else if (!isLoaded) {
-        //     return <tbody><tr><td> Loading... </td></tr></tbody>
-        // } else {
-            return (
-                <tbody>
-                    {list.map((obj, index) => {
-                        return <PlotItem key={obj.id} title={title} obj={obj} updateItem={updateItem} deleteItem={deleteItem} />
-                    })}
-                </tbody>
-            )
-        // }
+        return (
+            <tbody>
+                {list.map((obj, index) => {
+                    return <PlotItem key={obj.id} title={title} obj={obj} base_url={base_url} updateItem={updateItem} deleteItem={deleteItem} />
+                })}
+            </tbody>
+        )
     }
 
-    // returns 'add' form according to the title
 
     return (
-        <div style = {{marginTop:'40px'}}>
+        <div style={{ marginTop: '40px' }}>
             <div>
                 <h3> {title} </h3>
             </div>
@@ -131,7 +92,7 @@ export default function Plots({ title, base_url, plots}) {
                     {listItems()}
                 </table>
 
-                {/* {create_view === true && addItem(title)} */}
+                {create_view === true && <AddPlot title="Plots" setCreateView={setCreateView} saveItem={saveItem} />}
                 {create_view === false && <button onClick={() => { setCreateView(true) }} style={{ marginLeft: '10px' }} className="btn btn-primary">Add {title.substring(0, title.length - 1)} </button>}
 
             </div>

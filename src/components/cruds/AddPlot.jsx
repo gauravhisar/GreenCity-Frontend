@@ -1,42 +1,45 @@
 import React,{useState} from 'react'
 
 export default function AddPerson({title,setCreateView,saveItem}) {
-    const [name,setName] = useState("")
-    const [contact_no, setContactno] = useState("")
-    const [other_info, setOtherinfo] = useState("")
+    const [plot_no,setPlotNo] = useState("")
+    const [area, setArea] = useState("")
+    const [rate, setRate] = useState("")
     const addItem = (e) => {
         e.preventDefault()
-        if(!name){
-            alert("Enter " + title.substring(0,title.length-1) + " Name")
+        if(!plot_no){
+            alert("Enter Plot No")
+            return
+        }
+        if(!area){
+            alert("Enter Area! If not sure enter any value")
             return
         }
         else{
             const obj = {
-                name: name,
-                contact_no: contact_no,
-                other_info: other_info
+                plot_no: plot_no,
+                area: area,
+                rate: rate
             }
-            if(!contact_no){
-                obj.contact_no = null
-            }
-            if (saveItem(obj)){
-                setName("")
-                setContactno("")
-                setOtherinfo("")
-            }
+            saveItem(obj).then((success)=>{
+                if (success){
+                    setPlotNo("")
+                    setArea("")
+                    setRate("")
+                }
+            })
         }
     }
     return (
         <form onSubmit = {addItem}>
             <div className="row">
                 <div className="col">
-                    <input type="text" className="form-control" value={name} onChange = {(e)=>{setName(e.target.value)}} placeholder="Name" />
+                    <input type="text" className="form-control" value={plot_no} onChange = {(e)=>{setPlotNo(e.target.value)}} placeholder="Plot No" />
                 </div>
                 <div className="col">
-                    <input type="text" className="form-control" value={contact_no} onChange = {(e)=>{setContactno(e.target.value)}} placeholder="Contact Number" />
+                    <input type="text" className="form-control" value={area} onChange = {(e)=>{setArea(e.target.value)}} placeholder="Area" />
                 </div>
                 <div className="col">
-                    <input type="text" className="form-control" value={other_info} onChange = {(e)=>{setOtherinfo(e.target.value)}} placeholder="Other Info" />
+                    <input type="text" className="form-control" value={rate} onChange = {(e)=>{setRate(e.target.value)}} placeholder="Rate" />
                 </div>
                 <div className="col">
                     <button type = 'submit' style = {{ marginLeft: '80px'}} className="btn btn-primary">&nbsp;Save&nbsp;&nbsp;</button>

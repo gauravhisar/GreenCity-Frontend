@@ -30,12 +30,14 @@ export default function EditPerson({title,obj,index,setEditingView,updateItem}) 
             if(!contact_no){
                 new_obj.contact_no = null
             }
-            if (updateItem(obj.id,index,new_obj,setEditingView)){
-                console.log("goirav")
-                setName("")
-                setContactno("")
-                setOtherinfo("")
-            }
+            updateItem(obj.id,index,new_obj).then((success)=>{
+                if (success){
+                    setName("")
+                    setContactno("")
+                    setOtherinfo("")
+                    setEditingView(false)
+                }
+            })
         }
     }
     

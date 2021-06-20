@@ -19,12 +19,14 @@ export default function AddProject({title,setCreateView,saveItem}) {  // if obj 
                 total_plots: total_plots,
                 total_area: total_area
             }
-            if(saveItem(obj)){
-                setName("")
-                setAddress("")
-                setTotalPlots("")
-                setTotalArea("")
-            }
+            saveItem(obj).then((success)=>{
+                if(success){
+                    setName("")
+                    setAddress("")
+                    setTotalPlots("")
+                    setTotalArea("")
+                }
+            })
         }
     }
     return (

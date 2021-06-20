@@ -19,11 +19,13 @@ export default function AddPerson({title,setCreateView,saveItem}) {
             if(!contact_no){
                 obj.contact_no = null
             }
-            if (saveItem(obj)){
-                setName("")
-                setContactno("")
-                setOtherinfo("")
-            }
+            saveItem(obj).then((success)=>{
+                if (success){
+                    setName("")
+                    setContactno("")
+                    setOtherinfo("")
+                }
+            })
         }
     }
     return (

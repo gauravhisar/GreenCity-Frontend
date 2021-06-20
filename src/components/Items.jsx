@@ -42,11 +42,11 @@ export default function Items({ title, base_url, ...props }) {
   }, [])
 
   // POST
-  const saveItem = (new_obj) => {
-    axios.post(endpoint[title], new_obj)
+  const saveItem = (new_obj) => {   // returns True if request is successfull otherwise return false
+    return axios.post(endpoint[title], new_obj)
       .then((response) => {
         console.log(response)
-        setCreateView(false)
+        // setCreateView(false)
         setList([...list, response.data])
         return true
       })
@@ -59,12 +59,14 @@ export default function Items({ title, base_url, ...props }) {
   }
 
   // PUT
-  const updateItem = (id,index,new_obj,setEditingView)=>{
-    axios.put(endpoint[title]+`${id}/`,new_obj)
+  const updateItem = (id,index,new_obj)=>{  // returns True if request is successfull otherwise return false
+    return axios.put(endpoint[title]+`${id}/`,new_obj)
     .then((response)=>{
     console.log(response.data)
-    setEditingView(false)
     const new_list = [...list]
+    // Object.keys(response.data).forEach((field)=>{
+    //   new_list[index][field] = response.data[field]
+    // })
     new_list[index] = response.data
     setList(new_list)
     return true
