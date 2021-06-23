@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {Link} from "react-router-dom"
-import EditProject from '../cruds/EditProject';
-import EditPerson from '../cruds/EditPerson';
+import EditProject from './EditProject';
+import EditPerson from '../Person/EditPerson';
 
 
 export default function Item({title,obj,index,updateItem,deleteItem}) {

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import PlotItem from '../itemComponents/PlotItem'
-import Plots from '../Plots';
+import Item from '../Project/Item'
+import Plots from '../Plot/Plots';
 
 
-export default function ProjectDetails({ base_url, match }) {
-	const endpoint = base_url + "projects/" + match.params.project_id + '/plots/' + match.params.plot_id
-	console.log(match)
+export default function ProjectDetails({ base_url,match}) {
+	
+	const project_id = match.params.project_id
+	const endpoint = base_url + "projects/" + project_id + '/'
 
-	const [plot_details, setPlotDetails] = useState({ deal:[] })
+	const [project_details, setProjectDetails] = useState({plots:[]})
 	const [error, setError] = useState(null)
 	const [isLoaded, setIsLoaded] = useState(false)
 
@@ -16,7 +17,7 @@ export default function ProjectDetails({ base_url, match }) {
 		axios.get(endpoint)
 			.then((response) => {
 				setIsLoaded(true)
-				setPlotDetails(response.data)
+				setProjectDetails(response.data)
 				console.log(response.data)
 			})
 			.catch((errors) => {
@@ -24,18 +25,18 @@ export default function ProjectDetails({ base_url, match }) {
 				setError(errors)
 				console.log(errors)
 			})
-	}, [endpoint])
+	}, [])
 
 	// PUT
 	const updateItem = (id, index, new_obj) => {
 		return axios.put(endpoint, new_obj)
 			.then((response) => {
 				console.log(response)
-				const new_plot_details = {...plot_details}
+				const new_project_details = {...project_details}
 				Object.keys(response.data).forEach((field)=>{
-					new_plot_details[field] = response.data[field]
+					new_project_details[field] = response.data[field]
 				})
-				setPlotDetails(new_plot_details)
+				setProjectDetails(new_project_details)
 				return true
 			})
 			.catch((errors) => {
@@ -46,19 +47,17 @@ export default function ProjectDetails({ base_url, match }) {
 	}
 
 	//DELETE
-	const deleteItem = (id, index) => {
-		alert("Deletion Not Compatible Yet")
-	 }  // will not be called because we cannot delete a Project, therefore not implemented
+	const deleteItem = (id, index) => { }  // will not be called because we cannot delete a Project, therefore not implemented
 
 
-	const displayPlotDetails = () => {
+	const displayProjectDetails = () => {
 		if (error) {
 			return <tr><td> Error: {error.message} </td></tr>
 		} else if (!isLoaded) {
 			return <tr><td> Loading... </td></tr>
 		} else {
 			return (
-				<PlotItem title='Plots' obj={plot_details} index={plot_details.id} updateItem={updateItem} deleteItem={deleteItem} />
+				<Item title='Projects' obj={project_details} index={project_details.id} updateItem={updateItem} deleteItem={deleteItem} />
 			)
 		}
 	}
@@ -67,7 +66,7 @@ export default function ProjectDetails({ base_url, match }) {
 		<div className='my-4 px-3'>
 			<div>
 				<div style={{ paddingBottom: '10px'}}>
-					<h1 className="d-inline" > {plot_details.plot_no} </h1>
+					<h1 className="d-inline" > {project_details.name} </h1>
 				</div>
 				<div>
 					<table className="table">
@@ -85,13 +84,13 @@ export default function ProjectDetails({ base_url, match }) {
 							</tr>
 						</thead>
 						<tbody>
-							{displayPlotDetails()}
+							{displayProjectDetails()}
 						</tbody>
 					</table>
 				</div>
 			</div>
 			{/* {project_details.plots[0].plot_no} */}
-			{/* <Plots title="Plots" base_url={endpoint} plots={[...plot_details.deal]} /> */}
+			<Plots title="Plots" base_url={endpoint} project_details={project_details} setProjectDetails={setProjectDetails}/>
 
 		</div>
 	)

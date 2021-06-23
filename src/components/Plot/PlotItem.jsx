@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import {Link} from "react-router-dom"
-import EditPlot from '../cruds/EditPlot';
+import EditPlot from './EditPlot';
 
-export default function PlotItem({title,obj,base_url,index,updateItem,deleteItem}) {
-   
+export default function PlotItem({title,obj,base_url,project_id,index,updateItem,deleteItem}) {
 
     const [editing_view, setEditingView] = useState(false)
 
@@ -39,7 +38,7 @@ export default function PlotItem({title,obj,base_url,index,updateItem,deleteItem
             <>
             <tr className = {obj.deal && obj.deal.penalty? "table-danger":""}>
                 <th scope="row">
-                    <Link to={base_url + `plots/${obj.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Link to={`/projects/${project_id}/plots/${obj.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         {obj.plot_no}
                     </Link>
                 </th>

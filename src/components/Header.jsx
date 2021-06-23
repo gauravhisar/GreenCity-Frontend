@@ -17,10 +17,10 @@ export default function Header(props) {
                     <NavLink to="/projects" className="nav-link" aria-current="page">Projects</NavLink>
                 </li>
                 <li className="nav-item">
-                    <NavLink to="/dealers" className="nav-link" >Dealers</NavLink>
+                    <NavLink to="/customers" className="nav-link" >Customers</NavLink>
                 </li>
                 <li className="nav-item">
-                    <NavLink to="/customers" className="nav-link" >Customers</NavLink>
+                    <NavLink to="/dealers" className="nav-link" >Dealers</NavLink>
                 </li>
                 {/* <li className="nav-item">
                     <a className="nav-link disabled"  tabindex="-1" aria-disabled="true">Disabled</a>
