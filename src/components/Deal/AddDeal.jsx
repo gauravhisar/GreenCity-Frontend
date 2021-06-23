@@ -7,12 +7,9 @@ import axios from 'axios'
 
 export default function AddDeal({ title, base_url, project_id, plot_details, setPlotDetails,setEditingView, index }) {
 
-	// const [plot_details,setPlotDetails] = useState({})
-
 	const deals_endpoint = base_url + `projects/${project_id}/deals/`
 	const customers_endpoint = base_url + `customers/`
 	const dealers_endpoint   = base_url + `dealers/`
-
 
 	const obj_schema = {
 		id: "",
@@ -30,30 +27,37 @@ export default function AddDeal({ title, base_url, project_id, plot_details, set
 
 	useEffect(() => {
 		axios.get(customers_endpoint)
-			.then((response) => {
-				console.log("All Customers fetched")
-				setAllCustomers(response.data)
-				return true
-			})
-			.catch((errors) => {
-				console.log(errors)
-				alert("Network Error")
-				return false
-			})
-
+		.then((response) => {
+			console.log("All Customers fetched")
+			setAllCustomers(response.data)
+			return true
+		})
+		.catch((errors) => {
+			console.log(errors)
+			alert("Network Error")
+			return false
+		})
+		
 		axios.get(dealers_endpoint)
-			.then((response) => {
-				console.log("All Dealers fetched")
-				setAllDealers(response.data)
-				return true
-			})
-			.catch((errors) => {
-				console.log(errors)
-				alert("Network Error")
-				return false
-			})
-	}, [])
+		.then((response) => {
+			console.log("All Dealers fetched")
+			setAllDealers(response.data)
+			return true
+		})
+		.catch((errors) => {
+			console.log(errors)
+			alert("Network Error")
+			return false
+		})
+		
+	}, [dealers_endpoint,customers_endpoint])
 
+	useEffect(()=>{
+		setCustomer({...plot_details.deal.customer})
+		setInputCustomer({...plot_details.deal.customer})
+		setDealer({...plot_details.deal.dealer})
+		setInputDealer({...plot_details.deal.dealer})
+	},[])
 	const saveCustomer = (new_obj) => {
 		return axios.post(customers_endpoint, new_obj)
 			.then((response) => {
@@ -69,19 +73,20 @@ export default function AddDeal({ title, base_url, project_id, plot_details, set
 
 	const saveDealer = (new_obj) => {
 		return axios.post(dealers_endpoint, new_obj)
-			.then((response) => {
-				console.log("Dealer Saved")
-				return response.data
-			})
-			.catch((errors) => {
-				console.log(errors)
-				alert("Network Error! Dealer Not Saved!")
-				return false
-			})
+		.then((response) => {
+			console.log("Dealer Saved")
+			return response.data
+		})
+		.catch((errors) => {
+			console.log(errors)
+			alert("Network Error! Dealer Not Saved!")
+			return false
+		})
 	}
-
-	const saveDeal = (deal) => {
-		return axios.post(deals_endpoint, deal)
+	
+	if (!plot_details.deal){
+		const saveDeal = (deal) => {
+			return axios.post(deals_endpoint, deal)
 			.then((response) => {
 				console.log(response)
 				const new_plot_details = {...plot_details}
@@ -94,9 +99,36 @@ export default function AddDeal({ title, base_url, project_id, plot_details, set
 				console.log(error)
 				return false
 			})
-
+		}
+	}
+	else{
+		const deal_endpoint = base_url + `projects/${project_id}/plots/${plot_details.deal.id}/`
+		
+		const updateDeal = (id, index, new_obj) => {
+		return axios.put(deal_endpoint, new_obj)
+			.then((response) => {
+				console.log(response)
+				const new_plot_details = { ...plot_details }
+				Object.keys(response.data).forEach((field) => {
+					new_plot_details[field] = response.data[field]
+				})
+				setPlotDetails(new_plot_details)
+				return true
+			})
+			.catch((errors) => {
+				// alert("Network Error! Start Server and Try Again")
+				// console.log(errors)
+				alert(errors)
+				return false
+			})
 	}
 
+	const deleteItem = (id, index) => {
+		alert("Deletion Not Compatible Yet")
+	}
+}
+		
+		
 	const addDeal = (e) => {
 		e.preventDefault()
 		if (input_customer.name.length === 0 || input_dealer.name.length === 0) {
@@ -195,6 +227,32 @@ export default function AddDeal({ title, base_url, project_id, plot_details, set
 			})
 	}
 
+	// const editItem = (e) => {
+	// 	e.preventDefault()
+	// 	if (!customer_name) {
+	// 		alert("Enter Customer Name")
+	// 		return
+	// 	}
+	// 	else if (!dealer_name) {
+	// 		alert("Enter Dealer Name")
+	// 		return
+	// 	}
+	// 	else {
+	// 		let new_obj = {
+	// 			customer_no: customer_no,
+	// 			customer_name: customer_name,
+	// 			dealer_name: dealer_name,
+	// 			dealer_no: dealer_no,
+	// 			balance: balance
+	// 		}
+	// 		updateDeal(plot_details.id, index, new_obj).then((success) => {
+		// 			if (success) {
+			// 				setEditingView(false)
+			// 			}
+			// 		})
+			// 	}
+			// }
+
 	const verticallyCenter = { display: 'flex', alignItems: 'center' }
 
 	return (
@@ -280,7 +338,7 @@ export default function AddDeal({ title, base_url, project_id, plot_details, set
 							</div>
 
 							<div style={{ textAlign: 'right' }}>
-								<button onClick = {addDeal} style={{ margin: '5px 5px' }} type='submit' className="btn btn-sm btn-primary">&nbsp;Save&nbsp;&nbsp;</button>
+								<button onClick = {e=>{addDeal(e)}} style={{ margin: '5px 5px' }} type='submit' className="btn btn-sm btn-primary">&nbsp;Save&nbsp;&nbsp;</button>
 								<button onClick={(e) => { e.preventDefault(); setEditingView(false); }} style={{ margin: '5px 5px' }} className="btn btn-sm btn-danger">Cancel</button>
 							</div>
 						</form>

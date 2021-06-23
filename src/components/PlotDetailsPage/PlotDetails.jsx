@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link } from "react-router-dom"
 import Plot from './Plot'
 import AddDeal from '../Deal/AddDeal';
-// import Deal from '../Deal/Deal';
+import Deal from '../Deal/Deal';
 import Dues from '../Due/Dues';
 import Payments from '../Payment/Payments';
 import CommissionPayments from '../CommissionPayment/CommissionPayments';
@@ -41,7 +41,7 @@ export default function PlotDetails({ base_url, match }) {
 	const displayDeal = () => {
 		return (
 			<>
-				{/* <Deal title="Deals" base_url = {base_url} project_id = {project_id} plot_details = {plot_details} setPlotDetails = {setPlotDetails} index = {plot_details.deal.id}/> */}
+				<Deal title="Deals" base_url = {base_url} project_id = {project_id} plot_details = {plot_details} setPlotDetails = {setPlotDetails} index = {plot_details.deal.id}/>
 				{/* <Dues/> */}
 				{/* <Payments/> */}
 				{/* <CommissionPayments/> */}
@@ -62,8 +62,9 @@ export default function PlotDetails({ base_url, match }) {
 					<div className="row">
 						<Plot title='Plots' base_url={base_url} project_id={project_id} plot_details={plot_details} setPlotDetails={setPlotDetails} index={plot_details.id} />
 						{plot_details.deal
-							? <AddDeal title="Deals"  base_url={base_url} index={plot_details.id} project_id={project_id} plot_details={plot_details} setPlotDetails={setPlotDetails} create_deal_view = {create_deal_view} setEditingView={setCreateDealView} deal_created = {/*deal_created*/""}  setDealCreated={/*setDealCreated*/""} />
-							//displayDeal() 
+							? 
+							// <AddDeal title="Deals"  base_url={base_url} index={plot_details.id} project_id={project_id} plot_details={plot_details} setPlotDetails={setPlotDetails} create_deal_view = {create_deal_view} setEditingView={setCreateDealView} deal_created = {/*deal_created*/""}  setDealCreated={/*setDealCreated*/""} />
+							displayDeal() 
 							: <></>
 						}
 						{!plot_details.deal && create_deal_view
