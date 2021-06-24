@@ -2,12 +2,10 @@ import React, { useState } from 'react'
 
 export default function AddDue({ title, setCreateView, saveItem }) {
     const [deal_id, setDealId] = useState("")
-    const [plot_no, setPlotNo] = useState("")
     const addItem = (e) => {
         e.preventDefault()
         if (!deal_id) {
             alert("Enter Due No")
-            return
         }
         else {
             const obj = {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Link } from "react-router-dom"
 import EditDue from './EditDue';
 
 export default function DueItem({ title, obj, base_url, project_id, index, updateItem, deleteItem }) {

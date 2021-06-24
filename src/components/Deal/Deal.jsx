@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import TextField from '@material-ui/core/TextField';
 import AddDeal from './AddDeal'
-// import Autocomplete from '@material-ui/lab/Autocomplete';
-// import axios from 'axios'
-
-// import EditPlot from './EditPlot';
 
 export default function Deal({ title, base_url, project_id, plot_details, setPlotDetails, index }) {
-
-	// const [plot_details,setPlotDetails] = useState({})
 
 	const deal_endpoint = base_url + `projects/${project_id}/plots/${plot_details.deal.id}/`
 	const customers_endpoint = base_url + `customers/`

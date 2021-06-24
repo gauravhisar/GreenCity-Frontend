@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PlotItem from './PlotItem';
 import AddPlot from './AddPlot';
 
@@ -10,14 +10,6 @@ export default function Plots({ title, base_url, project_details,setProjectDetai
     const table_schema = ['Plot No', 'Area', 'Rate', 'Amount', 'Dealer', 'Customer', 'Balance']
 
     const [create_view, setCreateView] = useState(false)
-    // const [list, setList] = useState([])
-
-    // const [error, setError] = useState(null)
-    // const [isLoaded, setIsLoaded] = useState(false)
-    // useEffect(() => {
-    //     setList([...plots])
-    // }, [plots])
-    // console.log(project_details)
 
     // POST
     const saveItem = (new_obj) => {
@@ -48,14 +40,6 @@ export default function Plots({ title, base_url, project_details,setProjectDetai
                 // console.log(list)
                 const new_project_details = {...project_details}
                 new_project_details.plots[index] = response.data
-                // new_list[index] = response.data
-                // new_list[index] = {
-                //     ...new_list[index],
-                //     plot_no: response.data.plot_no,
-                //     area: response.data.area,
-                //     rate: response.data.rate,
-                //     amount: response.data.amount
-                // }
                 setProjectDetails(new_project_details)
                 return true
             })
