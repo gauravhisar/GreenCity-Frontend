@@ -84,6 +84,8 @@ export default function AddDeal({ title, base_url, project_id, plot_details, set
 		})
 	}
 	
+
+	let save_or_update;
 	if (!plot_details.deal){
 		const saveDeal = (deal) => {
 			return axios.post(deals_endpoint, deal)
@@ -100,18 +102,20 @@ export default function AddDeal({ title, base_url, project_id, plot_details, set
 				return false
 			})
 		}
+		save_or_update = saveDeal
 	}
 	else{
 		const deal_endpoint = base_url + `projects/${project_id}/plots/${plot_details.deal.id}/`
 		
 		const updateDeal = (id, index, new_obj) => {
-		return axios.put(deal_endpoint, new_obj)
+			return axios.put(deal_endpoint, new_obj)
 			.then((response) => {
 				console.log(response)
 				const new_plot_details = { ...plot_details }
-				Object.keys(response.data).forEach((field) => {
-					new_plot_details[field] = response.data[field]
-				})
+				new_plot_details.deal = response.data
+				// Object.keys(response.data).forEach((field) => {
+				// 	new_plot_details['deal'][field] = response.data[field]
+				// })
 				setPlotDetails(new_plot_details)
 				return true
 			})
@@ -121,15 +125,12 @@ export default function AddDeal({ title, base_url, project_id, plot_details, set
 				alert(errors)
 				return false
 			})
-	}
-
-	const deleteItem = (id, index) => {
-		alert("Deletion Not Compatible Yet")
-	}
+		}
+		save_or_update = updateDeal
 }
 		
 		
-	const addDeal = (e) => {
+	const addEditDeal = (e) => {
 		e.preventDefault()
 		if (input_customer.name.length === 0 || input_dealer.name.length === 0) {
 			alert("Enter Customer Name and Dealer Name")
@@ -143,6 +144,7 @@ export default function AddDeal({ title, base_url, project_id, plot_details, set
 			alert("You can either leave Contact No blank or fill it with a 10-digit Number")
 			return
 		}
+		console.log(customer, dealer)
 		let add_customer = false
 		let add_dealer = false
 		if(customer === null){ // that is we have to add new customer
@@ -220,38 +222,14 @@ export default function AddDeal({ title, base_url, project_id, plot_details, set
 			dealer_id: dealer.id
 		}
 
-			saveDeal(deal).then((success) => {
+			save_or_update(deal).then((success) => {
 				if (success){
 						// setDealCreated(true)
 				}
 			})
 	}
 
-	// const editItem = (e) => {
-	// 	e.preventDefault()
-	// 	if (!customer_name) {
-	// 		alert("Enter Customer Name")
-	// 		return
-	// 	}
-	// 	else if (!dealer_name) {
-	// 		alert("Enter Dealer Name")
-	// 		return
-	// 	}
-	// 	else {
-	// 		let new_obj = {
-	// 			customer_no: customer_no,
-	// 			customer_name: customer_name,
-	// 			dealer_name: dealer_name,
-	// 			dealer_no: dealer_no,
-	// 			balance: balance
-	// 		}
-	// 		updateDeal(plot_details.id, index, new_obj).then((success) => {
-		// 			if (success) {
-			// 				setEditingView(false)
-			// 			}
-			// 		})
-			// 	}
-			// }
+
 
 	const verticallyCenter = { display: 'flex', alignItems: 'center' }
 
@@ -338,7 +316,7 @@ export default function AddDeal({ title, base_url, project_id, plot_details, set
 							</div>
 
 							<div style={{ textAlign: 'right' }}>
-								<button onClick = {e=>{addDeal(e)}} style={{ margin: '5px 5px' }} type='submit' className="btn btn-sm btn-primary">&nbsp;Save&nbsp;&nbsp;</button>
+								<button onClick = {e=>{/*addEditDeal(e)*/ e.preventDefault(); console.log(customer,input_customer,dealer,input_dealer)}} style={{ margin: '5px 5px' }} type='submit' className="btn btn-sm btn-primary">&nbsp;Save&nbsp;&nbsp;</button>
 								<button onClick={(e) => { e.preventDefault(); setEditingView(false); }} style={{ margin: '5px 5px' }} className="btn btn-sm btn-danger">Cancel</button>
 							</div>
 						</form>

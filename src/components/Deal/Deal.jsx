@@ -6,7 +6,7 @@ import AddDeal from './AddDeal'
 
 // import EditPlot from './EditPlot';
 
-export default function Deal({ title, base_url, project_id, plot_details, setPlotDetails,deleteItem, index }) {
+export default function Deal({ title, base_url, project_id, plot_details, setPlotDetails, index }) {
 
 	// const [plot_details,setPlotDetails] = useState({})
 
@@ -17,6 +17,10 @@ export default function Deal({ title, base_url, project_id, plot_details, setPlo
 	const dealer_endpoint    = `${plot_details.deal.dealer.id}/`
 
 	const [editing_view, setEditingView] = useState(false)
+
+	const deleteItem = (id, index) => {
+		alert("Deletion Not Compatible Yet")
+	}
 
 	const verticallyCenter = {display:'flex',alignItems: 'center'}
 
