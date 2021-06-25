@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React,{ useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Item from './Item';
 import AddProject from './AddProject';
 import AddPerson from '../Person/AddPerson';
@@ -59,27 +59,27 @@ export default function Items({ title, base_url, ...props }) {
   }
 
   // PUT
-  const updateItem = (id,index,new_obj)=>{  // returns True if request is successfull otherwise return false
-    return axios.put(endpoint[title]+`${id}/`,new_obj)
-    .then((response)=>{
-    console.log(response.data)
-    const new_list = [...list]
-    // Object.keys(response.data).forEach((field)=>{
-    //   new_list[index][field] = response.data[field]
-    // })
-    new_list[index] = response.data
-    setList(new_list)
-    return true
-    })
-    .catch((errors)=>{
-      alert("Network Error! Start Server and Try Again")
-      console.log(errors)
-      return false
-    })
-}
+  const updateItem = (id, index, new_obj) => {  // returns True if request is successfull otherwise return false
+    return axios.put(endpoint[title] + `${id}/`, new_obj)
+      .then((response) => {
+        console.log(response.data)
+        const new_list = [...list]
+        // Object.keys(response.data).forEach((field)=>{
+        //   new_list[index][field] = response.data[field]
+        // })
+        new_list[index] = response.data
+        setList(new_list)
+        return true
+      })
+      .catch((errors) => {
+        alert("Network Error! Start Server and Try Again")
+        console.log(errors)
+        return false
+      })
+  }
 
-//DELETE
-const deleteItem = (id,index)=>{ // id,new_obj
+  //DELETE
+  const deleteItem = (id, index) => { // id,new_obj
     alert("Deletion Not Compatible right now")
     // axios.put(endpoint[title]+`${id}/`,new_obj)
     // .then((response)=>{
@@ -94,7 +94,7 @@ const deleteItem = (id,index)=>{ // id,new_obj
     //   alert("Network Error! Start Server and Try Again")
     //   console.log(errors)
     // })
-}
+  }
 
   const displayTableSchema = () => {
     return (
@@ -119,7 +119,7 @@ const deleteItem = (id,index)=>{ // id,new_obj
       return (
         <tbody>
           {list.map((obj, index) => {
-                return <Item key={obj.id} title={title} obj={obj} index = {index} updateItem={updateItem} deleteItem = {deleteItem}/>
+            return <Item key={obj.id} title={title} obj={obj} index={index} updateItem={updateItem} deleteItem={deleteItem} />
           })}
         </tbody>
       )
