@@ -4,12 +4,12 @@ import Item from '../Project/Item'
 import Plots from '../Plot/Plots';
 
 
-export default function ProjectDetails({ base_url,match}) {
-	
+export default function ProjectDetails({ base_url, match }) {
+
 	const project_id = match.params.project_id
 	const endpoint = base_url + "projects/" + project_id + '/'
 
-	const [project_details, setProjectDetails] = useState({plots:[]})
+	const [project_details, setProjectDetails] = useState({ plots: [] })
 	const [error, setError] = useState(null)
 	const [isLoaded, setIsLoaded] = useState(false)
 
@@ -32,8 +32,8 @@ export default function ProjectDetails({ base_url,match}) {
 		return axios.put(endpoint, new_obj)
 			.then((response) => {
 				console.log(response)
-				const new_project_details = {...project_details}
-				Object.keys(response.data).forEach((field)=>{
+				const new_project_details = { ...project_details }
+				Object.keys(response.data).forEach((field) => {
 					new_project_details[field] = response.data[field]
 				})
 				setProjectDetails(new_project_details)
@@ -65,7 +65,7 @@ export default function ProjectDetails({ base_url,match}) {
 	return (
 		<div className='my-4 px-3'>
 			<div>
-				<div style={{ paddingBottom: '10px'}}>
+				<div style={{ paddingBottom: '10px' }}>
 					<h1 className="d-inline" > {project_details.name} </h1>
 				</div>
 				<div>
@@ -89,8 +89,7 @@ export default function ProjectDetails({ base_url,match}) {
 					</table>
 				</div>
 			</div>
-			{/* {project_details.plots[0].plot_no} */}
-			<Plots title="Plots" base_url={endpoint} project_details={project_details} setProjectDetails={setProjectDetails}/>
+			<Plots title="Plots" base_url={endpoint} project_details={project_details} setProjectDetails={setProjectDetails} />
 
 		</div>
 	)

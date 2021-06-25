@@ -42,6 +42,7 @@ export default function PlotDetails({ base_url, match }) {
 		return (
 			<>
 				<Deal title="Deals" base_url = {base_url} project_id = {project_id} plot_details = {plot_details} setPlotDetails = {setPlotDetails} index = {plot_details.deal.id}/>
+				<Dues title="Dues" base_url = {base_url} project_id = {project_id} plot_details = {plot_details} setPlotDetails = {setPlotDetails} index = {plot_details.deal.id}/>
 				{/* <Dues/> */}
 				{/* <Payments/> */}
 				{/* <CommissionPayments/> */}
@@ -63,7 +64,6 @@ export default function PlotDetails({ base_url, match }) {
 						<Plot title='Plots' base_url={base_url} project_id={project_id} plot_details={plot_details} setPlotDetails={setPlotDetails} index={plot_details.id} />
 						{plot_details.deal
 							? 
-							// <AddOrEditDeal title="Deals"  base_url={base_url} index={plot_details.id} project_id={project_id} plot_details={plot_details} setPlotDetails={setPlotDetails} create_deal_view = {create_deal_view} setEditingView={setCreateDealView} deal_created = {/*deal_created*/""}  setDealCreated={/*setDealCreated*/""} />
 							displayDeal() 
 							: <></>
 						}

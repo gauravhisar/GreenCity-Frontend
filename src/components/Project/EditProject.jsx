@@ -63,6 +63,5 @@ export default function EditProject({ title, obj, index, setEditingView, updateI
             <td></td>
             <td></td>
         </tr>
-        // </form>
     )
 }

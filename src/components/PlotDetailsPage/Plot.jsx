@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-// import EditPlot from './EditPlot';
-
 export default function Plot({ title, base_url, project_id, plot_details, setPlotDetails, index }) {
-
-	// const [plot_details,setPlotDetails] = useState({})
 
 	const endpoint = base_url + `projects/${project_id}/plots/${plot_details.id}/`
 
@@ -37,8 +33,6 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 				return true
 			})
 			.catch((errors) => {
-				// alert("Network Error! Start Server and Try Again")
-				// console.log(errors)
 				alert(errors)
 				return false
 			})
@@ -70,7 +64,7 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 		}
 	}
 
-	const verticallyCenter = {display:'flex',alignItems: 'center'}
+	const verticallyCenter = { display: 'flex', alignItems: 'center' }
 	return (
 		<>
 			<div className="card col-lg-4 mx-4">
