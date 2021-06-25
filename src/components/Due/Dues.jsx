@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState,Fragment } from 'react'
 import DueItem from './DueItem';
 import AddDue from './AddDue';
 
@@ -17,7 +17,7 @@ export default function Dues({ title, base_url, project_id,plot_details, setPlot
             .then((response) => {
                 console.log(response.data)
                 const new_plot_details = { ...plot_details }
-                new_plot_details.dues.push(response.data)
+                new_plot_details.deal.dues.push(response.data)
                 setPlotDetails(new_plot_details)
                 return true
             })
@@ -30,12 +30,12 @@ export default function Dues({ title, base_url, project_id,plot_details, setPlot
     }
 
     // PUT
-    const updateItem = (id, index, new_obj, setEditingView) => {
+    const updateItem = (id, index, new_obj) => {
         return axios.put(dues_endpoint + `${id}/`, new_obj)
             .then((response) => {
-                console.log(response.data)
+                console.log(response)
                 const new_plot_details = { ...plot_details }
-                new_plot_details.dues[index] = response.data
+                new_plot_details.deal.dues[index] = response.data
                 setPlotDetails(new_plot_details)
                 return true
             })
@@ -48,7 +48,19 @@ export default function Dues({ title, base_url, project_id,plot_details, setPlot
 
     //DELETE
     const deleteItem = (id, index) => { // id,new_obj
-        alert("Deletion Not Compatible right now")
+        return axios.delete(dues_endpoint + `${id}/`)
+            .then((response) => {
+                console.log("Deleted Successfully", response)
+                const new_plot_details = { ...plot_details }
+                new_plot_details.deal.dues[index] = null
+                setPlotDetails(new_plot_details)
+                return true
+            })
+            .catch((errors) => {
+                alert("Network Error! Start Server and Try Again")
+                console.log(errors)
+                return false
+            })
     }
 
     const displayTableSchema = () => {
@@ -70,7 +82,12 @@ export default function Dues({ title, base_url, project_id,plot_details, setPlot
         return (
             <tbody>
                 {plot_details.deal.dues.map((obj, index) => {
-                    return <DueItem key={obj.id} index={index} project_id={project_id} title={title} obj={obj} base_url={base_url} updateItem={updateItem} deleteItem={deleteItem} />
+                    if (obj){
+                        return <DueItem key={index} index={index} project_id={project_id} title={title} obj={obj} base_url={base_url} updateItem={updateItem} deleteItem={deleteItem} />
+                    }
+                    else{
+                        return <Fragment key = {index}></Fragment>
+                    }
                 })}
             </tbody>
         )
@@ -78,11 +95,10 @@ export default function Dues({ title, base_url, project_id,plot_details, setPlot
 
 
     return (
-        <div style={{ marginTop: '40px' }}>
-            <div>
-                <h3> {title} </h3>
-            </div>
-            <div>
+        <div className="card col-lg-5 mx-4 my-3">
+        <div className="card-body">
+            <h5 className="card-title border-bottom pb-2"> {title} </h5>
+            <div className="card-text">
                 <table className="table">
                     {displayTableSchema()}
                     {listItems()}
@@ -92,6 +108,7 @@ export default function Dues({ title, base_url, project_id,plot_details, setPlot
                 {create_view === false && <button onClick={() => { setCreateView(true) }} style={{ marginLeft: '10px' }} className="btn btn-primary">Add {title.substring(0, title.length - 1)} </button>}
 
             </div>
+        </div>
         </div>
     )
 

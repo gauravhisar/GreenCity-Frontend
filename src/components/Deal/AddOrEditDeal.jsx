@@ -47,7 +47,7 @@ export default function AddOrEditDeal({ title, base_url, project_id, plot_detail
 				alert("Network Error")
 				return false
 			})
-	})
+	},[])
 
 	useEffect(() => {
 		if (plot_details.deal) {

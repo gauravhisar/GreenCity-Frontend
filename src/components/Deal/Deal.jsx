@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Link } from "react-router-dom"
 import TextField from '@material-ui/core/TextField';
 import AddorEditDeal from './AddOrEditDeal'
 
@@ -34,7 +35,7 @@ export default function Deal({ title, base_url, project_id, plot_details, setPlo
 	else {
 		return (
 			<>
-				<div className="card col-lg-7 mx-3">
+				<div className="card col-lg-6 mx-3">
 					<div className="card-body">
 						<h5 className="card-title border-bottom pb-2">Deal</h5>
 						<div className="card-text">
@@ -46,6 +47,11 @@ export default function Deal({ title, base_url, project_id, plot_details, setPlo
 									<div className="col-sm-4" style={verticallyCenter}>
 										<TextField label="Customer Contact" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.customer.contact_no} />
 									</div>
+									<div className="col-sm-4" style = {verticallyCenter}>
+										<Link to = {`/customers`}>
+											<button className = "btn btn-sm btn-primary">Edit Customer</button>
+										</Link>
+									</div>
 								</div>
 								<div className="row mb-3">
 									<div className="col-sm-4" style={verticallyCenter}>
@@ -54,9 +60,14 @@ export default function Deal({ title, base_url, project_id, plot_details, setPlo
 									<div className="col-sm-4" style={verticallyCenter}>
 										<TextField label="Dealer Contact" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.dealer.contact_no} />
 									</div>
+									<div className="col-sm-4" style = {verticallyCenter}>
+										<Link to = {`/dealers`}>
+											<button className = "btn btn-sm btn-primary"> Edit Dealer </button>
+										</Link>
+									</div>
 								</div>
 								<div className="row mb-3">
-									<div className="col-sm-4" style={verticallyCenter}>
+									<div className="col-sm-5" style={verticallyCenter}>
 										<TextField label="Balance" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.balance} />
 									</div>
 								</div>
