@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from "react-router-dom"
 import Plot from './Plot'
-import AddDeal from '../Deal/AddDeal';
+import AddOrEditDeal from '../Deal/AddOrEditDeal';
 import Deal from '../Deal/Deal';
 import Dues from '../Due/Dues';
 import Payments from '../Payment/Payments';
@@ -63,12 +63,12 @@ export default function PlotDetails({ base_url, match }) {
 						<Plot title='Plots' base_url={base_url} project_id={project_id} plot_details={plot_details} setPlotDetails={setPlotDetails} index={plot_details.id} />
 						{plot_details.deal
 							? 
-							// <AddDeal title="Deals"  base_url={base_url} index={plot_details.id} project_id={project_id} plot_details={plot_details} setPlotDetails={setPlotDetails} create_deal_view = {create_deal_view} setEditingView={setCreateDealView} deal_created = {/*deal_created*/""}  setDealCreated={/*setDealCreated*/""} />
+							// <AddOrEditDeal title="Deals"  base_url={base_url} index={plot_details.id} project_id={project_id} plot_details={plot_details} setPlotDetails={setPlotDetails} create_deal_view = {create_deal_view} setEditingView={setCreateDealView} deal_created = {/*deal_created*/""}  setDealCreated={/*setDealCreated*/""} />
 							displayDeal() 
 							: <></>
 						}
 						{!plot_details.deal && create_deal_view
-						? <AddDeal title="Deals"  base_url={base_url} project_id={project_id} plot_details={plot_details} setPlotDetails={setPlotDetails} index={plot_details.id} setEditingView={setCreateDealView} setDealCreated={/*setDealCreated*/""} />
+						? <AddOrEditDeal title="Deals"  base_url={base_url} project_id={project_id} plot_details={plot_details} setPlotDetails={setPlotDetails} index={plot_details.id} setEditingView={setCreateDealView} setDealCreated={/*setDealCreated*/""} />
 						: <></>}
 						{!plot_details.deal && !create_deal_view ? <div className="col-lg-7"><button onClick={() => { setCreateDealView(true) }} type="button" className="btn btn-primary my-2">Add Deal</button></div>:<></>}
 					</div>
