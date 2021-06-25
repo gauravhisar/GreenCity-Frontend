@@ -11,7 +11,6 @@ export default function DueItem({ title, obj, base_url, project_id, index, updat
         )
     }
     else {
-        console.log(obj)
         return (
             <>
                 <tr className={obj.deal && obj.deal.penalty ? "table-danger" : ""}>
@@ -20,13 +19,13 @@ export default function DueItem({ title, obj, base_url, project_id, index, updat
                             {obj.deal_id}
                         </Link>
                     </th> */}
-                    <td> {obj.due_date} </td>
+                    <td> {(()=>{let d = new Date(obj.due_date); return `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`})()} </td>
                     <td> {obj.payable_amount} </td>
                     {/* <td> {obj.amount} </td> */}
 
                     <td className="text-center"><button onClick={() => setEditingView(true)} style={{ margin: '0px' }} type="button" className="btn btn-sm btn-secondary">Edit</button></td>
                     <td>
-                        <button onClick={() => deleteItem()} style={{ margin: '0px' }} type="button" className="btn btn-sm btn-danger">Delete</button>
+                        <button onClick={() => deleteItem(obj.id, index)} style={{ margin: '0px' }} type="button" className="btn btn-sm btn-danger">Delete</button>
                     </td>
                 </tr>
             </>

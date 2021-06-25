@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from "react-router-dom"
 import Plot from './Plot'
-import AddDeal from '../Deal/AddDeal';
+import AddOrEditDeal from '../Deal/AddOrEditDeal';
 import Deal from '../Deal/Deal';
 import Dues from '../Due/Dues';
 import Payments from '../Payment/Payments';
