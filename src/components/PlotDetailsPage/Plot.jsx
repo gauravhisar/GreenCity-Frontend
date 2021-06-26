@@ -69,39 +69,30 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 	const verticallyCenter = { display: 'flex', alignItems: 'center' }
 	return (
 		<>
-			<div className="card col-lg-5 mx-4">
+			<div className="card col-lg-4 mx-4">
 				<div className="card-body">
 					<h5 className="card-title border-bottom pb-2">Plot</h5>
 					<div className="card-text">
 						<form>
 							<div className="row mb-3">
-
-								{/* <label htmlFor="plot_no" className="col-sm-3 col-form-label" style={verticallyCenter} >PlotNo:</label> */}
 								<div className="col-sm-6" style={verticallyCenter}>
 									<TextField label="Plot No" InputProps={{ readOnly: !editing_view }} margin="dense" size="small" color="primary" variant="standard" value={plot_no || ""} onChange={(e) => setPlotNo(e.target.value)} />
-									{/* <input type="text" className="form-control" id="plot_no" value={plot_no || ""} onChange={(e) => setPlotNo(e.target.value)} disabled={!editing_view} /> */}
 								</div>
 							{/* </div>
 							<div className="row mb-3"> */}
 								<div className="col-sm-6" style={verticallyCenter}>
 									<TextField label="Amount" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={amount || ""} onChange={(e) => setAmount(e.target.value)} />
-									{/* <input type="text" className="form-control" id="amount" value={amount || ""} onChange={(e) => setAmount(e.target.value)} disabled={true} /> */}
 								</div>
-								{/* <label htmlFor="area" className="col-sm-3 col-form-label" style={verticallyCenter}>Area:</label> */}
 							</div>
 							<div className="row mb-3">
 								<div className="col-sm-6" style={verticallyCenter}>
 									<TextField label="Area" InputProps={{ readOnly: !editing_view }} margin="dense" size="small" color="primary" variant="standard" value={area  || ""} onChange={(e) => setArea(e.target.value)} />
-									{/* <input type="text" className="form-control" id="area" value={area || ""} onChange={(e) => setArea(e.target.value)} disabled={!editing_view} /> */}
 								</div>
-								{/* <label htmlFor="rate" className="col-sm-3 col-form-label" style={verticallyCenter}>Rate:</label> */}
 								<div className="col-sm-6" style={verticallyCenter}>
 									<TextField label="Rate" InputProps={{ readOnly: !editing_view }} margin="dense" size="small" color="primary" variant="standard" value={rate || ""} onChange={(e) => setRate(e.target.value)}/>
-									{/* <input type="text" className="form-control" id="rate" value={rate || ""} onChange={(e) => setRate(e.target.value)} disabled={!editing_view} /> */}
 								</div>
-							{/* </div>
-							<div className="row mb-3"> */}
-								{/* <label htmlFor="amount" className="col-sm-3 col-form-label" style={verticallyCenter}>Amount:</label> */}
+							</div>
+							<div className="row mb-3">
 							</div>
 							{
 								editing_view === false

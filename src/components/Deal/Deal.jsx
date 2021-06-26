@@ -35,7 +35,7 @@ export default function Deal({ title, base_url, project_id, plot_details, setPlo
 	else {
 		return (
 			<>
-				<div className="card col-lg-6 mx-3">
+				<div className="card col-lg-7 mx-3">
 					<div className="card-body">
 						<h5 className="card-title border-bottom pb-2">Deal</h5>
 						<div className="card-text">
