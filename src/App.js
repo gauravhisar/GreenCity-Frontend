@@ -28,6 +28,8 @@ function App() {
           {/* <Route path="/projects/:id" components = {ProjectDetails}></Route> */}
           <Route exact path="/projects/:project_id" render = {(props)=><ProjectDetails base_url = {base_url} match = {props.match} history = {props.history} location = {props.location} />}></Route>
           <Route exact path="/projects/:project_id/plots/:plot_id" render = {(props)=><PlotDetails base_url = {base_url} match = {props.match} history = {props.history} location = {props.location}/>}></Route>
+          {/* <Route exact path="/dealers/dealer_id"   render={() => <Items title='Dealers'   base_url={base_url} key='Dealers'   />}></Route>
+          <Route exact path="/customers/customer_id" render={() => <Items title='Customers' base_url={base_url} key='Customers' />}></Route> */}
 
           
 

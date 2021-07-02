@@ -14,7 +14,7 @@ export default function EditPerson({title,obj,index,setEditingView,updateItem}) 
             setContactno(obj.contact_no)
         }
         setOtherinfo(obj.other_info)
-    }, [])
+    }, [obj])
     const editItem = (e)=>{
         // e.preventDefault()
         if(!name){

@@ -12,7 +12,7 @@ export default function EditDue({ title, obj, index, setEditingView, updateItem 
         setInterestGiven(obj.interest_given)
         setRebate(obj.rebate)
         setNetAmountPaid(obj.net_amount_paid)
-    }, [])
+    }, [obj])
     const editItem = (e) => {
         if (!date) {
             alert("Enter Date")

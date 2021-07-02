@@ -11,7 +11,7 @@ export default function EditProject({ title, obj, index, setEditingView, updateI
         setAddress(obj.address)
         setTotalPlots(obj.total_plots)
         setTotalArea(obj.total_area)
-    }, [])
+    }, [obj])
 
     const editItem = (e) => {
         // e.preventDefault()

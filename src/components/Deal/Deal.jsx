@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import { Link } from "react-router-dom"
 import TextField from '@material-ui/core/TextField';
@@ -7,10 +7,10 @@ import AddorEditDeal from './AddOrEditDeal'
 export default function Deal({ title, base_url, project_id, plot_details, setPlotDetails, index }) {
 
 	const deal_endpoint      = base_url + `projects/${project_id}/deals/${plot_details.deal.id}/`
-	const customers_endpoint = base_url + `customers/`
-	const customer_endpoint = `${plot_details.deal.customer.id}/`
-	const dealers_endpoint = base_url + `dealers/`
-	const dealer_endpoint = `${plot_details.deal.dealer.id}/`
+	// const customers_endpoint = base_url + `customers/`
+	// const customer_endpoint = `${plot_details.deal.customer.id}/`
+	// const dealers_endpoint = base_url + `dealers/`
+	// const dealer_endpoint = `${plot_details.deal.dealer.id}/`
 
 	const [editing_view, setEditingView] = useState(false)
 
@@ -19,7 +19,7 @@ export default function Deal({ title, base_url, project_id, plot_details, setPlo
 		return axios.delete(deal_endpoint)
 		.then((response)=>{
 			setPlotDetails({...plot_details, deal:null})
-			console.log("Successfully Deleted")
+			console.log("Successfully Deleted", response)
 		})
 		.catch((errors)=>{
 			alert(errors)

@@ -8,7 +8,7 @@ export default function EditDue({ title, obj, index, setEditingView, updateItem 
     useEffect(() => {
         setDueDate(obj.due_date);
         setPayableAmount(obj.payable_amount)
-    }, [])
+    }, [obj])
     const editItem = (e) => {
         if (!due_date) {
             alert("Enter Due Date")

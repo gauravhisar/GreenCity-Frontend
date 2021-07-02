@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Item from "../Project/Item";
-import Plots from "../ArchivePlot/Plots";
-import PlotsLatest from "../Plot/PlotsLatest"
-// import PlotsMaterialUITable from "../Plot/PlotsMaterialUITable"
-// import PlotsDataGrid from "../Plot/PlotsDataGrid"
-// import TableContainer from '@material-ui/core/TableContainer';
+import PlotsLatest from "../Plot/PlotsTable"
 
 
 export default function ProjectDetails({ base_url, match }) {
@@ -29,7 +25,7 @@ export default function ProjectDetails({ base_url, match }) {
         setError(errors);
         console.log(errors);
       });
-  }, []);
+  }, [endpoint]);
 
   // PUT
   const updateItem = (id, index, new_obj) => {

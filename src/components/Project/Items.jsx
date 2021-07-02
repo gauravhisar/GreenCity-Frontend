@@ -29,7 +29,7 @@ export default function Items({ title, base_url, ...props }) {
 
   // GET ALL
   useEffect(() => {
-    axios.get(endpoint[title])
+    axios.get(base_url + title.toLowerCase() + "/")
       .then((response) => {
         setIsLoaded(true)
         setList(response.data)
@@ -39,7 +39,7 @@ export default function Items({ title, base_url, ...props }) {
         setIsLoaded(true)
         setError(errors)
       })
-  }, [])
+  }, [base_url, title])
 
   // POST
   const saveItem = (new_obj) => {   // returns True if request is successfull otherwise return false

@@ -8,7 +8,7 @@ export default function EditDue({ title, obj, index, setEditingView, updateItem 
     useEffect(() => {
         setDate(obj.date);
         setAmount(obj.amount)
-    }, [])
+    }, [obj])
     const editItem = (e) => {
         e.preventDefault()
 		if (!date) {

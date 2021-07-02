@@ -15,14 +15,11 @@ import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import EnhancedTableHead from "./EnhancedTableHead";
-import EnhancedTableToolbar from "./EnhancedTableToolbar"
+import EnhancedTableToolbar from "./EnhancedTableToolbar";
 import InlineEditingForm, {
   InlineCreateForm,
   InlineWarning,
 } from "./InlineForm";
-
-
-
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -44,6 +41,7 @@ function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
+    console.log("order",order)
     if (order !== 0) return order;
     return a[1] - b[1];
   });
@@ -83,12 +81,13 @@ export default function EnhancedTable({
   const endpoint = base_url + "plots/";
   const classes = useStyles();
   const history = useHistory();
+  const [plots, setPlots] = React.useState([]);
   const [rows, setRows] = React.useState([]);
   const [currentlyCreating, setCurrentlyCreating] = React.useState(false);
   const [editIdx, setEditIdx] = React.useState(-1);
   const [deleteIdx, setDeleteIdx] = React.useState(-1);
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [orderBy, setOrderBy] = React.useState("plot_no");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -148,7 +147,21 @@ export default function EnhancedTable({
       .catch((errors) => {
         console.log(errors);
       });
-  };
+    };
+
+    const deleteMultipleItems = () => {  // will delete the selected elements in one go
+      selected.forEach((plot_id)=>{
+        deleteItem({id: plot_id})
+      })
+      setSelected([])
+    }
+
+    React.useEffect(() => {
+      setPlots([...Object.values(project_details.plots)]);
+    }, [project_details]);
+    React.useEffect(() => {
+      setRowsPerPage(plots.length);
+    }, [plots]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -156,12 +169,6 @@ export default function EnhancedTable({
     setOrderBy(property);
   };
 
-  React.useEffect(() => {
-    setRows([...Object.values(project_details.plots)]);
-  }, [project_details]);
-  React.useEffect(() => {
-    setRowsPerPage(rows.length);
-  }, [rows]);
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -213,8 +220,15 @@ export default function EnhancedTable({
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} setCurrentlyCreating = {setCurrentlyCreating} plots = {rows} />
-        <TableContainer>
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          setCurrentlyCreating={setCurrentlyCreating}
+          deleteMultipleItems = {deleteMultipleItems}
+          plots={plots}
+          rows={rows}
+          setRows={setRows}
+        />
+        <TableContainer id = "plots-table">
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
@@ -301,9 +315,9 @@ export default function EnhancedTable({
                               />
                             </TableCell>
                             <TableCell
-                              component="th"
-                              id={labelId}
-                              scope="row"
+                              // component="th"
+                              // id={labelId}
+                              // scope="row"
                               padding="none"
                               style={{ cursor: "pointer", fontWeight: "bold" }}
                               onClick={() => {
@@ -328,27 +342,23 @@ export default function EnhancedTable({
                         <TableCell align="left" padding="none">
                           {row.amount}
                         </TableCell>
-                        <TableCell align="left" padding="none">
-                          {row.deal ? row.deal.dealer.name : ""}
+                        <TableCell align="center" padding="none">
+                          {row.dealer_name}
+                        </TableCell>
+                        <TableCell align="center" padding="none">
+                          {row.customer_name}
+                        </TableCell>
+                        <TableCell align="center" padding="none">
+                          {row.total_commission_paid}
                         </TableCell>
                         <TableCell align="left" padding="none">
-                          {row.deal ? row.deal.customer.name : ""}
+                          {row.balance}
                         </TableCell>
                         <TableCell align="left" padding="none">
-                          {row.deal ? row.deal.total_commission_paid : ""}
+                          {row.next_due_date ? `${row.next_due_date.getDate()}-${row.next_due_date.getMonth() + 1}-${row.next_due_date.getFullYear()}` : null}
                         </TableCell>
                         <TableCell align="left" padding="none">
-                          {row.deal ? row.deal.balance : ""}
-                        </TableCell>
-                        <TableCell align="left" padding="none">
-                          {row.deal &&
-                            row.deal.unpaid_dues.length &&
-                            row.deal.unpaid_dues[0].due_date}
-                        </TableCell>
-                        <TableCell align="left" padding="none">
-                          {row.deal &&
-                            row.deal.unpaid_dues.length &&
-                            row.deal.unpaid_dues[0].payable_amount}
+                          {row.next_payable_amount}
                         </TableCell>
                       </TableRow>
                     );
@@ -363,7 +373,11 @@ export default function EnhancedTable({
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[0, 5, rows.length]}
+          rowsPerPageOptions={[
+            0,
+            5,
+            plots.length,
+          ]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}

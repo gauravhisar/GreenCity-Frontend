@@ -50,25 +50,25 @@ const headCells = [
       align: "left",
     },
     {
-      id: "dealer",
+      id: "dealer_name",
       numeric: false,
       disablePadding: false,
       label: "Dealer",
-      align: "left",
+      align: "center",
     },
     {
-      id: "customer",
+      id: "customer_name",
       numeric: false,
       disablePadding: false,
       label: "Customer",
-      align: "left",
+      align: "center",
     },
     {
-      id: "commission",
+      id: "total_commission_paid",
       numeric: true,
       disablePadding: true,
       label: "Commission",
-      align: "left",
+      align: "center",
     },
     {
       id: "balance",
@@ -85,7 +85,7 @@ const headCells = [
       align: "left",
     },
     {
-      id: "next_due_amount",
+      id: "next_payable_amount",
       numeric: true,
       disablePadding: false,
       label: "Payable Amount",
@@ -122,7 +122,7 @@ export default function EnhancedTableHead(props) {
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              // align={headCell.align}
+              align={headCell.align}
               // padding={headCell.disablePadding ? 'none' : 'default'}
               padding="none"
               style={{ fontWeight: "bold" }}
@@ -146,6 +146,8 @@ export default function EnhancedTableHead(props) {
       </TableHead>
     );
   }
+
+  export {headCells}
   
   EnhancedTableHead.propTypes = {
     classes: PropTypes.object.isRequired,
