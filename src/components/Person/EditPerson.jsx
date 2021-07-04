@@ -40,18 +40,24 @@ export default function EditPerson({title,obj,index,setEditingView,updateItem}) 
             })
         }
     }
+
+    function handleKeyPress(e){
+        if(e.key === "Enter"){
+            editItem()
+        }
+    }
     
     return (
 
         // <form onSubmit={editItem}>
-            <tr  onKeyPress = {(e)=>{if(e.key === 'Enter'){editItem()}}}>
-                <td>
-                    <input style = {{paddingTop:'3px',paddingBottom: '3px'}} type="text" className="form-control" value={name} onChange={(e) => { setName(e.target.value) }} placeholder="Name" />
+            <tr>
+                <td onKeyPress = {(e)=>handleKeyPress}>
+                    <input autoFocus style = {{paddingTop:'3px',paddingBottom: '3px'}} type="text" className="form-control" value={name} onChange={(e) => { setName(e.target.value) }} placeholder="Name" />
                 </td>
-                <td>
+                <td onKeyPress = {(e)=>handleKeyPress}>
                     <input style = {{paddingTop:'3px',paddingBottom: '3px'}} type="text" className="form-control" value={contact_no} onChange={(e) => { setContactno(e.target.value) }} placeholder="Contact No" />
                 </td>
-                <td>
+                <td onKeyPress = {(e)=>handleKeyPress}>
                     <input style = {{paddingTop:'3px',paddingBottom: '3px'}} type="text" className="form-control" value={other_info} onChange={(e) => { setOtherinfo(e.target.value) }} placeholder="Other Info" />
                 </td>
                 <td className = "text-center">

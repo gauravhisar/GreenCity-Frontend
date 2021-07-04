@@ -7,7 +7,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 
 const InlineWarning = ({ obj, setDeleteIdx, deleteItem }) => {
   return (
-    <TableRow key={obj.id}>
+    <TableRow>
       <TableCell padding="checkbox"></TableCell>
       <TableCell padding="none">
         <DoneIcon
@@ -41,7 +41,8 @@ const InlineCreateForm = ({ setCurrentlyCreating, saveItem }) => {
     rate: "",
     plc: "",
   });
-
+  
+  
   const addItem = (e) => {
     // e.preventDefault();
     if (!plot.plot_no) {
@@ -54,6 +55,7 @@ const InlineCreateForm = ({ setCurrentlyCreating, saveItem }) => {
     } else {
       saveItem({ ...plot }).then((success) => {
         if (success) {
+          inputRef.current.focus()
           setPlot({
             plot_no: "",
             area: "",
@@ -64,21 +66,39 @@ const InlineCreateForm = ({ setCurrentlyCreating, saveItem }) => {
       });
     }
   };
+  
+  const inputRef = React.useRef(null)
+  useEffect(()=>{
+    if(inputRef.current){
+      inputRef.current.focus()
+    }
+  }, [])
+  
   return (
     <>
-      <TableRow>
+      <TableRow
+      onKeyUp={(e) => {
+        if (e.key === "Enter") {
+          addItem();
+        } else if (e.key === "Escape") {
+          console.log("escape");
+          setCurrentlyCreating(false);
+          }
+        }}
+      >
         <TableCell padding="checkbox"></TableCell>
         <TableCell padding="none">
           <DoneIcon onClick={addItem} style={{ cursor: "pointer" }} />
           <CancelIcon
             onClick={(e) => {
-              setCurrentlyCreating(false)
+              setCurrentlyCreating(false);
             }}
             style={{ cursor: "pointer" }}
           />
         </TableCell>
         <TableCell padding="none">
           <TextField
+          inputRef = {inputRef}
             style={{ padding: "3px 3px" }}
             type="text"
             size="small"
@@ -126,7 +146,12 @@ const InlineCreateForm = ({ setCurrentlyCreating, saveItem }) => {
   );
 };
 export default function InlineEditingForm({ obj, setEditIdx, updateItem }) {
-  const [plot, setPlot] = useState({});
+  const [plot, setPlot] = useState({
+    plot_no: "",
+    area: "",
+    rate: "",
+    plc: "",
+  });
 
   useEffect(() => {
     setPlot({ ...obj });
@@ -145,15 +170,16 @@ export default function InlineEditingForm({ obj, setEditIdx, updateItem }) {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      editItem();
+    } else if (e.key === "Escape") {
+      setEditIdx(-1);
+    }
+  };
+
   return (
     <>
-      {/* <tr
-      onKeyPress={(e) => {
-        if (e.key === "Enter") {
-          editItem();
-        }
-      }}
-    > */}
       <TableCell padding="none">
         <DoneIcon onClick={editItem} style={{ cursor: "pointer" }} />
         <CancelIcon
@@ -163,8 +189,9 @@ export default function InlineEditingForm({ obj, setEditIdx, updateItem }) {
           style={{ cursor: "pointer" }}
         />
       </TableCell>
-      <TableCell padding="none">
+      <TableCell padding="none" onKeyUp={handleKeyPress}>
         <TextField
+        autoFocus
           style={{ padding: "3px 3px" }}
           type="text"
           size="small"
@@ -174,7 +201,7 @@ export default function InlineEditingForm({ obj, setEditIdx, updateItem }) {
           }}
         />
       </TableCell>
-      <TableCell padding="none">
+      <TableCell padding="none" onKeyUp={handleKeyPress}>
         <TextField
           style={{ padding: "3px 3px" }}
           type="text"
@@ -185,7 +212,7 @@ export default function InlineEditingForm({ obj, setEditIdx, updateItem }) {
           }}
         />
       </TableCell>
-      <TableCell padding="none">
+      <TableCell padding="none" onKeyUp={handleKeyPress}>
         <TextField
           style={{ padding: "3px 3px" }}
           type="text"
@@ -196,7 +223,7 @@ export default function InlineEditingForm({ obj, setEditIdx, updateItem }) {
           }}
         />
       </TableCell>
-      <TableCell padding="none">
+      <TableCell padding="none" onKeyUp={handleKeyPress}>
         <TextField
           style={{ padding: "3px 3px" }}
           type="text"

@@ -81,7 +81,7 @@ export default function Dues({ title, base_url, project_id,plot_details, setPlot
     const listItems = () => {
         return (
             <tbody>
-                {plot_details.deal.dues.map((obj, index) => {
+                {plot_details.deal.dues && plot_details.deal.dues.map((obj, index) => {
                     if (obj){
                         return <DueItem key={index} index={index} project_id={project_id} title={title} obj={obj} base_url={base_url} updateItem={updateItem} deleteItem={deleteItem} />
                     }

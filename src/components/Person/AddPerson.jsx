@@ -10,6 +10,10 @@ export default function AddPerson({title,setCreateView,saveItem}) {
             alert("Enter " + title.substring(0,title.length-1) + " Name")
             return
         }
+        if(contact_no && contact_no.length !== 10){
+            alert("Enter 10 digit Contact No or Nothing at all")
+            return 
+        }
         else{
             const obj = {
                 name: name,
@@ -32,7 +36,7 @@ export default function AddPerson({title,setCreateView,saveItem}) {
         <form onSubmit = {addItem}>
             <div className="row">
                 <div className="col">
-                    <input type="text" className="form-control" value={name} onChange = {(e)=>{setName(e.target.value)}} placeholder="Name" />
+                    <input autoFocus type="text" className="form-control" value={name} onChange = {(e)=>{setName(e.target.value)}} placeholder="Name" />
                 </div>
                 <div className="col">
                     <input type="text" className="form-control" value={contact_no} onChange = {(e)=>{setContactno(e.target.value)}} placeholder="Contact Number" />

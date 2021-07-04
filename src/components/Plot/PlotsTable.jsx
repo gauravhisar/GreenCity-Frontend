@@ -41,7 +41,7 @@ function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
-    console.log("order",order)
+    console.log("order", order);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
@@ -147,28 +147,28 @@ export default function EnhancedTable({
       .catch((errors) => {
         console.log(errors);
       });
-    };
+  };
 
-    const deleteMultipleItems = () => {  // will delete the selected elements in one go
-      selected.forEach((plot_id)=>{
-        deleteItem({id: plot_id})
-      })
-      setSelected([])
-    }
+  const deleteMultipleItems = () => {
+    // will delete the selected elements in one go
+    selected.forEach((plot_id) => {
+      deleteItem({ id: plot_id });
+    });
+    setSelected([]);
+  };
 
-    React.useEffect(() => {
-      setPlots([...Object.values(project_details.plots)]);
-    }, [project_details]);
-    React.useEffect(() => {
-      setRowsPerPage(plots.length);
-    }, [plots]);
+  React.useEffect(() => {
+    setPlots([...Object.values(project_details.plots)]);
+  }, [project_details]);
+  React.useEffect(() => {
+    setRowsPerPage(plots.length);
+  }, [plots]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -217,18 +217,32 @@ export default function EnhancedTable({
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+  const goToPlotDetails = (plot) => {
+    history.push(`/projects/${plot.project_id}/plots/${plot.id}`);
+  };
+  const goToDealerDetails = (plot) => {
+    if (plot.deal){
+      history.push(`/dealers/${plot.deal.dealer.id}`);
+    }
+  };
+  const goToCustomerDetails = (plot) => {
+    if (plot.deal){
+      history.push(`/customers/${plot.deal.customer.id}`);
+    }
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
           numSelected={selected.length}
           setCurrentlyCreating={setCurrentlyCreating}
-          deleteMultipleItems = {deleteMultipleItems}
+          deleteMultipleItems={deleteMultipleItems}
           plots={plots}
           rows={rows}
           setRows={setRows}
         />
-        <TableContainer id = "plots-table">
+        <TableContainer id="plots-table">
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
@@ -314,38 +328,35 @@ export default function EnhancedTable({
                                 }}
                               />
                             </TableCell>
-                            <TableCell
-                              // component="th"
-                              // id={labelId}
-                              // scope="row"
-                              padding="none"
-                              style={{ cursor: "pointer", fontWeight: "bold" }}
-                              onClick={() => {
-                                history.push(
-                                  `/projects/${row.project_id}/plots/${row.id}`
-                                );
-                              }}
-                            >
-                              {row.plot_no}
-                            </TableCell>
-                            <TableCell align="left" padding="none">
-                              {row.area}
-                            </TableCell>
-                            <TableCell align="left" padding="none">
-                              {row.rate}
-                            </TableCell>
-                            <TableCell align="left" padding="none">
-                              {row.plc}
-                            </TableCell>
+                           
+                              <TableCell
+                                component="th"
+                                id={labelId}
+                                scope="row"
+                                padding="none"
+                                style={{cursor: "pointer" ,fontWeight: "bold" }}
+                                onClick={() => goToPlotDetails(row)}
+                              >
+                                {row.plot_no}
+                              </TableCell>
+                              <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                                {row.area}
+                              </TableCell>
+                              <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                                {row.rate}
+                              </TableCell>
+                              <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                                {row.plc}
+                              </TableCell>
                           </>
                         )}
-                        <TableCell align="left" padding="none">
+                        <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                           {row.amount}
                         </TableCell>
-                        <TableCell align="center" padding="none">
+                        <TableCell align="center" padding="none" style = {{cursor: "pointer"}}  onClick = {()=>goToDealerDetails(row)}>
                           {row.dealer_name}
                         </TableCell>
-                        <TableCell align="center" padding="none">
+                        <TableCell align="center" padding="none" style = {{cursor: "pointer"}} onClick = {()=>goToCustomerDetails(row)}>
                           {row.customer_name}
                         </TableCell>
                         <TableCell align="center" padding="none">
@@ -355,7 +366,11 @@ export default function EnhancedTable({
                           {row.balance}
                         </TableCell>
                         <TableCell align="left" padding="none">
-                          {row.next_due_date ? `${row.next_due_date.getDate()}-${row.next_due_date.getMonth() + 1}-${row.next_due_date.getFullYear()}` : null}
+                          {row.next_due_date
+                            ? `${row.next_due_date.getDate()}-${
+                                row.next_due_date.getMonth() + 1
+                              }-${row.next_due_date.getFullYear()}`
+                            : null}
                         </TableCell>
                         <TableCell align="left" padding="none">
                           {row.next_payable_amount}
@@ -373,11 +388,7 @@ export default function EnhancedTable({
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[
-            0,
-            5,
-            plots.length,
-          ]}
+          rowsPerPageOptions={[0, 5, plots.length]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}

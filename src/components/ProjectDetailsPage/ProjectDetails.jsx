@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Item from "../Project/Item";
-import PlotsLatest from "../Plot/PlotsTable"
+import PlotsTable from "../Plot/PlotsTable"
 
 
 export default function ProjectDetails({ base_url, match }) {
@@ -92,6 +92,8 @@ export default function ProjectDetails({ base_url, match }) {
                 <th scope="col">Total Area</th>
                 <th scope="col">Plots Sold</th>
                 <th scope="col">Area Sold</th>
+                <th scope="col">Plots Left</th>
+                <th scope="col">Area Left</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
               </tr>
@@ -100,32 +102,12 @@ export default function ProjectDetails({ base_url, match }) {
           </table>
         </div>
       </div>
-	  <PlotsLatest
+	  <PlotsTable
 	  title="Plots"
 	  base_url={endpoint}
 	  project_details={project_details}
 	  setProjectDetails={setProjectDetails}
 	  />
-	  {/* <PlotsMaterialUITable
-	  title="Plots"
-	  base_url={endpoint}
-	  project_details={project_details}
-	  setProjectDetails={setProjectDetails}
-	  /> */}
-    {/* <TableContainer>
-      <Plots
-        title="Plots"
-        base_url={endpoint}
-        project_details={project_details}
-        setProjectDetails={setProjectDetails}
-        />
-    </TableContainer> */}
-        {/* <PlotsDataGrid
-        title="Plots"
-        base_url={endpoint}
-        project_details={project_details}
-        setProjectDetails={setProjectDetails}
-        /> */}
     </div>
   );
 }

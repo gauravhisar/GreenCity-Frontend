@@ -69,7 +69,7 @@ export default function PlotDetails({ base_url, match }) {
 						{!plot_details.deal && create_deal_view
 							? <AddOrEditDeal title="Deals" base_url={base_url} project_id={project_id} plot_details={plot_details} setPlotDetails={setPlotDetails} index={plot_details.id} setEditingView={setCreateDealView} setDealCreated={/*setDealCreated*/""} />
 							: <></>}
-						{!plot_details.deal && !create_deal_view ? <div className="col-lg-7"><button onClick={() => { setCreateDealView(true) }} type="button" className="btn btn-primary my-2">Add Deal</button></div> : <></>}
+						{!plot_details.deal && !create_deal_view ? <div className="col-lg-7"><button onClick={() => { setCreateDealView(true) }} type="button" className="btn btn-primary m-3">Add Deal</button></div> : <></>}
 					</div>
 				</>
 			)
@@ -81,7 +81,7 @@ export default function PlotDetails({ base_url, match }) {
 		<div className='my-4 px-3'>
 			<div>
 				<div style={{ paddingBottom: 10 + 'px' }}>
-					<h1 className="d-inline" > <Link to={`/projects/${plot_details.project_id}`} style={{ textDecoration: 'none', color: 'inherit' }}> {plot_details.project_name} </Link></h1>
+					<h1> <Link to={`/projects/${plot_details.project_id}`} style={{ textDecoration: 'none', color: 'inherit' }}> {plot_details.project_name} </Link></h1>
 				</div>
 				<div>
 					{displayPlot()}

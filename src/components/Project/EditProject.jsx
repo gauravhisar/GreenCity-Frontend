@@ -38,27 +38,33 @@ export default function EditProject({ title, obj, index, setEditingView, updateI
         }
     }
 
+    const handleKeyPress = (e) => {
+        if(e.key === "Enter"){
+            editItem()
+        }
+    }
+
     return (
 
         // <form onSubmit={editItem}>
-        <tr onKeyPress={(e) => { if (e.key === 'Enter') { editItem() } }}>
-            <td>
-                <input style={{ paddingTop: '3px', paddingBottom: '3px' }} type="text" className="form-control" value={name} onChange={(e) => { setName(e.target.value) }} placeholder="Name" />
+        <tr>
+            <td onKeyPress={handleKeyPress}>
+                <input autoFocus style={{ paddingTop: '3px', paddingBottom: '3px' }} type="text" className="form-control" value={name} onChange={(e) => { setName(e.target.value) }} placeholder="Name" />
             </td>
-            <td>
+            <td onKeyPress={handleKeyPress}>
                 <input style={{ paddingTop: '3px', paddingBottom: '3px' }} type="text" className="form-control" value={address} onChange={(e) => { setAddress(e.target.value) }} placeholder="Address" />
             </td>
-            <td>
+            <td onKeyPress={handleKeyPress}>
                 <input style={{ paddingTop: '3px', paddingBottom: '3px' }} type="text" className="form-control" value={total_plots} onChange={(e) => { setTotalPlots(e.target.value) }} placeholder="No. of Plots" />
             </td>
-            <td>
+            <td onKeyPress={handleKeyPress}>
                 <input style={{ paddingTop: '3px', paddingBottom: '3px' }} type="text" className="form-control" value={total_area} onChange={(e) => { setTotalArea(e.target.value) }} placeholder="Total Area" />
             </td>
             <td className="text-center" style={{ paddingLeft: '10px' }}>
                 <button onClick={editItem} style={{ margin: '0px', }} type='submit' className="btn btn-sm btn-primary">&nbsp;Save&nbsp;&nbsp;</button>
             </td>
             <td>
-                <button onClick={(e) => { setEditingView(false); }} style={{ margin: '0px' }} className="btn btn-sm btn-danger">Cancel</button>
+                <button onClick={(e) => {setEditingView(false); }} style={{ margin: '0px' }} className="btn btn-sm btn-danger">Cancel</button>
             </td>
             <td></td>
             <td></td>

@@ -275,15 +275,16 @@ export default function AddOrEditDeal({
 
   return (
     <>
-      <div className="card col-lg-7 mx-3">
+      <div className="card col-lg-11 mx-4 my-3">
         <div className="card-body">
           <h5 className="card-title border-bottom pb-2">Deal</h5>
           <div className="card-text">
             <form>
               <div className="row mb-3">
-                <div className="col-sm-4" style={verticallyCenter}>
+                <div className="col-sm-3" style={verticallyCenter}>
                   <Autocomplete
                     id="customer_name"
+                    autoHighlight
                     freeSolo
                     fullWidth
                     options={all_customers.map((option) => option)}
@@ -299,6 +300,7 @@ export default function AddOrEditDeal({
                     renderInput={(params) => (
                       <TextField
                         {...params}
+                        autoFocus
                         label="Customer Name"
                         margin="dense"
                         size="small"
@@ -308,8 +310,9 @@ export default function AddOrEditDeal({
                     )}
                   />
                 </div>
-                <div className="col-sm-4" style={verticallyCenter}>
+                <div className="col-sm-3" style={verticallyCenter}>
                   <Autocomplete
+                    autoHighlight
                     id="customer_contact"
                     freeSolo
                     fullWidth
@@ -344,10 +347,11 @@ export default function AddOrEditDeal({
 								<div className="col-sm-4" style={verticallyCenter}>
 									<input type="text" className="form-control" id="customer-name" value={customer.name || ""} onChange={(e) => setCustomer({ ...customer, name: e.target.value })} />
 								</div> */}
-              </div>
-              <div className="row mb-3">
-                <div className="col-sm-4" style={verticallyCenter}>
+                {/* </div>
+              <div className="row mb-3"> */}
+                <div className="col-sm-3" style={verticallyCenter}>
                   <Autocomplete
+                  autoHighlight
                     id="dealer_name"
                     freeSolo
                     fullWidth
@@ -371,7 +375,7 @@ export default function AddOrEditDeal({
                     )}
                   />
                 </div>
-                <div className="col-sm-4" style={verticallyCenter}>
+                <div className="col-sm-3" style={verticallyCenter}>
                   <Autocomplete
                     id="dealer_contact"
                     freeSolo
@@ -401,17 +405,6 @@ export default function AddOrEditDeal({
               </div>
 
               <div style={{ textAlign: "right" }}>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    console.log(customer, input_customer, dealer, input_dealer);
-                  }}
-                  style={{ margin: "5px 5px" }}
-                  type="submit"
-                  className="btn btn-sm btn-primary"
-                >
-                  &nbsp;Test Save&nbsp;&nbsp;
-                </button>
                 <button
                   onClick={(e) => {
                     addEditDeal(e);

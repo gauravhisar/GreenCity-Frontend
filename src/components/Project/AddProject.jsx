@@ -5,6 +5,16 @@ export default function AddProject({ title, setCreateView, saveItem }) {  // if 
     const [address, setAddress] = useState("")
     const [total_plots, setTotalPlots] = useState("")
     const [total_area, setTotalArea] = useState("")
+    const inputRef = React.useRef(null)
+
+    React.useEffect(() => {
+        if(inputRef.current){
+            inputRef.current.focus()
+        }
+        // return () => {
+        //     cleanup
+        // }
+    }, [])
 
     const addItem = (e) => {
         e.preventDefault()
@@ -25,6 +35,7 @@ export default function AddProject({ title, setCreateView, saveItem }) {  // if 
                     setAddress("")
                     setTotalPlots("")
                     setTotalArea("")
+                    inputRef.current.focus()
                 }
             })
         }
@@ -34,7 +45,7 @@ export default function AddProject({ title, setCreateView, saveItem }) {  // if 
         <form onSubmit={addItem}>
             <div className="row">
                 <div className="col">
-                    <input type="text" className="form-control" value={name} onChange={(e) => { setName(e.target.value) }} placeholder="Name" />
+                    <input ref = {inputRef} type="text" className="form-control" value={name} onChange={(e) => { setName(e.target.value) }} placeholder="Name" />
                 </div>
                 <div className="col">
                     <input type="text" className="form-control" value={address} onChange={(e) => { setAddress(e.target.value) }} placeholder="Address" />

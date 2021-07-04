@@ -81,12 +81,12 @@ export default function Payments({ title, base_url, project_id,plot_details, set
     const listItems = () => {
         return (
             <tbody>
-                {plot_details.deal.payments.map((obj, index) => {
+                {plot_details.deal.payments && plot_details.deal.payments.map((obj, index) => {
                     if (obj){
-                        return <PaymentItem key={index} index={index} project_id={project_id} title={title} obj={obj} base_url={base_url} updateItem={updateItem} deleteItem={deleteItem} />
+                        return <PaymentItem key={obj.id} index={index} project_id={project_id} title={title} obj={obj} base_url={base_url} updateItem={updateItem} deleteItem={deleteItem} />
                     }
                     else{
-                        return <Fragment key = {index}></Fragment>
+                        return <Fragment key = {"deleted - " + index}></Fragment>
                     }
                 })}
             </tbody>

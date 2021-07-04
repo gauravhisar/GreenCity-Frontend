@@ -10,9 +10,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Button from "@material-ui/core/Button";
 import Filters from "./Filters";
-
-
 
 function exportToExcel(plots) {
   let rows = plots.map((plot) => {
@@ -64,8 +63,39 @@ const useToolbarStyles = makeStyles((theme) => ({
 }));
 export default function EnhancedTableToolbar(props) {
   const classes = useToolbarStyles();
-  const { numSelected,  plots, rows, setRows ,setCurrentlyCreating, deleteMultipleItems} = props;
- 
+  const [currentlyDeleting, setCurrentlyDeleting] = React.useState(false);
+  const {
+    numSelected,
+    plots,
+    rows,
+    setRows,
+    setCurrentlyCreating,
+    deleteMultipleItems,
+  } = props;
+
+  const MultipleDeleteWarning = () => {
+    return (
+      <>
+        <Typography
+          className={classes.title}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
+          Are you sure you want to delete these {numSelected} plots?
+        </Typography>
+        <Button onClick={deleteMultipleItems}> Yes </Button>
+        <Button
+          onClick={() => {
+            setCurrentlyDeleting(false);
+          }}
+        >
+          No
+        </Button>
+      </>
+    );
+  };
+
   return (
     <>
       <Toolbar
@@ -74,36 +104,42 @@ export default function EnhancedTableToolbar(props) {
         })}
       >
         {numSelected > 0 ? (
-          <Typography
-            className={classes.title}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {numSelected} selected
-          </Typography>
-        ) : (
-          <Typography
-            className={classes.title}
-            variant="h6"
-            id="tableTitle"
-            component="div"
-          >
-            Plots
-          </Typography>
-        )}
-
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="delete"
-            onClick = {()=>{
-              deleteMultipleItems()
-            }}>
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
+          <>
+            {currentlyDeleting ? (
+              <MultipleDeleteWarning />
+            ) : (
+              <>
+                <Typography
+                  className={classes.title}
+                  color="inherit"
+                  variant="subtitle1"
+                  component="div"
+                >
+                  {numSelected} selected
+                </Typography>
+                <Tooltip title="Delete">
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => {
+                      setCurrentlyDeleting(true);
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
+              </>
+            )}
+          </>
         ) : (
           <>
+            <Typography
+              className={classes.title}
+              variant="h6"
+              id="tableTitle"
+              component="div"
+            >
+              Plots
+            </Typography>
             <Tooltip title="Export">
               <IconButton
                 aria-label="export"
