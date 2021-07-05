@@ -21,7 +21,9 @@ export default function AddDue({ title, setCreateView, saveItem }) {
 		}
 		saveItem(obj).then((success) => {
 			if (success) {
-				setCreateView(false)
+				setDueDate(new Date().toISOString().substring(0,10))
+				setPayableAmount("")
+				// setCreateView(false)
 			}
 		})
 	}
@@ -30,7 +32,7 @@ export default function AddDue({ title, setCreateView, saveItem }) {
 		<form onSubmit={addItem}>
 			<div className="row">
 				<div className="col-sm-4">
-					<input style={{ paddingTop: '3px', paddingBottom: '3px' }} type="date" className="form-control" value={due_date} onChange={(e) => { setDueDate(e.target.value) }} placeholder="Due Date" />
+					<input autoFocus style={{ paddingTop: '3px', paddingBottom: '3px' }} type="date" className="form-control" value={due_date} onChange={(e) => { setDueDate(e.target.value) }} placeholder="Due Date" />
 				</div>
 				<div className="col-sm-4">
 					<input style={{ paddingTop: '3px', paddingBottom: '3px' }} type="number" className="form-control" value={payable_amount} onChange={(e) => { setPayableAmount(e.target.value) }} placeholder="Payable Amount" />

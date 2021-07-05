@@ -21,7 +21,9 @@ export default function AddCommission({ title, setCreateView, saveItem }) {
 		}
 		saveItem(obj).then((success) => {
 			if (success) {
-				setCreateView(false)
+				setDate(new Date().toISOString().substring(0,10))
+				setAmount("")
+				// setCreateView(false)
 			}
 		})
 	}
@@ -30,7 +32,7 @@ export default function AddCommission({ title, setCreateView, saveItem }) {
 		<form onSubmit={addItem}>
 			<div className="row">
 				<div className="col-sm-4">
-					<input style={{ paddingTop: '3px', paddingBottom: '3px' }} type="date" className="form-control" value={date} onChange={(e) => { setDate(e.target.value) }} placeholder="Date" />
+					<input autoFocus style={{ paddingTop: '3px', paddingBottom: '3px' }} type="date" className="form-control" value={date} onChange={(e) => { setDate(e.target.value) }} placeholder="Date" />
 				</div>
 				<div className="col-sm-4">
 					<input style={{ paddingTop: '3px', paddingBottom: '3px' }} type="number" className="form-control" value={amount} onChange={(e) => { setAmount(e.target.value) }} placeholder="Amount" />

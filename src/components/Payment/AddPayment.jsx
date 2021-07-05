@@ -32,7 +32,11 @@ export default function AddDue({ title, setCreateView, saveItem }) {
         }
         saveItem(obj).then((success) => {
             if (success) {
-                setCreateView(false)
+                // setCreateView(false)
+                setDate(new Date().toISOString().substring(0, 10))
+                setInterestGiven("")
+                setRebate("")
+                setNetAmountPaid("")
             }
         })
     }
@@ -41,7 +45,7 @@ export default function AddDue({ title, setCreateView, saveItem }) {
         <form onSubmit={addItem}>
             <div className="row">
                 <div className="col-sm-3">
-                    <input style={{ paddingTop: '3px', paddingBottom: '3px' }} type="date" className="form-control" value={date} onChange={(e) => { setDate(e.target.value) }} placeholder="Date" />
+                    <input autoFocus style={{ paddingTop: '3px', paddingBottom: '3px' }} type="date" className="form-control" value={date} onChange={(e) => { setDate(e.target.value) }} placeholder="Date" />
                 </div>
                 <div className="col-sm-2">
                     <input style={{ paddingTop: '3px', paddingBottom: '3px' }} type="number" className="form-control" value={interest_given} onChange={(e) => { setInterestGiven(e.target.value) }} placeholder="Interest Given" />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useContext} from "react";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import {
@@ -9,8 +9,8 @@ import {
   TextField,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-// import { minWidth } from "@material-ui/system";
 import { headCells } from "./EnhancedTableHead";
+import { ProjectContext } from "../../Context";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -24,16 +24,17 @@ export default function Filters({ plots, rows, setRows }) {
   const [search_query, setSearchQuery] = useState("");
   const [search_column, setSearchColumn] = useState("dealer_name");
   const lowerCaseQuery = search_query.toLowerCase();
-  const [filters, setFilters] = useState({
-    sold: false,
-    unsold: false,
-    pending: false,
-    apply_dates: false,
-    start_date: new Date().toISOString().substring(0, 10),
-    end_date: new Date(new Date().setMonth(new Date().getMonth() + 1))
-      .toISOString()
-      .substring(0, 10),
-  });
+  const {filters, setFilters} = useContext(ProjectContext)
+  // useState({
+  //   sold: false,
+  //   unsold: false,
+  //   pending: false,
+  //   apply_dates: false,
+  //   start_date: new Date().toISOString().substring(0, 10),
+  //   end_date: new Date(new Date().setMonth(new Date().getMonth() + 1))
+  //     .toISOString()
+  //     .substring(0, 10),
+  // });
 
   useEffect(() => {
     let new_rows = [...plots];
@@ -76,13 +77,10 @@ export default function Filters({ plots, rows, setRows }) {
     }
 
     if (filters.apply_dates) {
-      // console.log(filters)
       new_rows = new_rows.filter((row) => {
         return row.deal && row.deal.unpaid_dues.find((due) => {
-          // console.log(due.due_date, filters.start_date <= due.due_date <= filters.end_date)
-          return (
-            new Date(filters.start_date) <= new Date(due.due_date) <= new Date(filters.end_date)
-          );
+          let due_date = new Date(due.due_date).getTime()
+          return new Date(filters.start_date).getTime() <= due_date &&   due_date <= new Date(filters.end_date).getTime()
         });
       });
     }

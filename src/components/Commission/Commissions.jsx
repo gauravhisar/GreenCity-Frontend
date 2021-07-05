@@ -22,9 +22,14 @@ export default function Commissions({ title, base_url, project_id,plot_details, 
                 return true
             })
             .catch((error) => {
-                alert("Network Error! Try Again")
-                console.log(error)
-                return false
+                console.log(error.response);
+                if(error.response.data.detail === "Authentication credentials were not provided."){
+                alert("Please Login First!");
+                }
+                else{
+                alert("Some Error Occured while making request")
+                }
+                return false;
             })
 
     }

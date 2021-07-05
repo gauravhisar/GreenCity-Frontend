@@ -51,13 +51,13 @@ export default function EditPerson({title,obj,index,setEditingView,updateItem}) 
 
         // <form onSubmit={editItem}>
             <tr>
-                <td onKeyPress = {(e)=>handleKeyPress}>
+                <td onKeyPress = {handleKeyPress}>
                     <input autoFocus style = {{paddingTop:'3px',paddingBottom: '3px'}} type="text" className="form-control" value={name} onChange={(e) => { setName(e.target.value) }} placeholder="Name" />
                 </td>
-                <td onKeyPress = {(e)=>handleKeyPress}>
+                <td onKeyPress = {handleKeyPress}>
                     <input style = {{paddingTop:'3px',paddingBottom: '3px'}} type="text" className="form-control" value={contact_no} onChange={(e) => { setContactno(e.target.value) }} placeholder="Contact No" />
                 </td>
-                <td onKeyPress = {(e)=>handleKeyPress}>
+                <td onKeyPress = {handleKeyPress}>
                     <input style = {{paddingTop:'3px',paddingBottom: '3px'}} type="text" className="form-control" value={other_info} onChange={(e) => { setOtherinfo(e.target.value) }} placeholder="Other Info" />
                 </td>
                 <td className = "text-center">

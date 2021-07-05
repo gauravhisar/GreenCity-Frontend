@@ -1,9 +1,9 @@
 import axios from 'axios';
-import React, { useState,Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import DueItem from './DueItem';
 import AddDue from './AddDue';
 
-export default function Dues({ title, base_url, project_id,plot_details, setPlotDetails,index }) {
+export default function Dues({ title, base_url, project_id, plot_details, setPlotDetails, index }) {
 
 
     const dues_endpoint = base_url + `projects/${project_id}/deals/${plot_details.deal.id}/dues/`
@@ -22,9 +22,14 @@ export default function Dues({ title, base_url, project_id,plot_details, setPlot
                 return true
             })
             .catch((error) => {
-                alert("Network Error! Try Again")
-                console.log(error)
-                return false
+                console.log(error.response);
+                if (error.response.data.detail === "Authentication credentials were not provided.") {
+                    alert("Please Login First!");
+                }
+                else {
+                    alert("Some Error Occured while making request")
+                }
+                return false;
             })
 
     }
@@ -39,10 +44,15 @@ export default function Dues({ title, base_url, project_id,plot_details, setPlot
                 setPlotDetails(new_plot_details)
                 return true
             })
-            .catch((errors) => {
-                alert("Network Error! Start Server and Try Again")
-                console.log(errors)
-                return false
+            .catch((error) => {
+                console.log(error.response);
+                if (error.response.data.detail === "Authentication credentials were not provided.") {
+                    alert("Please Login First!");
+                }
+                else {
+                    alert("Some Error Occured while making request")
+                }
+                return false;
             })
     }
 
@@ -56,10 +66,15 @@ export default function Dues({ title, base_url, project_id,plot_details, setPlot
                 setPlotDetails(new_plot_details)
                 return true
             })
-            .catch((errors) => {
-                alert("Network Error! Start Server and Try Again")
-                console.log(errors)
-                return false
+            .catch((error) => {
+                console.log(error.response);
+                if (error.response.data.detail === "Authentication credentials were not provided.") {
+                    alert("Please Login First!");
+                }
+                else {
+                    alert("Some Error Occured while making request")
+                }
+                return false;
             })
     }
 
@@ -82,11 +97,11 @@ export default function Dues({ title, base_url, project_id,plot_details, setPlot
         return (
             <tbody>
                 {plot_details.deal.dues && plot_details.deal.dues.map((obj, index) => {
-                    if (obj){
+                    if (obj) {
                         return <DueItem key={index} index={index} project_id={project_id} title={title} obj={obj} base_url={base_url} updateItem={updateItem} deleteItem={deleteItem} />
                     }
-                    else{
-                        return <Fragment key = {index}></Fragment>
+                    else {
+                        return <Fragment key={index}></Fragment>
                     }
                 })}
             </tbody>
@@ -96,19 +111,19 @@ export default function Dues({ title, base_url, project_id,plot_details, setPlot
 
     return (
         <div className="card col-lg-6 mx-4 my-3">
-        <div className="card-body">
-            <h5 className="card-title border-bottom pb-2"> {title} </h5>
-            <div className="card-text">
-                <table className="table">
-                    {displayTableSchema()}
-                    {listItems()}
-                </table>
+            <div className="card-body">
+                <h5 className="card-title border-bottom pb-2"> {title} </h5>
+                <div className="card-text">
+                    <table className="table">
+                        {displayTableSchema()}
+                        {listItems()}
+                    </table>
 
-                {create_view === true && <AddDue title="Dues" setCreateView={setCreateView} saveItem={saveItem} />}
-                {create_view === false && <button onClick={() => { setCreateView(true) }} style={{ marginLeft: '10px' }} className="btn btn-primary">Add {title.substring(0, title.length - 1)} </button>}
+                    {create_view === true && <AddDue title="Dues" setCreateView={setCreateView} saveItem={saveItem} />}
+                    {create_view === false && <button onClick={() => { setCreateView(true) }} style={{ marginLeft: '10px' }} className="btn btn-primary">Add {title.substring(0, title.length - 1)} </button>}
 
+                </div>
             </div>
-        </div>
         </div>
     )
 

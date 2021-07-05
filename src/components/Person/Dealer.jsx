@@ -22,7 +22,7 @@ export default function Dealer({ title, base_url }) {
   const [name, setName] = useState("");
   const [contact_no, setContactNo] = useState("");
   const [other_info, setOtherInfo] = useState("");
-  const [currentyEditing, setCurrentlyEditing] = useState(false);
+  const [currentlyEditing, setCurrentlyEditing] = useState(false);
   const [currentlyDeleting, setCurrentlyDeleting] = useState(false);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function Dealer({ title, base_url }) {
     setName(dealer.name);
     setContactNo(dealer.contact_no);
     setOtherInfo(dealer.other_info);
-  }, [dealer, currentyEditing]);
+  }, [dealer, currentlyEditing]);
 
   // PUT
   const updateItem = (new_obj) => {
@@ -53,8 +53,14 @@ export default function Dealer({ title, base_url }) {
         setDealer(response.data);
         return true;
       })
-      .catch((errors) => {
-        alert(errors);
+      .catch((error) => {
+        console.log(error.response);
+        if (error.response.data.detail === "Authentication credentials were not provided.") {
+            alert("Please Login First!");
+        }
+        else {
+            alert("Some Error Occured while making request")
+        }
         return false;
       });
   };
@@ -68,9 +74,14 @@ export default function Dealer({ title, base_url }) {
         history.goBack()
         return true;
       })
-      .catch((errors) => {
-        console.log(errors);
-        alert(errors);
+      .catch((error) => {
+        console.log(error.response);
+        if (error.response.data.detail === "Authentication credentials were not provided.") {
+            alert("Please Login First!");
+        }
+        else {
+            alert("Some Error Occured while making request")
+        }
         return false;
       });
   };
@@ -136,7 +147,7 @@ export default function Dealer({ title, base_url }) {
                 <div className="col-sm-4" style={verticallyCenter}>
                   <TextField
                     label="Name"
-                    InputProps={{ readOnly: !currentyEditing }}
+                    InputProps={{ readOnly: !currentlyEditing }}
                     margin="dense"
                     size="small"
                     color="primary"
@@ -150,7 +161,7 @@ export default function Dealer({ title, base_url }) {
                 <div className="col-sm-4" style={verticallyCenter}>
                   <TextField
                     label="Contact No"
-                    InputProps={{ readOnly: true }}
+                    InputProps={{ readOnly: !currentlyEditing }}
                     margin="dense"
                     size="small"
                     color="primary"
@@ -164,7 +175,7 @@ export default function Dealer({ title, base_url }) {
                 <div className="col-sm-4" style={verticallyCenter}>
                   <TextField
                     label="Other Info"
-                    InputProps={{ readOnly: !currentyEditing }}
+                    InputProps={{ readOnly: !currentlyEditing }}
                     margin="dense"
                     size="small"
                     color="primary"
@@ -174,7 +185,7 @@ export default function Dealer({ title, base_url }) {
                   />
                 </div>
               </div>
-              {currentyEditing === false ? (
+              {currentlyEditing === false ? (
                 <div style={{ textAlign: "right" }}>
                   <button
                     onClick={(e) => {

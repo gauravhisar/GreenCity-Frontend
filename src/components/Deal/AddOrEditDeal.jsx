@@ -86,9 +86,14 @@ export default function AddOrEditDeal({
         setAllCustomers([...all_customers, response.data]);
         return response.data;
       })
-      .catch((errors) => {
-        console.log(errors);
-        alert("Network Error! Customer Not Saved!");
+      .catch((error) => {
+        console.log(error.response);
+        if(error.response.data.detail === "Authentication credentials were not provided."){
+          alert("Please Login First!");
+        }
+        else{
+          alert("Some Error Occured while making request! Customer not saved!")
+        }
         return false;
       });
   };
@@ -102,9 +107,14 @@ export default function AddOrEditDeal({
         setAllDealers([...all_dealers, response.data]);
         return response.data;
       })
-      .catch((errors) => {
-        console.log(errors);
-        alert("Network Error! Dealer Not Saved!");
+      .catch((error) => {
+        console.log(error.response);
+        if(error.response.data.detail === "Authentication credentials were not provided."){
+          alert("Please Login First!");
+        }
+        else{
+          alert("Some Error Occured while making request! Customer Not Saved")
+        }
         return false;
       });
   };
@@ -122,8 +132,13 @@ export default function AddOrEditDeal({
           return true;
         })
         .catch((error) => {
-          alert("Network Error! Try Again");
-          console.log(error);
+          console.log(error.response);
+          if(error.response.data.detail === "Authentication credentials were not provided."){
+            alert("Please Login First!");
+          }
+          else{
+            alert("Some Error Occured while making request")
+          }
           return false;
         });
     };
@@ -145,10 +160,14 @@ export default function AddOrEditDeal({
           setPlotDetails(new_plot_details);
           return true;
         })
-        .catch((errors) => {
-          // alert("Network Error! Start Server and Try Again")
-          // console.log(errors)
-          alert(errors);
+        .catch((error) => {
+          console.log(error.response);
+          if(error.response.data.detail === "Authentication credentials were not provided."){
+            alert("Please Login First!");
+          }
+          else{
+            alert("Some Error Occured while making request")
+          }
           return false;
         });
     };

@@ -111,8 +111,13 @@ export default function EnhancedTable({
         return true;
       })
       .catch((error) => {
-        alert("Network Error! Try Again");
-        console.log(error);
+        console.log(error.response);
+        if (error.response.data.detail === "Authentication credentials were not provided.") {
+            alert("Please Login First!");
+        }
+        else {
+            alert("Some Error Occured while making request")
+        }
         return false;
       });
   };
@@ -127,9 +132,14 @@ export default function EnhancedTable({
         setProjectDetails(new_project_details);
         return true;
       })
-      .catch((errors) => {
-        alert("Network Error! Start Server and Try Again");
-        console.log(errors);
+      .catch((error) => {
+        console.log(error.response);
+        if (error.response.data.detail === "Authentication credentials were not provided.") {
+            alert("Please Login First!");
+        }
+        else {
+            alert("Some Error Occured while making request")
+        }
         return false;
       });
   };
@@ -144,8 +154,15 @@ export default function EnhancedTable({
         setProjectDetails(new_project_details);
         console.log("Successfully Deleted! ", response);
       })
-      .catch((errors) => {
-        console.log(errors);
+      .catch((error) => {
+        console.log(error.response);
+        if (error.response.data.detail === "Authentication credentials were not provided.") {
+            alert("Please Login First!");
+        }
+        else {
+            alert("Some Error Occured while making request")
+        }
+        return false;
       });
   };
 

@@ -35,7 +35,7 @@ export default function EditDue({ title, obj, index, setEditingView, updateItem 
         // <form onSubmit={editItem}>
         <tr onKeyPress={(e) => { if (e.key === 'Enter') { editItem() } }}>
             <td>
-                <input style={{ paddingTop: '3px', paddingBottom: '3px' }} type="date" className="form-control" value={date} onChange={(e) => { setDate(e.target.value) }} placeholder="Date" />
+                <input autoFocus style={{ paddingTop: '3px', paddingBottom: '3px' }} type="date" className="form-control" value={date} onChange={(e) => { setDate(e.target.value) }} placeholder="Date" />
             </td>
             <td>
                 <input style={{ paddingTop: '3px', paddingBottom: '3px' }} type="number" className="form-control" value={amount} onChange={(e) => { setAmount(e.target.value) }} placeholder="Amount" />
