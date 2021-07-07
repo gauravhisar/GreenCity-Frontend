@@ -21,9 +21,15 @@ export default function Deal({ title, base_url, project_id, plot_details, setPlo
 			setPlotDetails({...plot_details, deal:null})
 			console.log("Successfully Deleted", response)
 		})
-		.catch((errors)=>{
-			alert(errors)
-			console.log(errors)
+		.catch((error)=>{
+			console.log(error.response);
+			if(error.response.data.detail === "Authentication credentials were not provided."){
+			alert("Please Login First!");
+			}
+			else{
+			alert("Some Error Occured while making request")
+			}
+			return false;
 		})
 	}
 

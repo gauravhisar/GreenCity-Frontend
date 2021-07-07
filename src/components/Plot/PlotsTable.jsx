@@ -41,7 +41,6 @@ function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
-    console.log("order", order);
     if (order !== 0) return order;
     return a[1] - b[1];
   });
@@ -376,20 +375,20 @@ export default function EnhancedTable({
                         <TableCell align="center" padding="none" style = {{cursor: "pointer"}} onClick = {()=>goToCustomerDetails(row)}>
                           {row.customer_name}
                         </TableCell>
-                        <TableCell align="center" padding="none">
+                        <TableCell align="center" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                           {row.total_commission_paid}
                         </TableCell>
-                        <TableCell align="left" padding="none">
+                        <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                           {row.balance}
                         </TableCell>
-                        <TableCell align="left" padding="none">
+                        <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                           {row.next_due_date
                             ? `${row.next_due_date.getDate()}-${
                                 row.next_due_date.getMonth() + 1
                               }-${row.next_due_date.getFullYear()}`
                             : null}
                         </TableCell>
-                        <TableCell align="left" padding="none">
+                        <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                           {row.next_payable_amount}
                         </TableCell>
                       </TableRow>

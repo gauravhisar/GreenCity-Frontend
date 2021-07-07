@@ -80,8 +80,8 @@ export default function Login() {
             localStorage.setItem('refresh_token', res.data.refresh);
             axiosAuthInstance.defaults.headers['Authorization'] = 
                 'Bearer ' + localStorage.getItem('access_token');
-            setUser(true)
-            history.goBack()
+            await setUser(true)
+            history.push('/')
             
         })
   }

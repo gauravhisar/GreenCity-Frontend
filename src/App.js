@@ -26,12 +26,7 @@ function App() {
       .substring(0, 10),
   }); 
 
-  const [user, setUser] = React.useState({
-    username: "",
-    fname: "",
-    lname: "",
-    email: ""
-  })
+  const [user, setUser] = React.useState(null)
   return (
     <div>
       <Router>

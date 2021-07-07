@@ -11,14 +11,14 @@ export default function Logout() {
     useEffect(()=>{
         axios.post(baseURL+ 'api/logout/', {
             refresh_token: localStorage.getItem('refresh_token')
-        }).then((response)=>{
+        }).then(async (response)=>{
             console.log("Successfully Logged Out",response)
             localStorage.removeItem('access_token')
             localStorage.removeItem('refresh_token')
             axios.defaults.headers['Authorization'] = null
-            setUser(null)
+            await setUser(null)
             // history.push('/')
-            history.goBack()
+            history.push('/')
         })
         .catch((err)=>{
             console.log(err.response)

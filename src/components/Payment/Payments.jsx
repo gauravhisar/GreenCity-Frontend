@@ -39,10 +39,15 @@ export default function Payments({ title, base_url, project_id,plot_details, set
                 setPlotDetails(new_plot_details)
                 return true
             })
-            .catch((errors) => {
-                alert("Network Error! Start Server and Try Again")
-                console.log(errors)
-                return false
+            .catch((error) => {
+                console.log(error.response);
+                if(error.response.data.detail === "Authentication credentials were not provided."){
+                alert("Please Login First!");
+                }
+                else{
+                alert("Some Error Occured while making request")
+                }
+                return false;
             })
     }
 
@@ -56,10 +61,15 @@ export default function Payments({ title, base_url, project_id,plot_details, set
                 setPlotDetails(new_plot_details)
                 return true
             })
-            .catch((errors) => {
-                alert("Network Error! Start Server and Try Again")
-                console.log(errors)
-                return false
+            .catch((error) => {
+                console.log(error.response);
+                if(error.response.data.detail === "Authentication credentials were not provided."){
+                alert("Please Login First!");
+                }
+                else{
+                alert("Some Error Occured while making request")
+                }
+                return false;
             })
     }
 
