@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../axios";
 import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -41,13 +41,15 @@ export default function Items({ title, base_url, ...props }) {
     axios
       .get(base_url + title.toLowerCase() + "/")
       .then((response) => {
+        console.log(response)
         setIsLoaded(true);
-        setList(response.data);
+        setList([...response.data]);
       })
       .catch((errors) => {
-        console.log(errors);
-        setIsLoaded(true);
-        setError(errors);
+        console.log("Network Error! ", errors.response);
+        setError(errors.response.data.detail);
+        setIsLoaded(false);
+        return false
       });
   }, [base_url, title]);
 
@@ -58,6 +60,7 @@ export default function Items({ title, base_url, ...props }) {
       .post(endpoint[title], new_obj)
       .then((response) => {
         console.log(response);
+
         // setCreateView(false)
         setList([...list, response.data]);
         return true;
@@ -89,7 +92,7 @@ export default function Items({ title, base_url, ...props }) {
         setList(new_list);
         return true;
       })
-      .catch((errors) => {
+      .catch((error) => {
         console.log(error.response);
         if(error.response.data.detail === "Authentication credentials were not provided."){
           alert("Please Login First!");
@@ -102,7 +105,7 @@ export default function Items({ title, base_url, ...props }) {
   };
 
   //DELETE
-  const deleteItem = (index, obj) => {
+  const deleteItem = (index, obj) => { // will be used for deletion of customers/dealers only not for projects
     // id,new_obj
     // alert("Deletion Not Compatible right now")
     axios
@@ -113,7 +116,7 @@ export default function Items({ title, base_url, ...props }) {
         new_list[index] = null;
         setList(new_list);
       })
-      .catch((errors) => {
+      .catch((error) => {
         console.log(error.response);
         if(error.response.data.detail === "Authentication credentials were not provided."){
           alert("Please Login First!");
@@ -149,7 +152,7 @@ export default function Items({ title, base_url, ...props }) {
       return (
         <tbody>
           <tr>
-            <td> Error: {error.message} </td>
+            <td> Error: {error} </td>
           </tr>
         </tbody>
       );

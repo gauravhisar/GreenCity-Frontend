@@ -1,8 +1,10 @@
 import React from 'react'
+import { UserContext } from "../Context"
 import { NavLink } from "react-router-dom";
 import PropTypes from 'prop-types'
 
 export default function Header(props) {
+    const { user } = React.useContext(UserContext)
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: "#e3f2fd" }}>
@@ -21,6 +23,12 @@ export default function Header(props) {
                             </li>
                             <li className="nav-item">
                                 <NavLink to="/dealers" className="nav-link" >Dealers</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                {user 
+                                ? <NavLink to="/logout" className="nav-link" >Logout</NavLink>
+                                : <NavLink to="/login" className="nav-link" >Login</NavLink>
+                            }
                             </li>
                             {/* <li className="nav-item">
                     <a className="nav-link disabled"  tabindex="-1" aria-disabled="true">Disabled</a>

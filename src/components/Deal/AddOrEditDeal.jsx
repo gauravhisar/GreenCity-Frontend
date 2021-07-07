@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import axios from "axios";
+import axios from "../../axios";
 
 export default function AddOrEditDeal({
   title,

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../axios';
 import React, { useState, Fragment } from 'react'
 import DueItem from './DueItem';
 import AddDue from './AddDue';

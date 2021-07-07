@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import axios from '../../axios'
 import { Link } from "react-router-dom"
 import TextField from '@material-ui/core/TextField';
 import AddorEditDeal from './AddOrEditDeal'

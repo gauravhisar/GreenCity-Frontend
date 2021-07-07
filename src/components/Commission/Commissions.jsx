@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../axios';
 import React, { useState,Fragment } from 'react'
 import CommissionItem from './CommissionItem';
 import AddCommission from './AddCommission';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../axios";
 import Button from '@material-ui/core/Button';
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";

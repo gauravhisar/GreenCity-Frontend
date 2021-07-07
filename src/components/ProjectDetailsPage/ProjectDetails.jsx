@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../axios";
 import Item from "../Project/Item";
 import PlotsTable from "../Plot/PlotsTable"
 
@@ -40,7 +40,7 @@ export default function ProjectDetails({ base_url, match }) {
         setProjectDetails(new_project_details);
         return true;
       })
-      .catch((errors) => {
+      .catch((error) => {
         console.log(error.response);
         if (error.response.data.detail === "Authentication credentials were not provided.") {
             alert("Please Login First!");

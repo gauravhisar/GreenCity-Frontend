@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../axios';
 import React, { useState,Fragment } from 'react'
 import PaymentItem from './PaymentItem';
 import AddPayment from './AddPayment';

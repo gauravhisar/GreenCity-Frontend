@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import axios from '../../axios'
 import { Link } from "react-router-dom"
 import Plot from './Plot'
 import AddOrEditDeal from '../Deal/AddOrEditDeal';

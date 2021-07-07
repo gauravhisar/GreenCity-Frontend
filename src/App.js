@@ -5,6 +5,8 @@ import {
   Route
 } from "react-router-dom"
 import Header from './components/Header'
+import Login from './components/Login'
+import Logout from './components/Logout'
 import ProjectDetails from './components/ProjectDetailsPage/ProjectDetails'
 import PlotDetails from './components/PlotDetailsPage/PlotDetails'
 import Items from './components/Project/Items'
@@ -39,7 +41,6 @@ function App() {
 
         <Switch>
             <Route exact path="/"          render={() => <Items title='Projects'  base_url={base_url} key='Projects'  />}></Route>
-            {/* <Route exact path="/login"          render={() => <Items title='Projects'  base_url={base_url} key='Projects'  />}></Route> */}
             <Route exact path="/projects"  render={() => <Items title='Projects'  base_url={base_url} key='Projects'  />}></Route>
             <Route exact path="/dealers"   render={() => <Items title='Dealers'   base_url={base_url} key='Dealers'   />}></Route>
             <Route exact path="/customers" render={() => <Items title='Customers' base_url={base_url} key='Customers' />}></Route>
@@ -52,7 +53,12 @@ function App() {
             <Route exact path="/projects/:project_id" render = {(props)=><ProjectDetails base_url = {base_url} match = {props.match}  />}></Route>
           </ProjectContext.Provider>
         </Switch>
-
+        <Switch>
+          <UserContext.Provider value = {{user,setUser}}>
+            <Route exact path="/login"          render={() => <Login title='Login'  base_url={base_url} key='Login'  />}></Route>
+            <Route exact path="/logout"          render={() => <Logout title='Logout'  base_url={base_url} key='Logout'  />}></Route>
+          </UserContext.Provider>
+        </Switch>
       </Router>
     </div>
   );
