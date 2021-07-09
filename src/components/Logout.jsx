@@ -7,7 +7,7 @@ const baseURL = 'http://localhost:8000/'
 export default function Logout() {
     const history = useHistory()
     const {setUser} = useContext(UserContext)
-
+    
     useEffect(()=>{
         axios.post(baseURL+ 'api/logout/', {
             refresh_token: localStorage.getItem('refresh_token')
@@ -25,7 +25,7 @@ export default function Logout() {
             alert(err)
         })
 
-    })
+    }, [history, setUser])
     return (
         <>Logout</>
     )

@@ -181,7 +181,7 @@ export default function Items({ title, base_url, ...props }) {
               );
             } else {
               return (
-                <React.Fragment key={("deleted - ", index)}></React.Fragment>
+                <React.Fragment key={"deleted - " + index}></React.Fragment>
               );
             }
           })}

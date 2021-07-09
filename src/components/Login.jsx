@@ -84,6 +84,17 @@ export default function Login() {
             history.push('/')
             
         })
+        .catch((error)=>{
+          console.log(error.response)
+          if(error.response.statusText === "Unauthorized"){
+            alert(error.response.data.details)
+            return 
+          }
+          else{
+            alert("Plese Enter Username and Password")
+            return
+          }
+        })
   }
 
   return (

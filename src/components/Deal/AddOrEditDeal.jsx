@@ -20,12 +20,13 @@ export default function AddOrEditDeal({
     id: "",
     name: "",
     contact_no: "",
+    other_info: ""
   };
 
   const [customer, setCustomer] = useState(null);
   const [dealer, setDealer] = useState(null);
   const [input_customer, setInputCustomer] = useState({ ...obj_schema });
-  const [input_dealer, setInputDealer] = useState({ ...obj_schema });
+  const [input_dealer, setInputDealer] = useState({...obj_schema});
 
   const [all_customers, setAllCustomers] = useState([]);
   const [all_dealers, setAllDealers] = useState([]);
@@ -88,11 +89,13 @@ export default function AddOrEditDeal({
       })
       .catch((error) => {
         console.log(error.response);
-        if(error.response.data.detail === "Authentication credentials were not provided."){
+        if (
+          error.response.data.detail ===
+          "Authentication credentials were not provided."
+        ) {
           alert("Please Login First!");
-        }
-        else{
-          alert("Some Error Occured while making request! Customer not saved!")
+        } else {
+          alert("Some Error Occured while making request! Customer not saved!");
         }
         return false;
       });
@@ -109,11 +112,13 @@ export default function AddOrEditDeal({
       })
       .catch((error) => {
         console.log(error.response);
-        if(error.response.data.detail === "Authentication credentials were not provided."){
+        if (
+          error.response.data.detail ===
+          "Authentication credentials were not provided."
+        ) {
           alert("Please Login First!");
-        }
-        else{
-          alert("Some Error Occured while making request! Customer Not Saved")
+        } else {
+          alert("Some Error Occured while making request! Customer Not Saved");
         }
         return false;
       });
@@ -133,11 +138,13 @@ export default function AddOrEditDeal({
         })
         .catch((error) => {
           console.log(error.response);
-          if(error.response.data.detail === "Authentication credentials were not provided."){
+          if (
+            error.response.data.detail ===
+            "Authentication credentials were not provided."
+          ) {
             alert("Please Login First!");
-          }
-          else{
-            alert("Some Error Occured while making request")
+          } else {
+            alert("Some Error Occured while making request");
           }
           return false;
         });
@@ -162,11 +169,13 @@ export default function AddOrEditDeal({
         })
         .catch((error) => {
           console.log(error.response);
-          if(error.response.data.detail === "Authentication credentials were not provided."){
+          if (
+            error.response.data.detail ===
+            "Authentication credentials were not provided."
+          ) {
             alert("Please Login First!");
-          }
-          else{
-            alert("Some Error Occured while making request")
+          } else {
+            alert("Some Error Occured while making request");
           }
           return false;
         });
@@ -176,8 +185,12 @@ export default function AddOrEditDeal({
 
   const addEditDeal = async (e) => {
     e.preventDefault();
-    if (input_customer.name.length === 0 || input_dealer.name.length === 0) {
-      alert("Enter Customer Name and Dealer Name");
+    if (input_customer.name.length === 0) {
+      alert("Enter Customer Name");
+      return;
+    }
+    if (input_dealer.name.length === 0) {
+      alert("Enter Dealer Name");
       return;
     }
     if (
@@ -203,9 +216,9 @@ export default function AddOrEditDeal({
     let add_dealer = false;
     if (customer === null) {
       // that is we have to add new customer
-      let customer_exists = all_customers.find((obj) => {
+      let customer_exists = input_customer.contact_no && all_customers.find((obj) => {
         return input_customer.contact_no === obj.contact_no;
-      });
+      })
       if (customer_exists) {
         alert(
           "Customer With this Contact Number Already Exists. Please Select it from drop down!"
@@ -230,7 +243,7 @@ export default function AddOrEditDeal({
 
     if (dealer === null) {
       // that is we have to add new customer
-      let dealer_exists = all_dealers.find((obj) => {
+      let dealer_exists = input_dealer.contact_no && all_dealers.find((obj) => {
         return input_dealer.contact_no === obj.contact_no;
       });
       if (dealer_exists) {
@@ -261,9 +274,7 @@ export default function AddOrEditDeal({
 
     if (add_customer) {
       const new_customer = { ...input_customer };
-      delete new_customer.contact_no;
       delete new_customer.id;
-      new_customer["contact_no"] = input_customer.contact_no;
       console.log(new_customer);
       await saveCustomer(new_customer).then((obj) => {
         deal.customer_id = obj.id;
@@ -310,11 +321,14 @@ export default function AddOrEditDeal({
                     getOptionLabel={(option) => option.name || ""}
                     value={customer}
                     onChange={(e, value, reason) => {
-                      setCustomer(value);
+                      // console.log(e,value,reason)
+                      reason === "select-option" && setCustomer(value);
                     }}
                     inputValue={input_customer.name}
                     onInputChange={(e, value) => {
-                      setInputCustomer({ ...input_customer, name: value });
+                      if ((e &&  e.type === "change")  || (!e && value)) {
+                        setInputCustomer({ ...input_customer, name: value });
+                      }
                     }}
                     renderInput={(params) => (
                       <TextField
@@ -340,13 +354,15 @@ export default function AddOrEditDeal({
                       .map((option) => option)}
                     getOptionLabel={(option) => option.contact_no || ""}
                     value={customer}
-                    onChange={(e, value, reason) => setCustomer(value)}
+                    onChange={(e, value, reason) => reason === "select-option" && setCustomer(value)}
                     inputValue={input_customer.contact_no || ""}
                     onInputChange={(e, value) => {
-                      setInputCustomer({
-                        ...input_customer,
-                        contact_no: value,
-                      });
+                      if ((e && e.type === "change")  || (!e && value)) {
+                        setInputCustomer({
+                          ...input_customer,
+                          contact_no: value,
+                        });
+                      }
                     }}
                     renderInput={(params) => (
                       <TextField
@@ -370,17 +386,20 @@ export default function AddOrEditDeal({
               <div className="row mb-3"> */}
                 <div className="col-sm-3" style={verticallyCenter}>
                   <Autocomplete
-                  autoHighlight
+                    autoHighlight
                     id="dealer_name"
                     freeSolo
                     fullWidth
                     options={all_dealers.map((option) => option)}
                     getOptionLabel={(option) => option.name || ""}
                     value={dealer}
-                    onChange={(e, value, reason) => setDealer(value)}
-                    inputValue={input_dealer.name || ""}
+                    onChange={(e, value, reason) => reason === "select-option" && setDealer(value)}
+                    inputValue={input_dealer.name}
                     onInputChange={(e, value) => {
-                      setInputDealer({ ...input_dealer, name: value });
+                      if ((e && e.type === "change")  || (!e && value)) {
+                        // console.log(input_dealer, dealer)
+                        setInputDealer({ ...input_dealer, name: value });
+                      }
                     }}
                     renderInput={(params) => (
                       <TextField
@@ -404,10 +423,12 @@ export default function AddOrEditDeal({
                       .map((option) => option)}
                     getOptionLabel={(option) => option.contact_no || ""}
                     value={dealer}
-                    onChange={(e, value, reason) => setDealer(value)}
+                    onChange={(e, value, reason) => reason === "select-option" && setDealer(value)}
                     inputValue={input_dealer.contact_no || ""}
                     onInputChange={(e, value) => {
-                      setInputDealer({ ...input_dealer, contact_no: value });
+                      if ((e && e.type === "change")  || (!e && value)) {
+                        setInputDealer({ ...input_dealer, contact_no: value });
+                      }
                     }}
                     renderInput={(params) => (
                       <TextField

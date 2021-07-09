@@ -26,7 +26,21 @@ function App() {
       .substring(0, 10),
   }); 
 
-  const [user, setUser] = React.useState(null)
+  const [user, setUser] = React.useState(()=>{
+    const refreshToken = localStorage.getItem("refresh_token")
+    if (!refreshToken) return false;
+    const payload = JSON.parse(atob(refreshToken.split(".")[1]))
+    // console.log(new Date(payload.exp*1000), new Date(now))
+    if (payload.exp*1000 > new Date().getTime()){
+      console.log("Refresh Token Valid! Logged in")
+      return true
+    }
+    else{
+      console.log("Refresh Token Not Valid! Logged Out")
+      return false
+    }
+
+  })
   return (
     <div>
       <Router>

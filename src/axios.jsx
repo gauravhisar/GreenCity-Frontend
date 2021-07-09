@@ -53,15 +53,15 @@ axios.interceptors.response.use(
       if (refreshToken) {
         const tokenParts = JSON.parse(atob(refreshToken.split(".")[1])); // decoding payload of the JWT token
 
-        const now = Math.ceil(Date.now() / 1000);
-        console.log(tokenParts.exp);
+        const now = Math.ceil(Date.now());
 
-        if (tokenParts.exp > now) {
+        if (tokenParts.exp*1000 > now) {
           return axios
             .post(baseURL + "api/token/refresh/", { refresh: refreshToken })
             .then((response) => {
               localStorage.setItem("access_token", response.data.access);
               localStorage.setItem("refresh_token", response.data.refresh);
+              console.log("New Tokens are fetched")
 
               axios.defaults.headers["Authorization"] =
                 "Bearer " + response.data.access;
@@ -75,7 +75,7 @@ axios.interceptors.response.use(
               console.log(error.request);
             });
         } else {
-          console.log("Refresh token is expired", tokenParts.exp, now);
+          console.log("Refresh token is expired", tokenParts.exp*1000, now);
           window.location.href = "/login";
         }
       } else {
