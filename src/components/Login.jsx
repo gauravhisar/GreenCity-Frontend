@@ -87,7 +87,7 @@ export default function Login() {
         .catch((error)=>{
           console.log(error.response)
           if(error.response.statusText === "Unauthorized"){
-            alert(error.response.data.details)
+            alert(error.response.data.detail)
             return 
           }
           else{

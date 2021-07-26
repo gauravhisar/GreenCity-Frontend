@@ -52,7 +52,11 @@ const InlineCreateForm = ({ setCurrentlyCreating, saveItem }) => {
     if (!plot.area) {
       alert("Enter Area! If not sure enter any value");
       return;
-    } else {
+    }
+    else {
+      if (!plot.plc){
+        plot.plc = 0
+      } 
       saveItem({ ...plot }).then((success) => {
         if (success) {
           inputRef.current.focus()
@@ -96,6 +100,8 @@ const InlineCreateForm = ({ setCurrentlyCreating, saveItem }) => {
             style={{ cursor: "pointer" }}
           />
         </TableCell>
+        <TableCell ></TableCell>
+        <TableCell ></TableCell>
         <TableCell padding="none">
           <TextField
           inputRef = {inputRef}
@@ -189,6 +195,8 @@ export default function InlineEditingForm({ obj, setEditIdx, updateItem }) {
           style={{ cursor: "pointer" }}
         />
       </TableCell>
+      <TableCell></TableCell>
+      <TableCell></TableCell>
       <TableCell padding="none" onKeyUp={handleKeyPress}>
         <TextField
         autoFocus

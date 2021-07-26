@@ -7,7 +7,7 @@ export default function Payments({ title, base_url, project_id,plot_details, set
 
 
     const payments_endpoint = base_url + `projects/${project_id}/deals/${plot_details.deal.id}/payments/`
-    const table_schema = ['Date', 'Interest Given', 'Rebate', 'Net Amount Paid']
+    const table_schema = ['Date', 'Interest Given', 'Rebate', 'Net Amount Received']
 
     const [create_view, setCreateView] = useState(false)
 
@@ -18,6 +18,9 @@ export default function Payments({ title, base_url, project_id,plot_details, set
                 console.log(response.data)
                 const new_plot_details = { ...plot_details }
                 new_plot_details.deal.payments.push(response.data)
+                // new_plot_details.deal.total_interest_given += response.data.interest_given
+                // new_plot_details.deal.total_rebate += response.data.rebate
+                // new_plot_details.deal.total_amount_paid += response.data.net_amount_paid
                 setPlotDetails(new_plot_details)
                 return true
             })

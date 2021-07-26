@@ -111,7 +111,7 @@ export default function EnhancedTable({
       })
       .catch((error) => {
         console.log(error.response);
-        if (error.response.data.detail === "Authentication credentials were not provided.") {
+        if (error.response && error.response.data.detail === "Authentication credentials were not provided.") {
             alert("Please Login First!");
         }
         else {
@@ -254,6 +254,7 @@ export default function EnhancedTable({
           numSelected={selected.length}
           setCurrentlyCreating={setCurrentlyCreating}
           deleteMultipleItems={deleteMultipleItems}
+          totalPlots = {project_details.total_plots}
           plots={plots}
           rows={rows}
           setRows={setRows}
@@ -344,8 +345,14 @@ export default function EnhancedTable({
                                 }}
                               />
                             </TableCell>
-                           
+                            <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick = {()=>goToCustomerDetails(row)}>
+                              {row.customer_name}
+                            </TableCell>
+                            <TableCell align="left" padding="none" style = {{cursor: "pointer"}}  onClick = {()=>goToDealerDetails(row)}>
+                              {row.dealer_name}
+                            </TableCell>
                               <TableCell
+                                align = "right"
                                 component="th"
                                 id={labelId}
                                 scope="row"
@@ -355,40 +362,43 @@ export default function EnhancedTable({
                               >
                                 {row.plot_no}
                               </TableCell>
-                              <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                              <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                                 {row.area}
                               </TableCell>
-                              <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                              <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                                 {row.rate}
                               </TableCell>
-                              <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                              <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                                 {row.plc}
                               </TableCell>
                           </>
                         )}
-                        <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                        <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                           {row.amount}
                         </TableCell>
-                        <TableCell align="center" padding="none" style = {{cursor: "pointer"}}  onClick = {()=>goToDealerDetails(row)}>
-                          {row.dealer_name}
-                        </TableCell>
-                        <TableCell align="center" padding="none" style = {{cursor: "pointer"}} onClick = {()=>goToCustomerDetails(row)}>
-                          {row.customer_name}
-                        </TableCell>
-                        <TableCell align="center" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                        <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                           {row.total_commission_paid}
                         </TableCell>
-                        <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                        <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                          {row.total_rebate}
+                          </TableCell>
+                          <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                          {row.total_interest_given}
+                        </TableCell>
+                        <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                          {row.total_amount_received}
+                        </TableCell>
+                        <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                           {row.balance}
                         </TableCell>
-                        <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                        <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                           {row.next_due_date
                             ? `${row.next_due_date.getDate()}-${
                                 row.next_due_date.getMonth() + 1
                               }-${row.next_due_date.getFullYear()}`
                             : null}
                         </TableCell>
-                        <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                        <TableCell align="right" padding="none" style = {{cursor: "pointer", paddingRight: "40px"}} onClick={() => goToPlotDetails(row)}>
                           {row.next_payable_amount}
                         </TableCell>
                       </TableRow>

@@ -15,38 +15,10 @@ const headCells = [
       align: "left",
     },
     {
-      id: "plot_no",
-      numeric: true,
-      disablePadding: true,
-      label: "PlotNo",
-      align: "left",
-    },
-    {
-      id: "area",
-      numeric: true,
-      disablePadding: true,
-      label: "Area",
-      align: "left",
-    },
-    {
-      id: "rate",
-      numeric: true,
-      disablePadding: true,
-      label: "Rate",
-      align: "left",
-    },
-    {
-      id: "plc",
-      numeric: true,
-      disablePadding: true,
-      label: "PLC",
-      align: "left",
-    },
-    {
-      id: "amount",
-      numeric: true,
-      disablePadding: true,
-      label: "Amount",
+      id: "customer_name",
+      numeric: false,
+      disablePadding: false,
+      label: "Customer",
       align: "left",
     },
     {
@@ -54,42 +26,94 @@ const headCells = [
       numeric: false,
       disablePadding: false,
       label: "Dealer",
-      align: "center",
+      align: "left",
     },
     {
-      id: "customer_name",
-      numeric: false,
+      id: "plot_no",
+      numeric: true,
       disablePadding: false,
-      label: "Customer",
-      align: "center",
+      label: "PlotNo",
+      align: "right",
+    },
+    {
+      id: "area",
+      numeric: true,
+      disablePadding: true,
+      label: "Area",
+      align: "right",
+    },
+    {
+      id: "rate",
+      numeric: true,
+      disablePadding: true,
+      label: "Rate",
+      align: "right",
+    },
+    {
+      id: "plc",
+      numeric: true,
+      disablePadding: true,
+      label: "PLC",
+      align: "right",
+    },
+    {
+      id: "amount",
+      numeric: true,
+      disablePadding: true,
+      label: "Amount",
+      align: "right",
     },
     {
       id: "total_commission_paid",
       numeric: true,
       disablePadding: true,
       label: "Commission",
-      align: "center",
+      align: "right",
+    },
+    {
+      id: "total_rebate",
+      numeric: true,
+      disablePadding: true,
+      label: "Rebate",
+      align: "right",
+    },
+    {
+      id: "total_interest_given",
+      numeric: true,
+      disablePadding: true,
+      label: "Interest Given",
+      align: "right",
+    },
+    {
+      id: "total_amount_received",
+      numeric: true,
+      disablePadding: true,
+      label: "Amount Received",
+      align: "right",
     },
     {
       id: "balance",
       numeric: true,
       disablePadding: false,
       label: "Balance",
-      align: "left",
+      align: "right",
     },
     {
       id: "next_due_date",
       numeric: true,
-      disablePadding: false,
-      label: "Next Due Date",
-      align: "left",
+      disablePadding: true,
+      // paddingLeft: "8px",
+      label: "Next DueDate",
+      align: "right",
     },
     {
       id: "next_payable_amount",
       numeric: true,
       disablePadding: false,
+      paddingRight: "40px",
+      // paddingLeft
       label: "Payable Amount",
-      align: "left",
+      align: "right",
     },
   ];
   
@@ -125,7 +149,7 @@ export default function EnhancedTableHead(props) {
               align={headCell.align}
               // padding={headCell.disablePadding ? 'none' : 'default'}
               padding="none"
-              style={{ fontWeight: "bold" }}
+              style={{ fontWeight: "bold", paddingRight: headCell.paddingRight }}
               sortDirection={orderBy === headCell.id ? order : false}
             >
               <TableSortLabel

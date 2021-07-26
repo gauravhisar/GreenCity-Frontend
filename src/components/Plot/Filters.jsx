@@ -39,16 +39,20 @@ export default function Filters({ plots, rows, setRows }) {
   useEffect(() => {
     let new_rows = [...plots];
     new_rows.forEach((row) => {
-      row.plot_no = Number(row.plot_no)
+      // row.plot_no = row.plot_no
       if (row.deal) {
         row.balance = row.deal.balance;
         row.dealer_name = row.deal.dealer.name;
         row.customer_name = row.deal.customer.name;
         row.total_commission_paid = row.deal.total_commission_paid;
+        row.total_interest_given = row.deal.total_interest_given;
+        row.total_rebate = row.deal.total_rebate; 
+        row.total_amount_received = row.deal.total_amount_paid
+        // row.total_amount_received = row.deal.total_amount_paid;
         if (row.deal.unpaid_dues.length) {
-          row.next_due_date = row.deal.unpaid_dues[0].due_date;
+          // row.next_due_date = row.deal.unpaid_dues[0].due_date;
           row.next_due_date = new Date(row.deal.unpaid_dues[0].due_date);
-          row.next_payable_amount = row.deal.unpaid_dues[0].payable_amount;
+          row.next_payable_amount = row.deal.unpaid_dues[0].payable_amount - row.deal.unpaid_dues[0].paid;
         } else {
           row.next_due_date = null;
           row.next_payable_amount = null;
@@ -58,6 +62,9 @@ export default function Filters({ plots, rows, setRows }) {
         row.dealer_name = null;
         row.customer_name = null;
         row.total_commission_paid = null;
+        row.total_interest_given = null;
+        row.total_rebate = null; 
+        row.total_amount_received = null;
       }
     });
     setRows(new_rows);

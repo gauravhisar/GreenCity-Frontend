@@ -109,11 +109,13 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 							</div> */}
 							{
 								editing_view === false
-								? <div style={{ textAlign: 'right' }}>
+								?
+								// <div style={{ textAlign: 'right' }}>
+									<div className="col-sm-2">
 										<button onClick={(e) => { e.preventDefault(); setEditingView(true) }} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-primary">Edit</button>
 										<button onClick={() => deleteItem()} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-danger">Delete</button>
 									</div>
-									: <div style={{ textAlign: 'right' }}>
+									: <div className="col-sm-2">
 										<button onClick={editItem} style={{ margin: '5px 5px' }} type='submit' className="btn btn-sm btn-primary">&nbsp;Save&nbsp;&nbsp;</button>
 										<button onClick={(e) => { e.preventDefault(); setEditingView(false); }} style={{ margin: '5px 5px' }} className="btn btn-sm btn-danger">Cancel</button>
 									</div>
