@@ -90,9 +90,13 @@ export default function EnhancedTable({
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(0);
 
   const saveItem = (new_obj) => {
+    if (project_details.total_plots === plots.length){
+      alert("Number of Plots Limit Reached")
+      return Promise.resolve(false)
+    }
     return axios
       .post(endpoint, new_obj)
       .then((response) => {
@@ -414,7 +418,7 @@ export default function EnhancedTable({
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[0, 5, plots.length]}
+          rowsPerPageOptions={[0, plots.length]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}

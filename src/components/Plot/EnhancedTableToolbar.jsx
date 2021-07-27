@@ -153,7 +153,7 @@ export default function EnhancedTableToolbar(props) {
             </Tooltip>
             <Tooltip title="Add Plot">
               <IconButton
-                disabled = {rows.length === totalPlots}
+                disabled = {plots.length === totalPlots}
                 aria-label="add plot"
                 onClick={() => {
                   setCurrentlyCreating(true);

@@ -303,6 +303,30 @@ export default function AddOrEditDeal({
 
   const verticallyCenter = { display: "flex", alignItems: "center" };
 
+  const handlePersonChange = (e,value,reason, field, person, input_person, setPerson ) => { // create-option, select-option, remove-option, clear, blur
+    console.log("Change",value,reason)
+    if (reason !== "create-option"){
+      setPerson(value)
+    }
+    console.log(person, input_person)
+  }
+  const handleInputPersonChange = (e,value,reason, field, person, input_person, setInputPerson ) => { // input, reset, clear
+    console.log("some")
+    console.log("Input Change",e && e.type,  value, reason)
+    if (reason === "clear"){
+      setInputPerson({id:"", name: "", contact_no: "", other_info: ""})
+    }
+    else if ((e &&  e.type === "change")  || (!e && value)) {
+      if (reason === 'reset'){
+        setInputPerson({...person})
+      }
+      else{
+        setInputPerson({ ...input_person, [field]: value })
+      }
+    }
+      console.log(person, input_person)
+  }
+
   return (
     <>
       <div className="card col-lg-11 mx-4 my-3">
@@ -320,16 +344,9 @@ export default function AddOrEditDeal({
                     options={all_customers.map((option) => option)}
                     getOptionLabel={(option) => option.name || ""}
                     value={customer}
-                    onChange={(e, value, reason) => {
-                      // console.log(e,value,reason)
-                      reason === "select-option" && setCustomer(value);
-                    }}
+                    onChange={(e, value, reason) => {handlePersonChange(e,value,reason, "name", customer, input_customer, setCustomer)}}
                     inputValue={input_customer.name}
-                    onInputChange={(e, value) => {
-                      if ((e &&  e.type === "change")  || (!e && value)) {
-                        setInputCustomer({ ...input_customer, name: value });
-                      }
-                    }}
+                    onInputChange={(e, value,reason) => {handleInputPersonChange(e,value,reason, "name", customer, input_customer, setInputCustomer)}}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -354,16 +371,17 @@ export default function AddOrEditDeal({
                       .map((option) => option)}
                     getOptionLabel={(option) => option.contact_no || ""}
                     value={customer}
-                    onChange={(e, value, reason) => reason === "select-option" && setCustomer(value)}
+                    onChange={(e, value, reason) => {handlePersonChange(e,value,reason, "contact_no", customer, input_customer, setCustomer)}}
                     inputValue={input_customer.contact_no || ""}
-                    onInputChange={(e, value) => {
-                      if ((e && e.type === "change")  || (!e && value)) {
-                        setInputCustomer({
-                          ...input_customer,
-                          contact_no: value,
-                        });
-                      }
-                    }}
+                    onInputChange={(e, value,reason) => {handleInputPersonChange(e,value,reason, "contact_no", customer, input_customer, setInputCustomer)}}
+                    // onInputChange={(e, value) => {
+                    //   if ((e && e.type === "change")  || (!e && value)) {
+                    //     setInputCustomer({
+                    //       ...input_customer,
+                    //       contact_no: value,
+                    //     });
+                    //   }
+                    // }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -393,14 +411,9 @@ export default function AddOrEditDeal({
                     options={all_dealers.map((option) => option)}
                     getOptionLabel={(option) => option.name || ""}
                     value={dealer}
-                    onChange={(e, value, reason) => reason === "select-option" && setDealer(value)}
+                    onChange={(e, value, reason) => {handlePersonChange(e,value,reason, "name", dealer, input_dealer, setDealer)}}
                     inputValue={input_dealer.name}
-                    onInputChange={(e, value) => {
-                      if ((e && e.type === "change")  || (!e && value)) {
-                        // console.log(input_dealer, dealer)
-                        setInputDealer({ ...input_dealer, name: value });
-                      }
-                    }}
+                    onInputChange={(e, value,reason) => {handleInputPersonChange(e,value,reason, "name", dealer, input_dealer, setInputDealer)}}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -423,13 +436,9 @@ export default function AddOrEditDeal({
                       .map((option) => option)}
                     getOptionLabel={(option) => option.contact_no || ""}
                     value={dealer}
-                    onChange={(e, value, reason) => reason === "select-option" && setDealer(value)}
+                    onChange={(e, value, reason) => {handlePersonChange(e,value,reason, "contact_no", dealer, input_dealer, setDealer)}}
                     inputValue={input_dealer.contact_no || ""}
-                    onInputChange={(e, value) => {
-                      if ((e && e.type === "change")  || (!e && value)) {
-                        setInputDealer({ ...input_dealer, contact_no: value });
-                      }
-                    }}
+                    onInputChange={(e, value,reason) => {handleInputPersonChange(e,value,reason, "contact_no", dealer, input_dealer, setInputDealer)}}
                     renderInput={(params) => (
                       <TextField
                         {...params}

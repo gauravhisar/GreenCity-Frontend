@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router';
 import axios from '../../axios'
-import { Link } from "react-router-dom"
 import TextField from '@material-ui/core/TextField';
 import AddorEditDeal from './AddOrEditDeal'
+import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 
 export default function Deal({ title, base_url, project_id, plot_details, setPlotDetails, index }) {
 
 	const deal_endpoint      = base_url + `projects/${project_id}/deals/${plot_details.deal.id}/`
+	const history = useHistory()
 	// const customers_endpoint = base_url + `customers/`
 	// const customer_endpoint = `${plot_details.deal.customer.id}/`
 	// const dealers_endpoint = base_url + `dealers/`
 	// const dealer_endpoint = `${plot_details.deal.dealer.id}/`
 
 	const [editing_view, setEditingView] = useState(false)
+	const [currentlyDeleting, setCurrentlyDeleting] = useState(false)
 
 	const deleteItem = (e) => {
 		e.preventDefault()
@@ -33,6 +36,34 @@ export default function Deal({ title, base_url, project_id, plot_details, setPlo
 		})
 	}
 
+	const WarningDialog = () => {
+		const handleClose = () => {
+			setCurrentlyDeleting(false)
+		}
+	  return (
+		<>
+		  <Dialog
+			open={currentlyDeleting}
+			onClose={handleClose}
+			aria-labelledby="alert-dialog-title"
+			aria-describedby="alert-dialog-description"
+		  >
+			<DialogTitle id="alert-dialog-title">
+			  {"Are you sure?"}
+			</DialogTitle>
+			<DialogActions>
+			  <Button onClick={handleClose} color="primary" autoFocus>
+				No
+			  </Button>
+			  <Button onClick={deleteItem} color="primary">
+				Yes
+			  </Button>
+			</DialogActions>
+		  </Dialog>
+		</>
+	  );
+	};
+
 	const verticallyCenter = { display: 'flex', alignItems: 'center' }
 
 	if (editing_view){
@@ -41,35 +72,26 @@ export default function Deal({ title, base_url, project_id, plot_details, setPlo
 	else {
 		return (
 			<>
+				<WarningDialog/>
 				<div className="card col-lg-11 mx-4 my-2">
 					<div className="card-body">
 						<h5 className="card-title border-bottom pb-2">Deal</h5>
 						<div className="card-text">
 							<form>
 								<div className="row mb-3">
-									<div className="col-sm-2" style={verticallyCenter}>
+									<div className="col-sm-2" style={verticallyCenter} onClick = {()=>{ history.push(`/customers/${plot_details.deal.customer.id}`) }}>
 										<TextField label="Customer Name" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.customer.name} />
 									</div>
 									<div className="col-sm-2" style={verticallyCenter}>
-										<TextField label="Customer Contact" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.customer.contact_no} />
-									</div>
-									<div className="col-sm-2" style = {verticallyCenter}>
-										<Link to = {`/customers`}>
-											<button className = "btn btn-sm btn-secondary">Edit Customer</button>
-										</Link>
+										<TextField label="Customer Contact" InputProps={{ readOnly: true }} InputLabelProps={{ shrink: true}} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.customer.contact_no} />
 									</div>
 								{/* </div>
 								<div className="row mb-3"> */}
-									<div className="col-sm-2" style={verticallyCenter}>
+									<div className="col-sm-2" style={verticallyCenter} onClick = {()=>{ history.push(`/dealers/${plot_details.deal.dealer.id}`)}}>
 										<TextField label="Dealer Name" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.dealer.name} />
 									</div>
 									<div className="col-sm-2" style={verticallyCenter}>
-										<TextField label="Dealer Contact" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.dealer.contact_no} />
-									</div>
-									<div className="col-sm-2" style = {verticallyCenter}>
-										<Link to = {`/dealers`}>
-											<button className = "btn btn-sm btn-secondary"> Edit Dealer </button>
-										</Link>
+										<TextField label="Dealer Contact" InputProps={{ readOnly: true}} InputLabelProps={{ shrink: true}} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.dealer.contact_no} />
 									</div>
 								</div>
 								<div className="row mb-3">
@@ -88,10 +110,12 @@ export default function Deal({ title, base_url, project_id, plot_details, setPlo
 									<div className="col-sm-2" style={verticallyCenter}>
 										<TextField label="Balance" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.balance} />
 									</div>
-								</div>
-								<div style={{ textAlign: 'right' }}>
-									<button onClick={(e) => { e.preventDefault(); setEditingView(true) }} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-primary">Edit</button>
-									<button onClick={(e) => deleteItem(e)} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-danger">Delete</button>
+									<div className="col-sm-2" style={{ textAlign: 'right' }}>
+										<button onClick={(e) => { e.preventDefault(); setEditingView(true) }} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-primary">Edit</button>
+									{/* </div>
+									<div className="col-sm-1" style={{ textAlign: 'right' }}> */}
+										<button onClick={(e) => { e.preventDefault(); setCurrentlyDeleting(true)}} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-danger">Delete</button>
+									</div>
 								</div>
 							</form>
 						</div>

@@ -100,7 +100,7 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 									<TextField label="Rate" InputProps={{ readOnly: !editing_view }} margin="dense" size="small" color="primary" variant="standard" value={rate || ""} onChange={(e) => setRate(e.target.value)}/>
 								</div>
 								<div className="col-sm-2" style={verticallyCenter}>
-									<TextField label="PLC" InputProps={{ readOnly: !editing_view }} margin="dense" size="small" color="primary" variant="standard" value={plc || ""} onChange={(e) => setPlc(e.target.value)}/>
+									<TextField label="PLC" InputProps={{ readOnly: !editing_view }} InputLabelProps={{ shrink: true}} margin="dense" size="small" color="primary" variant="standard" value={plc || ""} onChange={(e) => setPlc(e.target.value)}/>
 								</div>
 								<div className="col-sm-2" style={verticallyCenter}>
 									<TextField label="Amount" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={amount || ""} onChange={(e) => setAmount(e.target.value)} />
