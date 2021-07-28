@@ -195,8 +195,12 @@ export default function InlineEditingForm({ obj, setEditIdx, updateItem }) {
           style={{ cursor: "pointer" }}
         />
       </TableCell>
-      <TableCell></TableCell>
-      <TableCell></TableCell>
+      <TableCell align="left" padding="none" style = {{cursor: "pointer"}} >
+          {obj.customer_name}
+        </TableCell>
+        <TableCell align="left" padding="none" style = {{cursor: "pointer"}}>
+          {obj.dealer_name}
+        </TableCell>
       <TableCell padding="none" onKeyUp={handleKeyPress}>
         <TextField
         autoFocus

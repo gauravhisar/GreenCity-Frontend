@@ -9,6 +9,13 @@ export default function ProjectDetails({ base_url, match }) {
   const endpoint = base_url + "projects/" + project_id + "/";
 
   const [project_details, setProjectDetails] = useState({ plots: {} });
+  const [aggregates, setAggregates] = useState({
+    plots_sold: 0,
+    area_sold: 0,
+    plots_left: 0,
+    area_left: 0,
+  })
+
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -26,6 +33,27 @@ export default function ProjectDetails({ base_url, match }) {
         console.log(errors);
       });
   }, [endpoint]);
+
+  
+  React.useEffect(()=>{
+    let plot_list = Object.values(project_details.plots)
+    let new_agg = {
+      plots_sold: 0,
+      area_sold: 0,
+      plots_left: 0,
+      area_left: 0,
+    }
+    plot_list.forEach((plot)=>{
+      if (plot.deal){
+        new_agg.plots_sold += 1
+        new_agg.area_sold += plot.area
+      }
+    })
+    new_agg.plots_left = project_details.total_plots - new_agg.plots_sold
+    new_agg.area_left = project_details.total_area - new_agg.area_sold
+    setAggregates(new_agg)
+  }, [project_details])
+
 
   // PUT
   const updateItem = (id, index, new_obj) => {
@@ -72,7 +100,7 @@ export default function ProjectDetails({ base_url, match }) {
       return (
         <Item
           title="Projects"
-          obj={project_details}
+          obj={{...project_details, ...aggregates}}
           index={project_details.id}
           updateItem={updateItem}
           deleteItem={deleteItem}

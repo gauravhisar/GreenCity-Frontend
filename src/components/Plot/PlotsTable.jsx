@@ -91,7 +91,65 @@ export default function EnhancedTable({
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(0);
+  const [aggregates, setAggregates] = React.useState({
+    total_plots: 0,
+    total_area: 0,
+    total_amount: 0,
+    total_commission: 0,
+    total_rebate: 0,
+    total_interest_given: 0,
+    total_amount_received: 0,
+    total_balance: 0,
+    total_payable_amount: 0
+  })
 
+  React.useEffect(() => {
+    setPlots([...Object.values(project_details.plots)]);
+  }, [project_details]);
+
+  React.useEffect(() => {
+    setRowsPerPage(plots.length);
+  }, [plots]);
+
+  
+React.useEffect(()=>{
+  let plot_list = [...rows]
+  // console.log("2nd UseEffect", plot_list)
+  const new_aggregates = {
+    total_plots: 0,
+    total_area: 0,
+    total_amount: 0,
+    total_commission: 0,
+    total_rebate: 0,
+    total_interest_given: 0,
+    total_amount_received: 0,
+    total_balance: 0,
+    total_payable_amount: 0
+  }
+  if (plot_list.length){
+    plot_list.forEach((plot)=>{
+      new_aggregates.total_plots += 1
+      new_aggregates.total_area += plot.area
+      new_aggregates.total_amount += plot.amount
+      if (plot.deal){
+        new_aggregates.total_commission += plot.deal.total_commission_paid
+        new_aggregates.total_rebate += plot.deal.total_rebate
+        new_aggregates.total_interest_given += plot.deal.total_interest_given
+        new_aggregates.total_amount_received += plot.deal.total_amount_paid
+        new_aggregates.total_balance += plot.deal.balance
+        // new_aggregates.total_payable_amount += plot.deal.unpaid
+      }
+    })
+    // new_aggregates.total_area = plot_list.length && plot_list.reduce((accumulator, currentValue)=>{
+    //   return accumulator + currentValue.area
+    // })
+    // new_aggregates.total_amont
+    
+  }
+  setAggregates(new_aggregates)
+
+}, [rows])
+  
   const saveItem = (new_obj) => {
     if (project_details.total_plots === plots.length){
       alert("Number of Plots Limit Reached")
@@ -106,6 +164,8 @@ export default function EnhancedTable({
         // new_project_details.total_area += response.data.area
         setProjectDetails({
           ...project_details,
+          // total_area: project_details.total_area + response.data.area,
+          // total_plots: project_details.total_plots + 1,
           plots: {
             ...project_details.plots,
             [response.data.id]: response.data,
@@ -177,12 +237,6 @@ export default function EnhancedTable({
     setSelected([]);
   };
 
-  React.useEffect(() => {
-    setPlots([...Object.values(project_details.plots)]);
-  }, [project_details]);
-  React.useEffect(() => {
-    setRowsPerPage(plots.length);
-  }, [plots]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -409,16 +463,52 @@ export default function EnhancedTable({
                     );
                   }
                 })}
+                <TableRow>
+                  <TableCell padding="checkbox"></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell align = "right" padding = "none">
+                    {`#${aggregates.total_plots}`}
+                  </TableCell>
+                  <TableCell align = "right" padding = "none">
+                    {aggregates.total_area}
+                  </TableCell>
+                  <TableCell align = "right" padding = "none"></TableCell>
+                  <TableCell align = "right" padding = "none"></TableCell>
+                  <TableCell align = "right" padding = "none">
+                    {aggregates.total_amount}
+                  </TableCell>
+                  <TableCell align = "right" padding = "none">
+                    {aggregates.total_commission}
+                  </TableCell>
+                  <TableCell align = "right" padding = "none">
+                    {aggregates.total_rebate}
+                  </TableCell>
+                  <TableCell align = "right" padding = "none">
+                    {aggregates.total_interest_given}
+                  </TableCell>
+                  <TableCell align = "right" padding = "none">
+                    {aggregates.total_amount_received}
+                  </TableCell>
+                  <TableCell align = "right" padding = "none">
+                    {aggregates.total_balance}
+                  </TableCell>
+                  <TableCell align = "right" padding = "none"></TableCell>
+                  <TableCell align = "right" padding = "none" style = {{paddingRight: "40px"}}>
+                    {/* {aggregates.total_payable_amount} */}
+                  </TableCell>
+                </TableRow>
               {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
+                <TableRow style={{ height: (dense ? 33 : 43) * emptyRows }}>
+                  <TableCell colSpan={16} />
                 </TableRow>
               )}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[0, plots.length]}
+          rowsPerPageOptions={[0, plots.length-1,plots.length, plots.length+1]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}

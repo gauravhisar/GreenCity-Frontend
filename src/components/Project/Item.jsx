@@ -12,12 +12,9 @@ export default function Item({ title, obj, index, updateItem, deleteItem }) {
 
     const displayDetails = () => {
         let fields = Object.keys(obj)
-        fields.shift() // to remove id
-        fields.shift() // to remove name
-        if (fields[fields.length - 1] === "plots" || fields[fields.length - 1] === "deal") {
-            // incase of put requests, someextra fields will be there in the response, so we need to remove them
-            fields.pop()
-        }
+        fields = fields.filter((field)=>{
+            return !["id","name", "plots", "deal"].find((a)=>a===field)
+        })
 
         function goToDetailsPage(){
             history.push(`/${title.toLowerCase()}/${obj.id}`)
