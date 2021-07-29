@@ -99,7 +99,7 @@ export default function Payments({ title, base_url, project_id,plot_details, set
                         return <PaymentItem key={obj.id} index={index} project_id={project_id} title={title} obj={obj} base_url={base_url} updateItem={updateItem} deleteItem={deleteItem} />
                     }
                     else{
-                        return <Fragment key = {"deleted - " + index}></Fragment>
+                        return <Fragment key = {"deleted-" + index}></Fragment>
                     }
                 })}
             </tbody>
@@ -108,7 +108,7 @@ export default function Payments({ title, base_url, project_id,plot_details, set
 
 
     return (
-        <div className="card col-xl-9 mx-4">
+        <div className="card col-xl-9 mx-4 my-2">
         <div className="card-body">
             <h5 className="card-title border-bottom pb-2"> {title} </h5>
             <div className="card-text">

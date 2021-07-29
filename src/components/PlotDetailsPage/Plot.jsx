@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from '../../axios'
 import TextField from '@material-ui/core/TextField';
+import { useHistory } from 'react-router-dom';
+import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 
 
 export default function Plot({ title, base_url, project_id, plot_details, setPlotDetails, index }) {
@@ -8,7 +10,9 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 	const endpoint = base_url + `projects/${project_id}/plots/${plot_details.id}/`
 
 	const [editing_view, setEditingView] = useState(false)
+	const [currentlyDeleting, setCurrentlyDeleting] = useState(false)
 	const inputRef = React.useRef(null)
+	const history = useHistory()
 
 	const [plot_no, setPlotNo] = useState("")
 	const [area, setArea] = useState("")
@@ -51,9 +55,25 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 	}
 
 	//DELETE
-	const deleteItem = (id, index) => {
-		alert("Deletion Not Compatible Yet")
-	}
+	const deleteItem = () => {
+		// id,new_obj
+		return axios
+		  .delete(endpoint)
+		  .then((response) => {
+			console.log("Successfully Deleted! ", response);
+			history.push(`/projects/${project_id}`)
+		  })
+		  .catch((error) => {
+			console.log(error.response);
+			if (error.response && error.response.data.detail === "Authentication credentials were not provided.") {
+				alert("Please Login First!");
+			}
+			else {
+				alert("Some Error Occured while making request")
+			}
+			return false;
+		  });
+	  };
 
 
 	const editItem = (e) => {
@@ -77,9 +97,38 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 		}
 	}
 
+	const WarningDialog = () => {
+		const handleClose = () => {
+			setCurrentlyDeleting(false)
+		}
+	  return (
+		<>
+		  <Dialog
+			open={currentlyDeleting}
+			onClose={handleClose}
+			aria-labelledby="alert-dialog-title"
+			aria-describedby="alert-dialog-description"
+		  >
+			<DialogTitle id="alert-dialog-title">
+			  {"Are you sure?"}
+			</DialogTitle>
+			<DialogActions>
+			  <Button onClick={handleClose} color="primary" autoFocus>
+				No
+			  </Button>
+			  <Button onClick={deleteItem} color="primary">
+				Yes
+			  </Button>
+			</DialogActions>
+		  </Dialog>
+		</>
+	  );
+	};
+
 	const verticallyCenter = { display: 'flex', alignItems: 'center' }
 	return (
 		<>
+			<WarningDialog/>
 			<div className="card col-lg-11 mx-4">
 				<div className="card-body">
 					<h5 className="card-title border-bottom pb-2">Plot</h5>
@@ -113,7 +162,7 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 								// <div style={{ textAlign: 'right' }}>
 									<div className="col-sm-2">
 										<button onClick={(e) => { e.preventDefault(); setEditingView(true) }} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-primary">Edit</button>
-										<button onClick={() => deleteItem()} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-danger">Delete</button>
+										<button onClick={() => setCurrentlyDeleting(true)} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-danger">Delete</button>
 									</div>
 									: <div className="col-sm-2">
 										<button onClick={editItem} style={{ margin: '5px 5px' }} type='submit' className="btn btn-sm btn-primary">&nbsp;Save&nbsp;&nbsp;</button>

@@ -48,7 +48,7 @@ export default function Aggregates({rows}) {
   }, [rows])
     return (
         <>
-            <TableRow>
+            <TableRow style = {{backgroundColor: "#ddf7ff"}}>
                   <TableCell padding="checkbox"></TableCell>
                   <TableCell></TableCell>
                   <TableCell></TableCell>

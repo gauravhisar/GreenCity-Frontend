@@ -2,6 +2,7 @@ import axios from '../../axios';
 import React, { useState,Fragment } from 'react'
 import CommissionItem from './CommissionItem';
 import AddCommission from './AddCommission';
+import InlineWarning from './InlineWarning';
 
 export default function Commissions({ title, base_url, project_id,plot_details, setPlotDetails,index }) {
 
@@ -10,6 +11,7 @@ export default function Commissions({ title, base_url, project_id,plot_details, 
     const table_schema = ['Date', 'Amount']
 
     const [create_view, setCreateView] = useState(false)
+    const [deleteIdx, setDeleteIdx] = useState(-1)
 
     // POST
     const saveItem = (new_obj) => {
@@ -59,11 +61,12 @@ export default function Commissions({ title, base_url, project_id,plot_details, 
     //DELETE
     const deleteItem = (id, index) => { // id,new_obj
         return axios.delete(commission_payments_endpoint + `${id}/`)
-            .then((response) => {
+            .then( async (response) => {
                 console.log("Deleted Successfully", response)
                 const new_plot_details = { ...plot_details }
                 new_plot_details.deal.commission_payments[index] = null
-                setPlotDetails(new_plot_details)
+                await setPlotDetails(new_plot_details)
+                console.log(plot_details)
                 return true
             })
             .catch((error) => {
@@ -97,11 +100,15 @@ export default function Commissions({ title, base_url, project_id,plot_details, 
         return (
             <tbody>
                 {plot_details.deal.commission_payments && plot_details.deal.commission_payments.map((obj, index) => {
+                    const currentlyDeleting = index === deleteIdx
                     if (obj){
-                        return <CommissionItem key={obj.id} index={index} project_id={project_id} title={title} obj={obj} base_url={base_url} updateItem={updateItem} deleteItem={deleteItem} />
+                        if (currentlyDeleting){
+                            return <InlineWarning key = {obj.id} obj = {obj}  index = {index} setDeleteIdx = {setDeleteIdx} deleteItem = {deleteItem}/>
+                        }
+                        return <CommissionItem key={obj.id} index={index} project_id={project_id} title={title} obj={obj} base_url={base_url} updateItem={updateItem} setDeleteIdx = {setDeleteIdx} />
                     }
                     else{
-                        return <Fragment key = {"deleted - "  + index}></Fragment>
+                        return <Fragment key = {"deleted-"  + index}></Fragment>
                     }
                 })}
             </tbody>
@@ -110,7 +117,7 @@ export default function Commissions({ title, base_url, project_id,plot_details, 
 
 
     return (
-        <div className="card col-xl-5 mx-4 my-3">
+        <div className="card col-xl-5 mx-4">
         <div className="card-body">
             <h5 className="card-title border-bottom pb-2"> {title} </h5>
             <div className="card-text">
