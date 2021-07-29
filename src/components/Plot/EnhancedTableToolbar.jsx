@@ -171,6 +171,7 @@ export default function EnhancedTableToolbar(props) {
         className={clsx(classes.root, {
           [classes.highlight]: numSelected > 0,
         })}
+        style = {{overflowX: "scroll"}}
       >
         <Typography //just to add spacing
           className={classes.title}

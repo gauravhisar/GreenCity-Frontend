@@ -51,8 +51,9 @@ export default function Filters({ plots, rows, setRows }) {
         // row.total_amount_received = row.deal.total_amount_paid;
         if (row.deal.unpaid_dues.length) {
           // row.next_due_date = row.deal.unpaid_dues[0].due_date;
+          row.oldest_due_date = new Date(row.deal.unpaid_dues[0].due_date)
           row.next_due_date = new Date(row.deal.unpaid_dues[0].due_date);
-          row.next_payable_amount = row.deal.unpaid_dues[0].payable_amount - row.deal.unpaid_dues[0].paid;
+          row.next_payable_amount = row.deal.unpaid_dues[0].payable_amount - row.deal.unpaid_dues[0].paid
         } else {
           row.next_due_date = null;
           row.next_payable_amount = null;
@@ -83,14 +84,35 @@ export default function Filters({ plots, rows, setRows }) {
       new_rows = [...new_rows, ...[...plots].filter((plot) => !plot.deal)];
     }
 
+    
     if (filters.apply_dates) {
       new_rows = new_rows.filter((row) => {
-        return row.deal && row.deal.unpaid_dues.find((due) => {
-          let due_date = new Date(due.due_date).getTime()
-          return new Date(filters.start_date).getTime() <= due_date &&   due_date <= new Date(filters.end_date).getTime()
-        });
+        if (row.deal){
+          const filtered_unpaid_dues = row.deal.unpaid_dues.filter((due)=>{
+            let due_date = new Date(due.due_date).getTime()
+            return new Date(filters.start_date).getTime() <= due_date &&   due_date <= new Date(filters.end_date).getTime()
+          })
+          return Boolean(filtered_unpaid_dues.length)
+        }
       });
     }
+    new_rows.forEach((row)=>{
+      if (row.deal){
+        const filtered_unpaid_dues = row.deal.unpaid_dues.filter((due)=>{
+          let due_date = new Date(due.due_date).getTime()
+          return new Date(filters.start_date).getTime() <= due_date && due_date <= new Date(filters.end_date).getTime()
+        })
+        row.next_due_date = null
+        row.next_payable_amount = 0
+        if (filtered_unpaid_dues.length){
+          row.next_due_date = new Date(filtered_unpaid_dues[0].due_date)
+          row.next_payable_amount = 0
+          filtered_unpaid_dues.forEach((due)=> {
+            row.next_payable_amount = row.next_payable_amount + due.payable_amount - due.paid
+          })
+        }
+      }
+    })
     if (lowerCaseQuery) {
       new_rows = new_rows.filter((row) => {
         return (

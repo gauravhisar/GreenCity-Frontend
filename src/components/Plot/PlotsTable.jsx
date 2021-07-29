@@ -20,6 +20,8 @@ import InlineEditingForm, {
   InlineCreateForm,
   InlineWarning,
 } from "./InlineForm";
+import Aggregates from "./Aggregates";
+// import { ProjectContext } from "../../Context";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -91,18 +93,7 @@ export default function EnhancedTable({
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(0);
-  const [aggregates, setAggregates] = React.useState({
-    total_plots: 0,
-    total_area: 0,
-    total_amount: 0,
-    total_commission: 0,
-    total_rebate: 0,
-    total_interest_given: 0,
-    total_amount_received: 0,
-    total_balance: 0,
-    total_payable_amount: 0
-  })
-
+  
   React.useEffect(() => {
     setPlots([...Object.values(project_details.plots)]);
   }, [project_details]);
@@ -111,44 +102,6 @@ export default function EnhancedTable({
     setRowsPerPage(plots.length);
   }, [plots]);
 
-  
-React.useEffect(()=>{
-  let plot_list = [...rows]
-  // console.log("2nd UseEffect", plot_list)
-  const new_aggregates = {
-    total_plots: 0,
-    total_area: 0,
-    total_amount: 0,
-    total_commission: 0,
-    total_rebate: 0,
-    total_interest_given: 0,
-    total_amount_received: 0,
-    total_balance: 0,
-    total_payable_amount: 0
-  }
-  if (plot_list.length){
-    plot_list.forEach((plot)=>{
-      new_aggregates.total_plots += 1
-      new_aggregates.total_area += plot.area
-      new_aggregates.total_amount += plot.amount
-      if (plot.deal){
-        new_aggregates.total_commission += plot.deal.total_commission_paid
-        new_aggregates.total_rebate += plot.deal.total_rebate
-        new_aggregates.total_interest_given += plot.deal.total_interest_given
-        new_aggregates.total_amount_received += plot.deal.total_amount_paid
-        new_aggregates.total_balance += plot.deal.balance
-        // new_aggregates.total_payable_amount += plot.deal.unpaid
-      }
-    })
-    // new_aggregates.total_area = plot_list.length && plot_list.reduce((accumulator, currentValue)=>{
-    //   return accumulator + currentValue.area
-    // })
-    // new_aggregates.total_amont
-    
-  }
-  setAggregates(new_aggregates)
-
-}, [rows])
   
   const saveItem = (new_obj) => {
     if (project_details.total_plots === plots.length){
@@ -159,13 +112,8 @@ React.useEffect(()=>{
       .post(endpoint, new_obj)
       .then((response) => {
         console.log(response.data);
-        // we need to add this code if we want to change total_area and total_plots hand to hand
-        // new_project_details.total_plots += 1
-        // new_project_details.total_area += response.data.area
         setProjectDetails({
           ...project_details,
-          // total_area: project_details.total_area + response.data.area,
-          // total_plots: project_details.total_plots + 1,
           plots: {
             ...project_details.plots,
             [response.data.id]: response.data,
@@ -305,6 +253,9 @@ React.useEffect(()=>{
     }
   };
 
+  const providePadding = {
+    padding: "0px 0px 0px 12px"
+  }
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -410,98 +361,72 @@ React.useEffect(()=>{
                               {row.dealer_name}
                             </TableCell>
                               <TableCell
-                                align = "right"
+                                align = "left"
                                 component="th"
                                 id={labelId}
                                 scope="row"
                                 padding="none"
-                                style={{cursor: "pointer" ,fontWeight: "bold" }}
+                                style={{cursor: "pointer" ,fontWeight: "bold", ...providePadding }}
                                 onClick={() => goToPlotDetails(row)}
                               >
                                 {row.plot_no}
                               </TableCell>
-                              <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                              <TableCell align="left" padding="none" style = {{cursor: "pointer", ...providePadding}} onClick={() => goToPlotDetails(row)}>
                                 {row.area}
                               </TableCell>
-                              <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                              <TableCell align="left" padding="none" style = {{cursor: "pointer", ...providePadding}} onClick={() => goToPlotDetails(row)}>
                                 {row.rate}
                               </TableCell>
-                              <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                              <TableCell align="left" padding="none" style = {{cursor: "pointer", ...providePadding}} onClick={() => goToPlotDetails(row)}>
                                 {row.plc}
                               </TableCell>
                           </>
                         )}
-                        <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                        <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                           {row.amount}
                         </TableCell>
-                        <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                        <TableCell align="left" padding="none" style = {{cursor: "pointer", ...providePadding}} onClick={() => goToPlotDetails(row)}>
                           {row.total_commission_paid}
                         </TableCell>
-                        <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                        <TableCell align="left" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
                           {row.total_rebate}
                           </TableCell>
-                          <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                          <TableCell align="left" padding="none" style = {{cursor: "pointer", ...providePadding}} onClick={() => goToPlotDetails(row)}>
                           {row.total_interest_given}
                         </TableCell>
-                        <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                        <TableCell align="left" padding="none" style = {{cursor: "pointer", ...providePadding}} onClick={() => goToPlotDetails(row)}>
                           {row.total_amount_received}
                         </TableCell>
-                        <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                        <TableCell align="left" padding="none" style = {{cursor: "pointer", ...providePadding}} onClick={() => goToPlotDetails(row)}>
                           {row.balance}
                         </TableCell>
-                        <TableCell align="right" padding="none" style = {{cursor: "pointer"}} onClick={() => goToPlotDetails(row)}>
+                        <TableCell align="left" padding="none" style = {{cursor: "pointer", ...providePadding}} onClick={() => goToPlotDetails(row)}>
+                          {row.oldest_due_date
+                            ? `${row.oldest_due_date.getDate()}-${
+                                row.oldest_due_date.getMonth() + 1
+                              }-${row.oldest_due_date.getFullYear()}`
+                            : null}
+                        </TableCell>
+                        <TableCell align="left" padding="none" style = {{cursor: "pointer", ...providePadding}} onClick={() => goToPlotDetails(row)}>
                           {row.next_due_date
                             ? `${row.next_due_date.getDate()}-${
                                 row.next_due_date.getMonth() + 1
                               }-${row.next_due_date.getFullYear()}`
                             : null}
                         </TableCell>
-                        <TableCell align="right" padding="none" style = {{cursor: "pointer", paddingRight: "40px"}} onClick={() => goToPlotDetails(row)}>
+                        <TableCell align="left" padding="none" style = {{cursor: "pointer", paddingRight: "30px"}} onClick={() => goToPlotDetails(row)}>
                           {row.next_payable_amount}
                         </TableCell>
                       </TableRow>
                     );
                   }
                 })}
-                <TableRow>
-                  <TableCell padding="checkbox"></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
-                  <TableCell align = "right" padding = "none">
-                    {`#${aggregates.total_plots}`}
-                  </TableCell>
-                  <TableCell align = "right" padding = "none">
-                    {aggregates.total_area}
-                  </TableCell>
-                  <TableCell align = "right" padding = "none"></TableCell>
-                  <TableCell align = "right" padding = "none"></TableCell>
-                  <TableCell align = "right" padding = "none">
-                    {aggregates.total_amount}
-                  </TableCell>
-                  <TableCell align = "right" padding = "none">
-                    {aggregates.total_commission}
-                  </TableCell>
-                  <TableCell align = "right" padding = "none">
-                    {aggregates.total_rebate}
-                  </TableCell>
-                  <TableCell align = "right" padding = "none">
-                    {aggregates.total_interest_given}
-                  </TableCell>
-                  <TableCell align = "right" padding = "none">
-                    {aggregates.total_amount_received}
-                  </TableCell>
-                  <TableCell align = "right" padding = "none">
-                    {aggregates.total_balance}
-                  </TableCell>
-                  <TableCell align = "right" padding = "none"></TableCell>
-                  <TableCell align = "right" padding = "none" style = {{paddingRight: "40px"}}>
-                    {/* {aggregates.total_payable_amount} */}
-                  </TableCell>
-                </TableRow>
+
+                <Aggregates rows = {rows}></Aggregates>
+
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 43) * emptyRows }}>
-                  <TableCell colSpan={16} />
+                  <TableCell colSpan={17} />
                 </TableRow>
               )}
             </TableBody>

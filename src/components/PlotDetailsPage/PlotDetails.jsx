@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from '../../axios'
 import { Link } from "react-router-dom"
 import Plot from './Plot'
+// import PlotAndDeal from './PlotAndDeal'
 import AddOrEditDeal from '../Deal/AddOrEditDeal';
 import Deal from '../Deal/Deal';
 import Dues from '../Due/Dues';
@@ -61,6 +62,7 @@ export default function PlotDetails({ base_url, match }) {
 
 					<div className="row">
 						<Plot title='Plots' base_url={base_url} project_id={project_id} plot_details={plot_details} setPlotDetails={setPlotDetails} index={plot_details.id} />
+						{/* <PlotAndDeal title = "Plots" base_url = {base_url} project_id = {project_id} plot_details = {plot_details} setPlotDetails = {setPlotDetails} index = {plot_details.id}></PlotAndDeal> */}
 						{plot_details.deal
 							?
 							displayDeal()
