@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import EditPayment from './EditPayment';
 
-export default function PaymentItem({ title, obj, base_url, project_id, index, updateItem, deleteItem }) {
+export default function PaymentItem({ title, obj, base_url, project_id, index, updateItem, setDeleteIdx }) {
 
     const [editing_view, setEditingView] = useState(false)
 
@@ -21,7 +21,7 @@ export default function PaymentItem({ title, obj, base_url, project_id, index, u
                     <td> {obj.rebate} </td>
                     <td> {obj.net_amount_paid} </td>
                     <td className="text-center"><button onClick={() => setEditingView(true)} style={{ margin: '0px' }} type="button" className="btn btn-sm btn-secondary">Edit</button></td>
-                    <td><button onClick={() => deleteItem(obj.id, index)} style={{ margin: '0px' }} type="button" className="btn btn-sm btn-danger">Delete</button></td>
+                    <td><button onClick={() => setDeleteIdx(index)} style={{ margin: '0px' }} type="button" className="btn btn-sm btn-danger">Delete</button></td>
                 </tr>
             </>
         )

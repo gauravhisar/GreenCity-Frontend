@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import axios from '../../axios'
 import TextField from '@material-ui/core/TextField';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import DoneIcon from "@material-ui/icons/Done";
+import CancelIcon from "@material-ui/icons/Cancel";
 import { useHistory } from 'react-router-dom';
 import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 
@@ -129,9 +133,9 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 	return (
 		<>
 			<WarningDialog/>
-			<div className="card col-lg-11 mx-4">
+			<div className="card col-lg-6">
 				<div className="card-body">
-					<h5 className="card-title border-bottom pb-2">Plot</h5>
+					{/* <h5 className="card-title border-bottom pb-2">Plot</h5> */}
 					<div className="card-text">
 						<form>
 							<div className="row mb-3">
@@ -160,13 +164,17 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 								editing_view === false
 								?
 								// <div style={{ textAlign: 'right' }}>
-									<div className="col-sm-2">
-										<button onClick={(e) => { e.preventDefault(); setEditingView(true) }} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-primary">Edit</button>
-										<button onClick={() => setCurrentlyDeleting(true)} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-danger">Delete</button>
+									<div className="col-sm-2" style = {{...verticallyCenter}}>
+										<EditIcon style={{ margin: '5px 5px', cursor: "pointer" }} onClick={(e) => { e.preventDefault(); setEditingView(true) }} fontSize = "medium"/>
+										<DeleteIcon style={{ margin: '5px 5px', cursor: "pointer" }} onClick={() => setCurrentlyDeleting(true)} fontSize = "medium"/>
+										{/* <button onClick={(e) => { e.preventDefault(); setEditingView(true) }} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-primary">Edit</button> */}
+										{/* <button onClick={() => setCurrentlyDeleting(true)} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-danger">Delete</button> */}
 									</div>
-									: <div className="col-sm-2">
-										<button onClick={editItem} style={{ margin: '5px 5px' }} type='submit' className="btn btn-sm btn-primary">&nbsp;Save&nbsp;&nbsp;</button>
-										<button onClick={(e) => { e.preventDefault(); setEditingView(false); }} style={{ margin: '5px 5px' }} className="btn btn-sm btn-danger">Cancel</button>
+									: <div className="col-sm-2" style = {verticallyCenter}>
+										<DoneIcon style={{ margin: '5px 5px', cursor: "pointer" }}  onClick={editItem} type = 'submit' fontSize = "medium"/>
+										<CancelIcon style={{ margin: '5px 5px' ,cursor: "pointer"}} onClick={(e) => { e.preventDefault(); setEditingView(false); }} fontSize = "medium"/>
+										{/* <button onClick={editItem} style={{ margin: '5px 5px' }} type='submit' className="btn btn-sm btn-primary">&nbsp;Save&nbsp;&nbsp;</button> */}
+										{/* <button onClick={(e) => { e.preventDefault();	 setEditingView(false); }} style={{ margin: '5px 5px' }} className="btn btn-sm btn-danger">Cancel</button> */}
 									</div>
 							}
 							</div>

@@ -19,6 +19,8 @@ export default function Commissions({ title, base_url, project_id,plot_details, 
             .then((response) => {
                 console.log(response.data)
                 const new_plot_details = { ...plot_details }
+                new_plot_details.deal.total_commission_paid = response.data.deal.total_commission_paid
+                delete response.data.deal
                 new_plot_details.deal.commission_payments.push(response.data)
                 setPlotDetails(new_plot_details)
                 return true
@@ -42,6 +44,8 @@ export default function Commissions({ title, base_url, project_id,plot_details, 
             .then((response) => {
                 console.log(response)
                 const new_plot_details = { ...plot_details }
+                new_plot_details.deal.total_commission_paid = response.data.deal.total_commission_paid
+                delete response.data.deal
                 new_plot_details.deal.commission_payments[index] = response.data
                 setPlotDetails(new_plot_details)
                 return true
@@ -64,9 +68,10 @@ export default function Commissions({ title, base_url, project_id,plot_details, 
             .then( async (response) => {
                 console.log("Deleted Successfully", response)
                 const new_plot_details = { ...plot_details }
+                new_plot_details.deal.total_commission_paid = response.data.deal.total_commission_paid
+                delete response.data.deal
                 new_plot_details.deal.commission_payments[index] = null
                 await setPlotDetails(new_plot_details)
-                console.log(plot_details)
                 return true
             })
             .catch((error) => {
@@ -117,9 +122,9 @@ export default function Commissions({ title, base_url, project_id,plot_details, 
 
 
     return (
-        <div className="card col-xl-5 mx-4">
+        <div className="card col-xl-5">
         <div className="card-body">
-            <h5 className="card-title border-bottom pb-2"> {title} </h5>
+            {/* <h5 className="card-title border-bottom pb-2"> {title} </h5> */}
             <div className="card-text">
                 <table className="table">
                     {displayTableSchema()}
@@ -127,7 +132,7 @@ export default function Commissions({ title, base_url, project_id,plot_details, 
                 </table>
 
                 {create_view === true && <AddCommission title="Commission Payments" setCreateView={setCreateView} saveItem={saveItem} />}
-                {create_view === false && <button onClick={() => { setCreateView(true) }} style={{ marginLeft: '10px' }} className="btn btn-primary">Add {title.substring(0, title.length - 1)} </button>}
+                {create_view === false && <button onClick={() => { setCreateView(true) }} style={{ marginLeft: '10px' }} className="btn btn-sm btn-primary">Add {title.substring(0, title.length - 1)} </button>}
 
             </div>
         </div>

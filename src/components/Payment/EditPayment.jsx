@@ -18,14 +18,6 @@ export default function EditDue({ title, obj, index, setEditingView, updateItem 
             alert("Enter Date")
             return
         }
-        if (interest_given === '') {
-            alert("Enter Interest Given")
-            return
-        }
-        if (rebate === '') {
-            alert("Enter Rebate")
-            return
-        }
         if (net_amount_paid === '') {
             alert("Enter Net Amount Paid")
             return
@@ -33,8 +25,8 @@ export default function EditDue({ title, obj, index, setEditingView, updateItem 
         else {
             const new_obj = {
                 date: date,
-                interest_given: interest_given,
-                rebate: rebate,
+                interest_given: interest_given || 0,
+                rebate: rebate || 0,
                 net_amount_paid: net_amount_paid
             }
             updateItem(obj.id, index, new_obj).then((success) => {

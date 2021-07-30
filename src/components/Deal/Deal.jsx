@@ -9,11 +9,6 @@ export default function Deal({ title, base_url, project_id, plot_details, setPlo
 
 	const deal_endpoint      = base_url + `projects/${project_id}/deals/${plot_details.deal.id}/`
 	const history = useHistory()
-	// const customers_endpoint = base_url + `customers/`
-	// const customer_endpoint = `${plot_details.deal.customer.id}/`
-	// const dealers_endpoint = base_url + `dealers/`
-	// const dealer_endpoint = `${plot_details.deal.dealer.id}/`
-
 	const [editing_view, setEditingView] = useState(false)
 	const [currentlyDeleting, setCurrentlyDeleting] = useState(false)
 
@@ -73,48 +68,48 @@ export default function Deal({ title, base_url, project_id, plot_details, setPlo
 		return (
 			<>
 				<WarningDialog/>
-				<div className="card col-lg-11 my-2 mx-3">
+				<div className="card col-lg-12 my-2">
 					<div className="card-body">
-						<h5 className="card-title border-bottom pb-2">Deal</h5>
+						{/* <h5 className="card-title border-bottom pb-2">Deal</h5> */}
 						<div className="card-text">
 							<form>
 								<div className="row mb-3">
 									<div className="col-sm-2" style={verticallyCenter} onClick = {()=>{ history.push(`/customers/${plot_details.deal.customer.id}`) }}>
 										<TextField label="Customer Name" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.customer.name} />
 									</div>
-									<div className="col-sm-2" style={verticallyCenter}>
-										<TextField label="Customer Contact" InputProps={{ readOnly: true }} InputLabelProps={{ shrink: true}} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.customer.contact_no} />
-									</div>
+									{/* <div className="col-sm-1" style={verticallyCenter}>
+										<TextField label="Contact No" InputProps={{ readOnly: true }} InputLabelProps={{ shrink: true}} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.customer.contact_no} />
+									</div> */}
 								{/* </div>
 								<div className="row mb-3"> */}
 									<div className="col-sm-2" style={verticallyCenter} onClick = {()=>{ history.push(`/dealers/${plot_details.deal.dealer.id}`)}}>
 										<TextField label="Dealer Name" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.dealer.name} />
 									</div>
-									<div className="col-sm-2" style={verticallyCenter}>
-										<TextField label="Dealer Contact" InputProps={{ readOnly: true}} InputLabelProps={{ shrink: true}} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.dealer.contact_no} />
+									{/* <div className="col-sm-1" style={verticallyCenter}>
+										<TextField label="Contact No" InputProps={{ readOnly: true}} InputLabelProps={{ shrink: true}} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.dealer.contact_no} />
+									</div> */}
+								{/* </div>
+								<div className="row mb-3"> */}
+									<div className="col-sm-1" style={verticallyCenter}>
+										<TextField label="Commission" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.total_commission_paid} />
 									</div>
-									<div className="col-sm-2" style={{ textAlign: 'right' }}>
+									<div className="col-sm-1" style={verticallyCenter}>
+										<TextField label="Rebate" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.total_rebate} />
+									</div>
+									<div className="col-sm-1" style={verticallyCenter}>
+										<TextField label="Interest Given" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.total_interest_given} />
+									</div>
+									<div className="col-sm-2" style={verticallyCenter}>
+										<TextField label="Amount Received" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.total_amount_paid} />
+									</div>
+									<div className="col-sm-1" style={verticallyCenter}>
+										<TextField label="Balance" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.balance} />
+									</div>
+									<div className="col-sm-2" style={{ textAlign: 'left' }}>
 										<button onClick={(e) => { e.preventDefault(); setEditingView(true) }} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-primary">Edit</button>
 									{/* </div>
 									<div className="col-sm-1" style={{ textAlign: 'right' }}> */}
 										<button onClick={(e) => { e.preventDefault(); setCurrentlyDeleting(true)}} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-danger">Delete</button>
-									</div>
-								</div>
-								<div className="row mb-3">
-									<div className="col-sm-2" style={verticallyCenter}>
-										<TextField label="Total Commission" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.total_commission_paid} />
-									</div>
-									<div className="col-sm-2" style={verticallyCenter}>
-										<TextField label="Total Rebate" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.total_rebate} />
-									</div>
-									<div className="col-sm-2" style={verticallyCenter}>
-										<TextField label="Total Interest Given" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.total_interest_given} />
-									</div>
-									<div className="col-sm-2" style={verticallyCenter}>
-										<TextField label="Total Amount Received" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.total_amount_paid} />
-									</div>
-									<div className="col-sm-2" style={verticallyCenter}>
-										<TextField label="Balance" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={plot_details.deal.balance} />
 									</div>
 								</div>
 							</form>

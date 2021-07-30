@@ -82,12 +82,12 @@ export default function PlotDetails({ base_url, match }) {
 	return (
 		<div className='my-4 px-3'>
 			<div>
-				<div style={{ paddingBottom: 10 + 'px' }}>
+				{/* <div style={{ paddingBottom: 10 + 'px' }}>
 					<h1> <Link to={`/projects/${plot_details.project_id}`} style={{ textDecoration: 'none', color: 'inherit' }}> {plot_details.project_name} </Link></h1>
-				</div>
-				<div>
+				</div> */}
+				{/* <div> */}
 					{displayPlot()}
-				</div>
+				{/* </div> */}
 			</div>
 		</div>
 	)

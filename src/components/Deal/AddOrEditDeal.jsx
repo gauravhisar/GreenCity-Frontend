@@ -329,13 +329,13 @@ export default function AddOrEditDeal({
 
   return (
     <>
-      <div className="card col-lg-11 mx-4 my-3">
+      <div className="card col-lg-12 my-2">
         <div className="card-body">
-          <h5 className="card-title border-bottom pb-2">Deal</h5>
+          {/* <h5 className="card-title border-bottom pb-2">Deal</h5> */}
           <div className="card-text">
             <form>
               <div className="row mb-3">
-                <div className="col-sm-3" style={verticallyCenter}>
+                <div className="col-sm-2" style={verticallyCenter}>
                   <Autocomplete
                     id="customer_name"
                     autoHighlight
@@ -360,7 +360,7 @@ export default function AddOrEditDeal({
                     )}
                   />
                 </div>
-                <div className="col-sm-3" style={verticallyCenter}>
+                <div className="col-sm-2" style={verticallyCenter}>
                   <Autocomplete
                     autoHighlight
                     id="customer_contact"
@@ -402,7 +402,7 @@ export default function AddOrEditDeal({
 								</div> */}
                 {/* </div>
               <div className="row mb-3"> */}
-                <div className="col-sm-3" style={verticallyCenter}>
+                <div className="col-sm-2" style={verticallyCenter}>
                   <Autocomplete
                     autoHighlight
                     id="dealer_name"
@@ -426,7 +426,7 @@ export default function AddOrEditDeal({
                     )}
                   />
                 </div>
-                <div className="col-sm-3" style={verticallyCenter}>
+                <div className="col-sm-2" style={verticallyCenter}>
                   <Autocomplete
                     id="dealer_contact"
                     freeSolo
@@ -451,9 +451,7 @@ export default function AddOrEditDeal({
                     )}
                   />
                 </div>
-              </div>
-
-              <div style={{ textAlign: "right" }}>
+              <div className = "col-sm-2" style={{ textAlign: "left" }}>
                 <button
                   onClick={(e) => {
                     addEditDeal(e);
@@ -475,6 +473,8 @@ export default function AddOrEditDeal({
                   Cancel
                 </button>
               </div>
+              </div>
+
             </form>
           </div>
         </div>

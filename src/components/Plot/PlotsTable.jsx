@@ -93,7 +93,7 @@ export default function EnhancedTable({
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(0);
-  
+
   React.useEffect(() => {
     setPlots([...Object.values(project_details.plots)]);
   }, [project_details]);
@@ -167,7 +167,7 @@ export default function EnhancedTable({
       })
       .catch((error) => {
         console.log(error.response);
-        if (error.response.data.detail === "Authentication credentials were not provided.") {
+        if (error.response && error.response.data.detail === "Authentication credentials were not provided.") {
             alert("Please Login First!");
         }
         else {

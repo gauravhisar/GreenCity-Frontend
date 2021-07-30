@@ -167,7 +167,11 @@ export default function InlineEditingForm({ obj, setEditIdx, updateItem }) {
     if (!plot.plot_no) {
       alert("Enter Plot No");
       return;
-    } else {
+    } 
+    if (!plot.plc){
+      plot.plc = 0
+    }
+    else {
       updateItem({ ...plot }).then((success) => {
         if (success) {
           setEditIdx(-1);

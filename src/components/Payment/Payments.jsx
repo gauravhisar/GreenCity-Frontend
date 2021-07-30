@@ -2,6 +2,7 @@ import axios from '../../axios';
 import React, { useState,Fragment } from 'react'
 import PaymentItem from './PaymentItem';
 import AddPayment from './AddPayment';
+import InlineWarning from './InlineWarning';
 
 export default function Payments({ title, base_url, project_id,plot_details, setPlotDetails,index }) {
 
@@ -10,6 +11,7 @@ export default function Payments({ title, base_url, project_id,plot_details, set
     const table_schema = ['Date', 'Interest Given', 'Rebate', 'Net Amount Received']
 
     const [create_view, setCreateView] = useState(false)
+    const [deleteIdx, setDeleteIdx] = useState(false)
 
     // POST
     const saveItem = (new_obj) => {
@@ -17,10 +19,12 @@ export default function Payments({ title, base_url, project_id,plot_details, set
             .then((response) => {
                 console.log(response.data)
                 const new_plot_details = { ...plot_details }
+                new_plot_details.deal.total_rebate = response.data.deal.total_rebate
+                new_plot_details.deal.total_interest_given = response.data.deal.total_interest_given
+                new_plot_details.deal.total_amount_paid = response.data.deal.total_amount_paid
+                new_plot_details.deal.balance = response.data.deal.balance
+                delete response.data.deal
                 new_plot_details.deal.payments.push(response.data)
-                // new_plot_details.deal.total_interest_given += response.data.interest_given
-                // new_plot_details.deal.total_rebate += response.data.rebate
-                // new_plot_details.deal.total_amount_paid += response.data.net_amount_paid
                 setPlotDetails(new_plot_details)
                 return true
             })
@@ -38,6 +42,11 @@ export default function Payments({ title, base_url, project_id,plot_details, set
             .then((response) => {
                 console.log(response)
                 const new_plot_details = { ...plot_details }
+                new_plot_details.deal.total_rebate = response.data.deal.total_rebate
+                new_plot_details.deal.total_interest_given = response.data.deal.total_interest_given
+                new_plot_details.deal.total_amount_paid = response.data.deal.total_amount_paid
+                new_plot_details.deal.balance = response.data.deal.balance
+                delete response.data.deal
                 new_plot_details.deal.payments[index] = response.data
                 setPlotDetails(new_plot_details)
                 return true
@@ -60,13 +69,17 @@ export default function Payments({ title, base_url, project_id,plot_details, set
             .then((response) => {
                 console.log("Deleted Successfully", response)
                 const new_plot_details = { ...plot_details }
+                new_plot_details.deal.total_rebate = response.data.deal.total_rebate
+                new_plot_details.deal.total_interest_given = response.data.deal.total_interest_given
+                new_plot_details.deal.total_amount_paid = response.data.deal.total_amount_paid
+                new_plot_details.deal.balance = response.data.deal.balance
                 new_plot_details.deal.payments[index] = null
                 setPlotDetails(new_plot_details)
                 return true
             })
             .catch((error) => {
                 console.log(error.response);
-                if(error.response.data.detail === "Authentication credentials were not provided."){
+                if(error.response && error.response.data.detail === "Authentication credentials were not provided."){
                 alert("Please Login First!");
                 }
                 else{
@@ -95,8 +108,12 @@ export default function Payments({ title, base_url, project_id,plot_details, set
         return (
             <tbody>
                 {plot_details.deal.payments && plot_details.deal.payments.map((obj, index) => {
+                    const currentlyDeleting = index === deleteIdx
                     if (obj){
-                        return <PaymentItem key={obj.id} index={index} project_id={project_id} title={title} obj={obj} base_url={base_url} updateItem={updateItem} deleteItem={deleteItem} />
+                        if (currentlyDeleting){
+                            return <InlineWarning key = {obj.id} obj = {obj} index = {index} setDeleteIdx = {setDeleteIdx} deleteItem = {deleteItem}/>
+                        }
+                        return <PaymentItem key={obj.id} index={index} project_id={project_id} title={title} obj={obj} base_url={base_url} updateItem={updateItem} setDeleteIdx={setDeleteIdx} />
                     }
                     else{
                         return <Fragment key = {"deleted-" + index}></Fragment>
@@ -110,7 +127,7 @@ export default function Payments({ title, base_url, project_id,plot_details, set
     return (
         <div className="card col-xl-9 mx-4 my-2">
         <div className="card-body">
-            <h5 className="card-title border-bottom pb-2"> {title} </h5>
+            {/* <h5 className="card-title border-bottom pb-2"> {title} </h5> */}
             <div className="card-text">
                 <table className="table">
                     {displayTableSchema()}
@@ -118,7 +135,7 @@ export default function Payments({ title, base_url, project_id,plot_details, set
                 </table>
 
                 {create_view === true && <AddPayment title="Payments" setCreateView={setCreateView} saveItem={saveItem} />}
-                {create_view === false && <button onClick={() => { setCreateView(true) }} style={{ marginLeft: '10px' }} className="btn btn-primary">Add {title.substring(0, title.length - 1)} </button>}
+                {create_view === false && <button onClick={() => { setCreateView(true) }} style={{ marginLeft: '10px' }} className="btn btn-sm btn-primary">Add {title.substring(0, title.length - 1)} </button>}
 
             </div>
         </div>

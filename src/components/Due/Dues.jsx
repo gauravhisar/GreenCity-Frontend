@@ -118,7 +118,7 @@ export default function Dues({ title, base_url, project_id, plot_details, setPlo
     return (
         <div className="card col-lg-6 mx-4">
             <div className="card-body">
-                <h5 className="card-title border-bottom pb-2"> {title} </h5>
+                {/* <h5 className="card-title border-bottom pb-2"> {title} </h5> */}
                 <div className="card-text">
                     <table className="table">
                         {displayTableSchema()}
@@ -126,7 +126,7 @@ export default function Dues({ title, base_url, project_id, plot_details, setPlo
                     </table>
 
                     {create_view === true && <AddDue title="Dues" setCreateView={setCreateView} saveItem={saveItem} />}
-                    {create_view === false && <button onClick={() => { setCreateView(true) }} style={{ marginLeft: '10px' }} className="btn btn-primary">Add {title.substring(0, title.length - 1)} </button>}
+                    {create_view === false && <button onClick={() => { setCreateView(true) }} style={{ marginLeft: '10px' }} className="btn btn-sm btn-primary">Add {title.substring(0, title.length - 1)} </button>}
 
                 </div>
             </div>

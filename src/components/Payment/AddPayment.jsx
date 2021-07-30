@@ -12,22 +12,14 @@ export default function AddDue({ title, setCreateView, saveItem }) {
             alert("Enter Payment Date")
             return
         }
-        if (interest_given === "") {
-            alert("Enter interest Given")
-            return
-        }
-        if (rebate === "") {
-            alert("Enter Rebate")
-            return
-        }
         if (net_amount_paid === "") {
             alert("Enter Net Amount Paid!")
             return
         }
         const obj = {
             date: date,
-            interest_given: interest_given,
-            rebate: rebate,
+            interest_given: interest_given || 0,
+            rebate: rebate || 0,
             net_amount_paid: net_amount_paid
         }
         saveItem(obj).then((success) => {
