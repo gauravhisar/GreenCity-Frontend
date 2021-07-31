@@ -67,7 +67,7 @@ export default function Items({ title, base_url, ...props }) {
       })
       .catch((error) => {
         console.log(error.response);
-        if(error.response.data.detail === "Authentication credentials were not provided."){
+        if(error.response && error.response.data.detail === "Authentication credentials were not provided."){
           alert("Please Login First!");
         }
         else{
@@ -94,7 +94,7 @@ export default function Items({ title, base_url, ...props }) {
       })
       .catch((error) => {
         console.log(error.response);
-        if(error.response.data.detail === "Authentication credentials were not provided."){
+        if(error.response && error.response.data.detail === "Authentication credentials were not provided."){
           alert("Please Login First!");
         }
         else{
@@ -118,7 +118,7 @@ export default function Items({ title, base_url, ...props }) {
       })
       .catch((error) => {
         console.log(error.response);
-        if(error.response.data.detail === "Authentication credentials were not provided."){
+        if(error.response && error.response.data.detail === "Authentication credentials were not provided."){
           alert("Please Login First!");
         }
         else{

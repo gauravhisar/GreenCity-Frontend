@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import DoneIcon from "@material-ui/icons/Done";
+import CancelIcon from "@material-ui/icons/Cancel";
 import axios from "../../axios";
+import { IconButton } from "@material-ui/core";
 
 export default function AddOrEditDeal({
   title,
@@ -90,7 +93,7 @@ export default function AddOrEditDeal({
       .catch((error) => {
         console.log(error.response);
         if (
-          error.response.data.detail ===
+          error.response && error.response.data.detail ===
           "Authentication credentials were not provided."
         ) {
           alert("Please Login First!");
@@ -113,7 +116,7 @@ export default function AddOrEditDeal({
       .catch((error) => {
         console.log(error.response);
         if (
-          error.response.data.detail ===
+          error.response && error.response.data.detail ===
           "Authentication credentials were not provided."
         ) {
           alert("Please Login First!");
@@ -139,7 +142,7 @@ export default function AddOrEditDeal({
         .catch((error) => {
           console.log(error.response);
           if (
-            error.response.data.detail ===
+            error.response && error.response.data.detail ===
             "Authentication credentials were not provided."
           ) {
             alert("Please Login First!");
@@ -170,7 +173,7 @@ export default function AddOrEditDeal({
         .catch((error) => {
           console.log(error.response);
           if (
-            error.response.data.detail ===
+            error.response && error.response.data.detail ===
             "Authentication credentials were not provided."
           ) {
             alert("Please Login First!");
@@ -329,13 +332,13 @@ export default function AddOrEditDeal({
 
   return (
     <>
-      <div className="card col-lg-12 my-2">
+      <div className="card col-lg-7">
         <div className="card-body">
           {/* <h5 className="card-title border-bottom pb-2">Deal</h5> */}
           <div className="card-text">
             <form>
               <div className="row mb-3">
-                <div className="col-sm-2" style={verticallyCenter}>
+                <div className="col-sm-3" style={verticallyCenter}>
                   <Autocomplete
                     id="customer_name"
                     autoHighlight
@@ -385,7 +388,7 @@ export default function AddOrEditDeal({
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label="Customer Contact"
+                        label="CustomerNo"
                         margin="dense"
                         size="small"
                         color="primary"
@@ -402,7 +405,7 @@ export default function AddOrEditDeal({
 								</div> */}
                 {/* </div>
               <div className="row mb-3"> */}
-                <div className="col-sm-2" style={verticallyCenter}>
+                <div className="col-sm-3" style={verticallyCenter}>
                   <Autocomplete
                     autoHighlight
                     id="dealer_name"
@@ -429,6 +432,7 @@ export default function AddOrEditDeal({
                 <div className="col-sm-2" style={verticallyCenter}>
                   <Autocomplete
                     id="dealer_contact"
+                    closeIcon = {null}
                     freeSolo
                     fullWidth
                     options={all_dealers
@@ -442,7 +446,7 @@ export default function AddOrEditDeal({
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        label="Dealer Contact"
+                        label="DealerNo"
                         margin="dense"
                         size="small"
                         color="primary"
@@ -451,8 +455,15 @@ export default function AddOrEditDeal({
                     )}
                   />
                 </div>
-              <div className = "col-sm-2" style={{ textAlign: "left" }}>
-                <button
+              <div className = "col-sm-2" style={verticallyCenter}>
+                <IconButton onClick={addEditDeal} type = 'submit' >
+                <DoneIcon/>
+                </IconButton>
+                <IconButton onClick={(e) => { e.preventDefault(); setEditingView(false); }}>
+                <CancelIcon />
+                </IconButton>
+                {/* <CancelIcon style={{ margin: '5px 5px' ,cursor: "pointer"}} onClick={(e) => { e.preventDefault(); setEditingView(false); }} fontSize = "medium"/> */}
+                {/* <button
                   onClick={(e) => {
                     addEditDeal(e);
                   }}
@@ -471,7 +482,7 @@ export default function AddOrEditDeal({
                   className="btn btn-sm btn-danger"
                 >
                   Cancel
-                </button>
+                </button> */}
               </div>
               </div>
 

@@ -55,7 +55,7 @@ export default function Dealer({ title, base_url }) {
       })
       .catch((error) => {
         console.log(error.response);
-        if (error.response.data.detail === "Authentication credentials were not provided.") {
+        if (error.response && error.response.data.detail === "Authentication credentials were not provided.") {
             alert("Please Login First!");
         }
         else {
@@ -76,7 +76,7 @@ export default function Dealer({ title, base_url }) {
       })
       .catch((error) => {
         console.log(error.response);
-        if (error.response.data.detail === "Authentication credentials were not provided.") {
+        if (error.response && error.response.data.detail === "Authentication credentials were not provided.") {
             alert("Please Login First!");
         }
         else {

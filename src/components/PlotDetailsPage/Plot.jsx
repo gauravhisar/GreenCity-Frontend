@@ -5,6 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from "@material-ui/icons/Done";
 import CancelIcon from "@material-ui/icons/Cancel";
+import IconButton from "@material-ui/core/IconButton"
 import { useHistory } from 'react-router-dom';
 import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 
@@ -48,7 +49,7 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 			})
 			.catch((error) => {
 				console.log(error.response);
-				if (error.response.data.detail === "Authentication credentials were not provided.") {
+				if (error.response && error.response.data.detail === "Authentication credentials were not provided.") {
 					alert("Please Login First!");
 				}
 				else {
@@ -69,7 +70,7 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 		  })
 		  .catch((error) => {
 			console.log(error.response);
-			if (error.response && error.response.data.detail === "Authentication credentials were not provided.") {
+			if (error.response && error.response && error.response.data.detail === "Authentication credentials were not provided.") {
 				alert("Please Login First!");
 			}
 			else {
@@ -133,14 +134,14 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 	return (
 		<>
 			<WarningDialog/>
-			<div className="card col-lg-6">
+			<div className="card col-lg-5" style = {{margin: "0px"}}>
 				<div className="card-body">
+					<form>
 					{/* <h5 className="card-title border-bottom pb-2">Plot</h5> */}
-					<div className="card-text">
-						<form>
-							<div className="row mb-3">
+					{/* <div className="card-text"> */}
+							<div className="row mb-3" style = {{margin: "0px"}}>
 								<div className="col-sm-2" style={verticallyCenter}>
-									<TextField inputRef = {inputRef} label="Plot No" InputProps={{ readOnly: !editing_view }} margin="dense" size="small" color="primary" variant="standard" value={plot_no || ""} onChange={(e) => setPlotNo(e.target.value)} />
+									<TextField inputRef = {inputRef} label="PlotNo" InputProps={{ readOnly: !editing_view }} margin="dense" size="small" color="primary" variant="standard" value={plot_no || ""} onChange={(e) => setPlotNo(e.target.value)} />
 								</div>
 							{/* </div>
 							<div className="row mb-3"> */}
@@ -155,31 +156,35 @@ export default function Plot({ title, base_url, project_id, plot_details, setPlo
 								<div className="col-sm-2" style={verticallyCenter}>
 									<TextField label="PLC" InputProps={{ readOnly: !editing_view }} InputLabelProps={{ shrink: true}} margin="dense" size="small" color="primary" variant="standard" value={plc || ""} onChange={(e) => setPlc(e.target.value)}/>
 								</div>
-								<div className="col-sm-2" style={verticallyCenter}>
+								<div className="col-sm-4" style={verticallyCenter}>
+									<div className="col-sm-7" style={verticallyCenter}>
 									<TextField label="Amount" InputProps={{ readOnly: true }} margin="dense" size="small" color="primary" variant="standard" value={amount || ""} onChange={(e) => setAmount(e.target.value)} />
-								</div>
-							{/* <div className="row mb-3">
-							</div> */}
+									</div>
 							{
 								editing_view === false
 								?
 								// <div style={{ textAlign: 'right' }}>
-									<div className="col-sm-2" style = {{...verticallyCenter}}>
-										<EditIcon style={{ margin: '5px 5px', cursor: "pointer" }} onClick={(e) => { e.preventDefault(); setEditingView(true) }} fontSize = "medium"/>
-										<DeleteIcon style={{ margin: '5px 5px', cursor: "pointer" }} onClick={() => setCurrentlyDeleting(true)} fontSize = "medium"/>
-										{/* <button onClick={(e) => { e.preventDefault(); setEditingView(true) }} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-primary">Edit</button> */}
-										{/* <button onClick={() => setCurrentlyDeleting(true)} style={{ margin: '5px 5px' }} type="button" className="btn btn-sm btn-danger">Delete</button> */}
+								<div className="col-sm-5" style = {{...verticallyCenter}}>
+									<IconButton onClick={(e) => { e.preventDefault(); setEditingView(true) }} >
+										<EditIcon/>
+									</IconButton>
+									<IconButton onClick={(e) => { e.preventDefault(); setCurrentlyDeleting(true) }} >
+										<DeleteIcon/>
+									</IconButton>
 									</div>
-									: <div className="col-sm-2" style = {verticallyCenter}>
-										<DoneIcon style={{ margin: '5px 5px', cursor: "pointer" }}  onClick={editItem} type = 'submit' fontSize = "medium"/>
-										<CancelIcon style={{ margin: '5px 5px' ,cursor: "pointer"}} onClick={(e) => { e.preventDefault(); setEditingView(false); }} fontSize = "medium"/>
-										{/* <button onClick={editItem} style={{ margin: '5px 5px' }} type='submit' className="btn btn-sm btn-primary">&nbsp;Save&nbsp;&nbsp;</button> */}
-										{/* <button onClick={(e) => { e.preventDefault();	 setEditingView(false); }} style={{ margin: '5px 5px' }} className="btn btn-sm btn-danger">Cancel</button> */}
+									: <div className="col-sm-5" style = {verticallyCenter}>
+										<IconButton onClick={editItem} type = 'submit'>
+										<DoneIcon/>
+										</IconButton>
+										<IconButton  onClick={(e) => { e.preventDefault(); setEditingView(false);}}>
+										<CancelIcon/>
+										</IconButton>
 									</div>
 							}
 							</div>
+							</div>
 						</form>
-					</div>
+					{/* </div> */}
 				</div>
 			</div>
 		</>

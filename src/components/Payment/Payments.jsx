@@ -53,7 +53,7 @@ export default function Payments({ title, base_url, project_id,plot_details, set
             })
             .catch((error) => {
                 console.log(error.response);
-                if(error.response.data.detail === "Authentication credentials were not provided."){
+                if(error.response && error.response.data.detail === "Authentication credentials were not provided."){
                 alert("Please Login First!");
                 }
                 else{
@@ -79,7 +79,7 @@ export default function Payments({ title, base_url, project_id,plot_details, set
             })
             .catch((error) => {
                 console.log(error.response);
-                if(error.response && error.response.data.detail === "Authentication credentials were not provided."){
+                if(error.response && error.response && error.response.data.detail === "Authentication credentials were not provided."){
                 alert("Please Login First!");
                 }
                 else{
@@ -125,7 +125,7 @@ export default function Payments({ title, base_url, project_id,plot_details, set
 
 
     return (
-        <div className="card col-xl-9 mx-4 my-2">
+        <div className="card col-xl-9">
         <div className="card-body">
             {/* <h5 className="card-title border-bottom pb-2"> {title} </h5> */}
             <div className="card-text">

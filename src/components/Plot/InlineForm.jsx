@@ -200,10 +200,10 @@ export default function InlineEditingForm({ obj, setEditIdx, updateItem }) {
         />
       </TableCell>
       <TableCell align="left" padding="none" style = {{cursor: "pointer"}} >
-          {obj.customer_name}
+          {obj.customer_name || ""}
         </TableCell>
         <TableCell align="left" padding="none" style = {{cursor: "pointer"}}>
-          {obj.dealer_name}
+          {obj.dealer_name || ""}
         </TableCell>
       <TableCell padding="none" onKeyUp={handleKeyPress}>
         <TextField

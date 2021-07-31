@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from '../../axios'
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
 import Plot from './Plot'
 // import PlotAndDeal from './PlotAndDeal'
 import AddOrEditDeal from '../Deal/AddOrEditDeal';
