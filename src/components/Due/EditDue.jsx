@@ -17,12 +17,8 @@ export default function EditDue({ title, obj, index, setEditingView, updateItem,
             alert("Enter Due Date")
             return
         }
-        if (!payable_amount_percentage) {
-            alert("Enter Payable Amount(%)")
-            return
-        }
-        if (payable_amount_percentage > 100){
-            alert("Enter Valid Percentage")
+        if (!payable_amount_percentage || payable_amount_percentage > 100 || payable_amount_percentage < 0) {
+            alert("Enter Valid Payable Amount(%)")
             return
         }
         else {

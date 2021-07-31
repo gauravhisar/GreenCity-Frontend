@@ -260,6 +260,7 @@ export default function EnhancedTable({
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
+          projectName = {project_details.name}
           numSelected={selected.length}
           setCurrentlyCreating={setCurrentlyCreating}
           deleteMultipleItems={deleteMultipleItems}

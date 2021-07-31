@@ -13,9 +13,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
 import Filters from "./Filters";
 
-function exportToExcel(plots) {
+function exportToExcel(plots, projectName) {
   let rows = plots.map((plot) => {
-    return {
+  let obj = {
       PlotNo: plot.plot_no,
       Area: plot.area,
       Rate: plot.rate,
@@ -25,21 +25,23 @@ function exportToExcel(plots) {
       Customer: plot.deal ? plot.deal.customer.name : "",
       Commission: plot.deal ? plot.deal.total_commission_paid : "",
       Balance: plot.deal ? plot.deal.balance : "",
-      "Next Due Date":
-        plot.deal && plot.deal.unpaid_dues.length
-          ? plot.deal.unpaid_dues[0].due_date
-          : "",
-      "Payable Amount":
-        plot.deal && plot.deal.unpaid_dues.length
-          ? plot.deal.unpaid_dues[0].payable_amount
-          : "",
+      "Oldest Due Date":plot.oldest_due_date ? plot.oldest_due_date.toISOString().substring(0,10).split('-').reverse().join('-') : "",
+      "Next Due Date":plot.next_due_date ? plot.next_due_date.toISOString().substring(0,10).split('-').reverse().join('-') : "",
+      "Payable Amount":plot.next_payable_amount || "",
       Penalty: plot.deal ? plot.deal.penalty : "",
+      UnpaidDues : "",
     };
+    plot.deal && plot.deal.unpaid_dues.forEach((due, index)=>{
+      obj[`DueDate-${index+1}`] = due.due_date.split('-').reverse().join('-')
+      obj[`Payable Amount-${index+1}`] = due.payable_amount - due.paid
+    })
+    return obj
   });
+
   let plotsWS = xlsx.utils.json_to_sheet(rows);
   let wb = xlsx.utils.book_new();
-  xlsx.utils.book_append_sheet(wb, plotsWS, "PRoject_Name - PLOTS");
-  xlsx.writeFile(wb, "plots.xlsx");
+  xlsx.utils.book_append_sheet(wb, plotsWS, `${projectName}-plots`);
+  xlsx.writeFile(wb,projectName+'-plots.xlsx');
 }
 
 const useToolbarStyles = makeStyles((theme) => ({
@@ -65,6 +67,7 @@ export default function EnhancedTableToolbar(props) {
   const classes = useToolbarStyles();
   const [currentlyDeleting, setCurrentlyDeleting] = React.useState(false);
   const {
+    projectName,
     numSelected,
     plots,
     rows,
@@ -145,7 +148,7 @@ export default function EnhancedTableToolbar(props) {
               <IconButton
                 aria-label="export"
                 onClick={() => {
-                  exportToExcel(rows);
+                  exportToExcel(rows, projectName);
                 }}
               >
                 <GetAppIcon />

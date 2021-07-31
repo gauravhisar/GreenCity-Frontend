@@ -13,8 +13,8 @@ export default function AddDue({ title, setCreateView, saveItem, plotAmount }) {
 			alert("Enter Due Date")
 			return
 		}
-		if (!payable_amount_percentage) {
-			alert("Enter Payable Amount(%)")
+		if (!payable_amount_percentage || payable_amount_percentage > 100 || payable_amount_percentage < 0) {
+			alert("Enter Valid Payable Amount(%)")
 			return
 		}
 		const obj = {

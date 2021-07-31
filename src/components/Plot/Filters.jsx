@@ -94,6 +94,7 @@ export default function Filters({ plots, rows, setRows }) {
           })
           return Boolean(filtered_unpaid_dues.length)
         }
+        return false
       });
     }
     new_rows.forEach((row)=>{

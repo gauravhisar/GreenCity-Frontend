@@ -43,8 +43,8 @@ export default function Dues({ title, base_url, project_id, plot_details, setPlo
             })
             .catch((error) => {
                 console.log(error.response);
-                if (error.response && error.response.data.detail === "Authentication credentials were not provided.") {
-                    alert("Please Login First!");
+                if (error.response) {
+                    alert(JSON.stringify(error.response.data));
                 }
                 else {
                     alert("Some Error Occured while making request")
@@ -66,8 +66,8 @@ export default function Dues({ title, base_url, project_id, plot_details, setPlo
             })
             .catch((error) => {
                 console.log(error.response);
-                if (error.response && error.response && error.response.data.detail === "Authentication credentials were not provided.") {
-                    alert("Please Login First!");
+                if (error.response) {
+                    alert(JSON.stringify(error.response.data));
                 }
                 else {
                     alert("Some Error Occured while making request")
