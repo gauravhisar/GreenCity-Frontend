@@ -3,13 +3,13 @@ import { useHistory } from 'react-router-dom'
 import axios from '../axios'
 import { UserContext } from '../Context'
 
-const baseURL = 'http://localhost:8000/'
-export default function Logout() {
+export default function Logout({baseURL}) {
+    const endpoint = baseURL + 'api/logout/';
     const history = useHistory()
     const {setUser} = useContext(UserContext)
     
     useEffect(()=>{
-        axios.post(baseURL+ 'api/logout/', {
+        axios.post(endpoint, {
             refresh_token: localStorage.getItem('refresh_token')
         }).then(async (response)=>{
             console.log("Successfully Logged Out",response)
@@ -25,7 +25,7 @@ export default function Logout() {
             alert(err)
         })
 
-    }, [history, setUser])
+    }, [history, setUser, endpoint])
     return (
         <>Logout</>
     )

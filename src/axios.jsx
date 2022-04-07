@@ -1,7 +1,7 @@
 import Axios from "axios";
 // import { useHistory } from "react-router";
 
-const baseURL = "http://localhost:8000/";
+const baseURL = "https://estate-bend.herokuapp.com/";
 const axios = Axios.create({
   timeout: 3000,
   headers: {
