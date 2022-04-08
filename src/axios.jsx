@@ -89,7 +89,7 @@ axios.interceptors.response.use(
   }
 );
 const axiosAuthInstance = Axios.create({
-  baseURL: "http://localhost:8000/api/",
+  baseURL: baseURL + "api/",
   timeout: 3000,
   headers: {
     Authorization: localStorage.getItem("access_token")
