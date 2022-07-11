@@ -13,8 +13,8 @@ import Items from './components/Project/Items'
 import Customer from "./components/Person/Customer"
 import Dealer from "./components/Person/Dealer"
 import { ProjectContext, UserContext } from "./Context"
-const root_url = "http://ec2-13-232-103-20.ap-south-1.compute.amazonaws.com/"
-const base_url = "http://ec2-13-232-103-20.ap-south-1.compute.amazonaws.com/realestate/"
+const root_url = "https://ec2-13-232-103-20.ap-south-1.compute.amazonaws.com/"
+const base_url = "https://ec2-13-232-103-20.ap-south-1.compute.amazonaws.com/realestate/"
 function App() {
   const [filters, setFilters] = React.useState({
     sold: false,
