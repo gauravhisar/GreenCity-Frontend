@@ -1,7 +1,7 @@
 import Axios from "axios";
 // import { useHistory } from "react-router";
 
-const baseURL = "https://ec2-13-232-103-20.ap-south-1.compute.amazonaws.com/"
+const baseURL = "http://ec2-13-232-103-20.ap-south-1.compute.amazonaws.com/"
 const axios = Axios.create({
   timeout: 3000,
   headers: {
