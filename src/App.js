@@ -13,8 +13,8 @@ import Items from './components/Project/Items'
 import Customer from "./components/Person/Customer"
 import Dealer from "./components/Person/Dealer"
 import { ProjectContext, UserContext } from "./Context"
-const root_url = "https://estate-bend.herokuapp.com/"
-const base_url = "https://estate-bend.herokuapp.com/realestate/"
+const root_url = "http://ec2-13-232-103-20.ap-south-1.compute.amazonaws.com/"
+const base_url = "http://ec2-13-232-103-20.ap-south-1.compute.amazonaws.com/realestate/"
 function App() {
   const [filters, setFilters] = React.useState({
     sold: false,
@@ -65,8 +65,8 @@ function App() {
         </Switch>
         <Switch>
           <UserContext.Provider value = {{user,setUser}}>
-            <Route exact path="/login"          render={() => <Login title='Login'  base_url={root_url} key='Login'  />}></Route>
-            <Route exact path="/logout"          render={() => <Logout title='Logout'  base_url={root_url} key='Logout'  />}></Route>
+          <Route exact path="/login" render={() => <Login title='Login'  base_url={root_url} key='Login'  />}></Route>
+          <Route exact path="/logout" render={() => <Logout title='Logout'  base_url={root_url} key='Logout'  />}></Route>
           </UserContext.Provider>
         </Switch>
       </Router>
